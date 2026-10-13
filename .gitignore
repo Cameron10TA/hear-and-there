@@ -1,0 +1,10 @@
+.codex-review/
+node_modules/
+dist/
+test-results/
+tests/fixture.html
+.DS_Store
+*.log
+.env*
+!.env.example
+
