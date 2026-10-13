@@ -10,7 +10,8 @@ test('distance uses real-world meters and handles identical points', () => {
   assert.ok(distanceMeters(landmarks[0].coordinates, landmarks[1].coordinates) > 60);
 });
 test('both landmarks activate at their centers', () => {
-  for (const stop of landmarks) assert.equal(locate(stop.coordinates, landmarks).active.id, stop.id);
+  for (const stop of landmarks)
+    assert.equal(locate(stop.coordinates, landmarks).active.id, stop.id);
 });
 test('a far-away visitor never triggers campus audio', () => {
   assert.equal(locate([47.6, -122.3], landmarks).active, null);
@@ -25,7 +26,15 @@ test('hysteresis holds a current stop outside entry radius, then releases it', (
 test('fresh accurate positions are accepted; stale, approximate, malformed fixes are rejected', () => {
   const fix = { latitude: 46, longitude: -118, accuracy: 10, timestamp: 100000 };
   assert.ok(validFix(fix, 101000, campus));
-  for (const change of [{ accuracy: 500 }, { accuracy: -1 }, { timestamp: 50000 }, { latitude: 95 }, { longitude: NaN }, { timestamp: 200000 }]) assert.equal(validFix({ ...fix, ...change }, 101000, campus), false);
+  for (const change of [
+    { accuracy: 500 },
+    { accuracy: -1 },
+    { timestamp: 50000 },
+    { latitude: 95 },
+    { longitude: NaN },
+    { timestamp: 200000 },
+  ])
+    assert.equal(validFix({ ...fix, ...change }, 101000, campus), false);
   assert.equal(validFix(null, 101000, campus), false);
 });
 test('demo interpolates, reaches each stop, and terminates exactly', () => {
@@ -61,6 +70,9 @@ test('every stop has a playable local WAV, photograph, source, and transcript', 
 test('production source has no persistent visitor storage or test fixture', async () => {
   for (const name of ['src/app.js', 'src/audio.js', 'src/landmarks.js', 'index.html']) {
     const text = await readFile(name, 'utf8');
-    assert.doesNotMatch(text, /localStorage|sessionStorage|indexedDB|document\.cookie|test-fixture/);
+    assert.doesNotMatch(
+      text,
+      /localStorage|sessionStorage|indexedDB|document\.cookie|test-fixture/
+    );
   }
 });

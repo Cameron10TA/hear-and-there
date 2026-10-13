@@ -1,93 +1,317 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#002868">
-  <meta name="description" content="A different way to experience Whitman College. Discover the stories and sounds of Styx and the outdoor tennis courts as you walk.">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://tile.openstreetmap.org; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'">
-  <title>Hear & There · Whitman College</title>
-  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/vendor/leaflet.css">
-  <link rel="stylesheet" href="styles.css">
-  <script src="assets/vendor/leaflet.js" defer></script>
-  <script type="module" src="src/app.js"></script>
-</head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <a class="brand" href="./" aria-label="Hear and There home"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span>hear<span class="amp">&</span>there<span class="brand-dot">.</span></span></a>
-    <span class="header-location">WHITMAN COLLEGE <span>WALLA WALLA, WA</span></span>
-    <button class="text-button" id="how-button">How it works <span aria-hidden="true">↗</span></button>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#002868" />
+    <meta
+      name="description"
+      content="A different way to experience Whitman College. Discover the stories and sounds of Styx and the outdoor tennis courts as you walk."
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://tile.openstreetmap.org; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"
+    />
+    <title>Hear & There · Whitman College</title>
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/vendor/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="assets/vendor/leaflet.js" defer></script>
+    <script type="module" src="src/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Hear and There home"
+        ><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span
+        ><span>hear<span class="amp">&</span>there<span class="brand-dot">.</span></span></a
+      >
+      <span class="header-location">WHITMAN COLLEGE <span>WALLA WALLA, WA</span></span>
+      <button class="text-button" id="how-button">
+        How it works <span aria-hidden="true">↗</span>
+      </button>
+    </header>
 
-  <main id="main">
-    <section id="welcome" aria-labelledby="welcome-title">
-      <div class="welcome-grid">
-        <div class="welcome-copy">
-          <p class="eyebrow"><span class="tiny-sun" aria-hidden="true">✳</span> A CAMPUS WORTH LISTENING TO</p>
-          <h1 id="welcome-title">Every place<br>has a story.<br><em>Walk into one.</em></h1>
-          <p class="intro">Meet Whitman through the stories and sounds around you. A little curiosity. A pair of headphones. Your own pace.</p>
-          <div class="start-panel">
-            <button class="primary-button" id="consent-button"><span class="button-icon" aria-hidden="true">⌖</span> Enable location <span aria-hidden="true">→</span></button>
-            <div id="ready-panel" hidden>
-              <p class="ready-note"><span aria-hidden="true">✓</span> Location connected. You’re ready.</p>
-              <div class="mode-choice" role="group" aria-label="Exploration mode">
-                <button id="choose-live" aria-pressed="true">Explore in person</button>
-                <button id="choose-demo" aria-pressed="false">Simulate a walk</button>
+    <main id="main">
+      <section id="welcome" aria-labelledby="welcome-title">
+        <div class="welcome-grid">
+          <div class="welcome-copy">
+            <p class="eyebrow">
+              <span class="tiny-sun" aria-hidden="true">✳</span> A CAMPUS WORTH LISTENING TO
+            </p>
+            <h1 id="welcome-title">Every place<br />has a story.<br /><em>Walk into one.</em></h1>
+            <p class="intro">
+              Meet Whitman through the stories and sounds around you. A little curiosity. A pair of
+              headphones. Your own pace.
+            </p>
+            <div class="start-panel">
+              <button class="primary-button" id="consent-button">
+                <span class="button-icon" aria-hidden="true">⌖</span> Enable location
+                <span aria-hidden="true">→</span>
+              </button>
+              <div id="ready-panel" hidden>
+                <p class="ready-note">
+                  <span aria-hidden="true">✓</span> Location connected. You’re ready.
+                </p>
+                <div class="mode-choice" role="group" aria-label="Exploration mode">
+                  <button id="choose-live" aria-pressed="true">Explore in person</button>
+                  <button id="choose-demo" aria-pressed="false">Simulate a walk</button>
+                </div>
+                <button class="primary-button" id="start-button">
+                  Start exploring <span aria-hidden="true">→</span>
+                </button>
               </div>
-              <button class="primary-button" id="start-button">Start exploring <span aria-hidden="true">→</span></button>
+              <p class="permission-note" id="permission-note">
+                Your location brings nearby places to life.<br />It stays in this session. No
+                account needed.
+              </p>
+              <p
+                id="location-message"
+                class="location-message"
+                role="status"
+                aria-live="polite"
+              ></p>
             </div>
-            <p class="permission-note" id="permission-note">Your location brings nearby places to life.<br>It stays in this session. No account needed.</p>
-            <p id="location-message" class="location-message" role="status" aria-live="polite"></p>
+            <div class="welcome-details">
+              <span><span aria-hidden="true">◉</span> 2 places to discover</span
+              ><span><span aria-hidden="true">♫</span> Best with headphones</span>
+            </div>
           </div>
-          <div class="welcome-details"><span><span aria-hidden="true">◉</span> 2 places to discover</span><span><span aria-hidden="true">♫</span> Best with headphones</span></div>
-        </div>
-        <div class="welcome-visual" aria-label="A glimpse of the two campus landmarks">
-          <div class="visual-orbit orbit-one" aria-hidden="true"></div><div class="visual-orbit orbit-two" aria-hidden="true"></div>
-          <span class="visual-coordinates">46.0719° N &nbsp; 118.3280° W</span>
-          <figure class="hero-photo"><img src="assets/styx.jpg" alt="Styx stands beside Ankeny Field, framed by bright autumn trees." width="400" height="275"><figcaption><span class="place-number">01</span><span>Styx<small>ART, NATURE & A LITTLE WONDER</small></span><span class="photo-sound" aria-hidden="true">♫</span></figcaption></figure>
-          <div class="listen-badge"><span class="mini-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span> You’re getting closer.</div>
-          <figure class="secondary-photo"><img src="assets/tennis.jpg" alt="Whitman’s outdoor tennis courts on a sunny day." width="400" height="275"><figcaption><span class="place-number">02</span> Outdoor Courts <span aria-hidden="true">↗</span></figcaption></figure>
-          <div class="visual-note"><span aria-hidden="true">✳</span><span>Same campus.<br>A new way to hear it.</span></div>
-        </div>
-      </div>
-      <div class="welcome-bottom"><span>A STUDENT PROJECT, MADE FOR EXPLORING.</span><span>Listen. Look around. Stay curious. <span aria-hidden="true">↗</span></span></div>
-    </section>
-
-    <section id="explorer" hidden aria-label="Campus explorer">
-      <div class="explorer-toolbar"><div><span class="status-dot"></span><strong id="mode-label">Live campus walk</strong><span id="gps-status">Finding your place…</span></div><button id="end-button" class="text-button">End walk <span aria-hidden="true">↗</span></button></div>
-      <div class="explorer-layout">
-        <div class="map-section">
-          <div id="map" role="region" aria-label="Interactive map of Whitman College"></div>
-          <div class="map-caption"><span class="eyebrow">YOUR CAMPUS, AT YOUR PACE</span><strong>Follow your curiosity.</strong></div>
-          <button id="recenter-button" class="map-recenter" aria-label="Show the campus and your nearby position" title="Show campus">⌖</button>
-          <div class="map-legend"><span><i class="legend-you"></i>You</span><span><i class="legend-stop"></i>Audio landmark</span></div>
-          <p id="map-error" class="map-error" hidden>Map tiles aren’t available. Landmark distances and audio still work.</p>
-        </div>
-        <aside class="explorer-panel" aria-label="Landmark stories and audio">
-          <div id="resume-panel" class="resume-panel" hidden><strong>Your walk is paused.</strong><p>Ready to listen again?</p><button id="resume-button" class="primary-button">Resume exploring <span aria-hidden="true">→</span></button></div>
-          <div class="panel-heading"><p class="eyebrow" id="nearby-eyebrow">LISTEN TO WHAT’S NEARBY</p><h2 id="nearby-title">A little closer.</h2><p id="nearby-message">Keep exploring. A story starts when you enter a landmark’s listening area.</p></div>
-          <div id="stop-list" class="stop-list"></div>
-          <article id="story-card" class="story-card" hidden>
-            <img id="story-image" src="assets/styx.jpg" alt="" width="400" height="275">
-            <div class="story-body"><p class="eyebrow" id="story-category"></p><h2 id="story-title"></h2><p id="story-description"></p>
-              <div class="player"><button id="play-button" class="play-button" aria-label="Play story">▶</button><div class="player-center"><strong id="audio-status">Sample narration</strong><div class="progress-track" role="progressbar" aria-label="Story playback" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="audio-progress"></span></div><div class="player-time"><span id="elapsed-time">0:00</span><span id="total-time">0:00</span></div></div><button id="mute-button" class="icon-button" aria-label="Mute audio" aria-pressed="false">♫</button></div>
-              <details id="transcript"><summary>Read the story <span aria-hidden="true">+</span></summary><p id="story-transcript"></p><a id="story-source" target="_blank" rel="noopener noreferrer">Explore the source ↗</a></details>
-              <p class="sample-note">A first listen · Sample narration & sound design</p>
+          <div class="welcome-visual" aria-label="A glimpse of the two campus landmarks">
+            <div class="visual-orbit orbit-one" aria-hidden="true"></div>
+            <div class="visual-orbit orbit-two" aria-hidden="true"></div>
+            <span class="visual-coordinates">46.0719° N &nbsp; 118.3280° W</span>
+            <figure class="hero-photo">
+              <img
+                src="assets/styx.jpg"
+                alt="Styx stands beside Ankeny Field, framed by bright autumn trees."
+                width="400"
+                height="275"
+              />
+              <figcaption>
+                <span class="place-number">01</span
+                ><span>Styx<small>ART & CAMPUS LIFE</small></span
+                ><span class="photo-sound" aria-hidden="true">♫</span>
+              </figcaption>
+            </figure>
+            <div class="listen-badge">
+              <span class="mini-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              You’re getting closer.
             </div>
-          </article>
-          <div class="between-stops" id="between-stops"><div class="sound-orbit" aria-hidden="true"><span></span><span></span><i>✳</i></div><strong>There’s a story around the corner.</strong><p>Look up. Take your time.<br>We’ll let you know when you’re close.</p></div>
-          <div id="simulation-panel" class="simulation-panel" hidden><div><span class="eyebrow">SIMULATED WALK</span><span id="simulation-time">0:00 / 1:56</span></div><p id="simulation-label">Approaching Ankeny Field</p><input id="simulation-seek" type="range" min="0" max="116" value="0" step="1" aria-label="Simulated walk position"><div class="simulation-buttons"><button id="simulation-toggle">Pause walk</button><button id="simulation-styx">Go to Styx</button><button id="simulation-tennis">Go to courts</button></div><small>This dot is simulated. Your real location is not used.</small></div>
-          <div class="session-actions"><button id="switch-mode" class="text-button">Try simulated walking ↗</button><span>Nothing saved. Just explored.</span></div>
-        </aside>
+            <figure class="secondary-photo">
+              <img
+                src="assets/tennis.jpg"
+                alt="Whitman’s outdoor tennis courts on a sunny day."
+                width="400"
+                height="275"
+              />
+              <figcaption>
+                <span class="place-number">02</span> Outdoor Courts
+                <span aria-hidden="true">↗</span>
+              </figcaption>
+            </figure>
+            <div class="visual-note">
+              <span aria-hidden="true">✳</span><span>Same campus.<br />A new way to hear it.</span>
+            </div>
+          </div>
+        </div>
+        <div class="welcome-bottom">
+          <span>A STUDENT PROJECT, MADE FOR EXPLORING.</span
+          ><span>Listen. Look around. Stay curious. <span aria-hidden="true">↗</span></span>
+        </div>
+      </section>
+
+      <section id="explorer" hidden aria-label="Campus explorer">
+        <div class="explorer-toolbar">
+          <div>
+            <span class="status-dot"></span><strong id="mode-label">Live campus walk</strong
+            ><span id="gps-status">Finding your place…</span>
+          </div>
+          <button id="end-button" class="text-button">
+            End walk <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+        <div class="explorer-layout">
+          <div class="map-section">
+            <div id="map" role="region" aria-label="Interactive map of Whitman College"></div>
+            <div class="map-caption">
+              <span class="eyebrow">YOUR CAMPUS, AT YOUR PACE</span
+              ><strong>Follow your curiosity.</strong>
+            </div>
+            <button
+              id="recenter-button"
+              class="map-recenter"
+              aria-label="Show the campus and your nearby position"
+              title="Show campus"
+            >
+              ⌖
+            </button>
+            <div class="map-legend">
+              <span><i class="legend-you"></i>You</span
+              ><span><i class="legend-stop"></i>Audio landmark</span>
+            </div>
+            <p id="map-error" class="map-error" hidden>
+              Map tiles aren’t available. Landmark distances and audio still work.
+            </p>
+          </div>
+          <aside class="explorer-panel" aria-label="Landmark stories and audio">
+            <div id="resume-panel" class="resume-panel" hidden>
+              <strong>Your walk is paused.</strong>
+              <p>Ready to listen again?</p>
+              <button id="resume-button" class="primary-button">
+                Resume exploring <span aria-hidden="true">→</span>
+              </button>
+            </div>
+            <div class="panel-heading">
+              <p class="eyebrow" id="nearby-eyebrow">LISTEN TO WHAT’S NEARBY</p>
+              <h2 id="nearby-title">A little closer.</h2>
+              <p id="nearby-message">
+                Keep exploring. A story starts when you enter a landmark’s listening area.
+              </p>
+            </div>
+            <div id="stop-list" class="stop-list"></div>
+            <article id="story-card" class="story-card" hidden>
+              <img id="story-image" src="assets/styx.jpg" alt="" width="400" height="275" />
+              <div class="story-body">
+                <p class="eyebrow" id="story-category"></p>
+                <h2 id="story-title"></h2>
+                <p id="story-description"></p>
+                <div class="player">
+                  <button id="play-button" class="play-button" aria-label="Play story">▶</button>
+                  <div class="player-center">
+                    <strong id="audio-status">Sample narration</strong>
+                    <div
+                      class="progress-track"
+                      role="progressbar"
+                      aria-label="Story playback"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    >
+                      <span id="audio-progress"></span>
+                    </div>
+                    <div class="player-time">
+                      <span id="elapsed-time">0:00</span><span id="total-time">0:00</span>
+                    </div>
+                  </div>
+                  <button
+                    id="mute-button"
+                    class="icon-button"
+                    aria-label="Mute audio"
+                    aria-pressed="false"
+                  >
+                    ♫
+                  </button>
+                </div>
+                <details id="transcript">
+                  <summary>Read the story <span aria-hidden="true">+</span></summary>
+                  <p id="story-transcript"></p>
+                  <a id="story-source" target="_blank" rel="noopener noreferrer"
+                    >Explore the source ↗</a
+                  >
+                </details>
+                <p class="sample-note">A first listen · Sample narration & sound design</p>
+              </div>
+            </article>
+            <div class="between-stops" id="between-stops">
+              <div class="sound-orbit" aria-hidden="true"><span></span><span></span><i>✳</i></div>
+              <strong>There’s a story around the corner.</strong>
+              <p>Look up. Take your time.<br />We’ll let you know when you’re close.</p>
+            </div>
+            <div id="simulation-panel" class="simulation-panel" hidden>
+              <div>
+                <span class="eyebrow">SIMULATED WALK</span
+                ><span id="simulation-time">0:00 / 1:56</span>
+              </div>
+              <p id="simulation-label">Approaching Ankeny Field</p>
+              <input
+                id="simulation-seek"
+                type="range"
+                min="0"
+                max="116"
+                value="0"
+                step="1"
+                aria-label="Simulated walk position"
+              />
+              <div class="simulation-buttons">
+                <button id="simulation-toggle">Pause walk</button
+                ><button id="simulation-styx">Go to Styx</button
+                ><button id="simulation-tennis">Go to courts</button>
+              </div>
+              <small>This dot is simulated. Your real location is not used.</small>
+            </div>
+            <div class="session-actions">
+              <button id="switch-mode" class="text-button">Try simulated walking ↗</button
+              ><span>Nothing saved. Just explored.</span>
+            </div>
+          </aside>
+        </div>
+        <div class="explorer-footer">
+          <span>WHITMAN COLLEGE · WALLA WALLA</span
+          ><button id="about-button" class="text-button">About this project ↗</button>
+        </div>
+      </section>
+    </main>
+    <dialog id="about-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-top">
+        <p class="eyebrow">HEAR & THERE</p>
+        <button id="close-dialog" class="icon-button" aria-label="Close information">×</button>
       </div>
-      <div class="explorer-footer"><span>WHITMAN COLLEGE · WALLA WALLA</span><button id="about-button" class="text-button">About this project ↗</button></div>
-    </section>
-  </main>
-  <dialog id="about-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><p class="eyebrow">HEAR & THERE</p><button id="close-dialog" class="icon-button" aria-label="Close information">×</button></div><h2 id="dialog-title">A walk with<br>a little more wonder.</h2><ol><li><strong>Let us find your place.</strong><p>Allow location access to use the live walk or simulation. If access is denied, the experience stays locked.</p></li><li><strong>Tap, then wander.</strong><p>Tap Start exploring to enable sound. Near Styx or the outdoor courts, an arrival sound and short story play automatically.</p></li><li><strong>Stay in the moment.</strong><p>Keep this page open and your screen on. Locking the screen or switching away pauses your walk. Tap Resume when you return.</p></li></ol><p class="dialog-small">We use location only in memory during this session. No accounts, analytics, cookies, or saved preferences. Your browser may remember its permission choice and cache site files. Map tiles are requested from OpenStreetMap, which can see the map area and your IP address; your precise GPS coordinates are not sent by this app.</p><p class="dialog-small">An independent student project by Cameron, Ahmed, Umar & Muhammad. Sample computer-generated narration and original synthesized sounds. Landmark facts and photographs: <a href="https://www.whitman.edu/campus-map" target="_blank" rel="noopener noreferrer">Whitman College</a>. Map: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a>, displayed with Leaflet.</p><a class="dialog-repo" href="https://github.com/Cameron10TA/hear-and-there" target="_blank" rel="noopener noreferrer">Follow the project on GitHub ↗</a></dialog>
-  <div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
-  <noscript><p class="noscript">Hear & There needs JavaScript to use location and play landmark stories. Please enable JavaScript in your browser.</p></noscript>
-</body>
+      <h2 id="dialog-title">A walk with<br />a little more wonder.</h2>
+      <ol>
+        <li>
+          <strong>Let us find your place.</strong>
+          <p>
+            Allow location access to use the live walk or simulation. If access is denied, the
+            experience stays locked.
+          </p>
+        </li>
+        <li>
+          <strong>Tap, then wander.</strong>
+          <p>
+            Tap Start exploring to enable sound. Near Styx or the outdoor courts, an arrival sound
+            and short story play automatically.
+          </p>
+        </li>
+        <li>
+          <strong>Stay in the moment.</strong>
+          <p>
+            Keep this page open and your screen on. Locking the screen or switching away pauses your
+            walk. Tap Resume when you return.
+          </p>
+        </li>
+      </ol>
+      <p class="dialog-small">
+        We use location only in memory during this session. No accounts, analytics, cookies, or
+        saved preferences. Your browser may remember its permission choice and cache site files. Map
+        tiles are requested from OpenStreetMap, which can see the map area and your IP address; your
+        precise GPS coordinates are not sent by this app.
+      </p>
+      <p class="dialog-small">
+        An independent student project by Cameron, Ahmed, Umar & Muhammad. Sample computer-generated
+        narration and original synthesized sounds. Landmark facts and photographs:
+        <a href="https://www.whitman.edu/campus-map" target="_blank" rel="noopener noreferrer"
+          >Whitman College</a
+        >. Map:
+        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer"
+          >© OpenStreetMap contributors</a
+        >, displayed with Leaflet.
+      </p>
+      <a
+        class="dialog-repo"
+        href="https://github.com/Cameron10TA/hear-and-there"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Follow the project on GitHub ↗</a
+      >
+    </dialog>
+    <div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
+    <noscript
+      ><p class="noscript">
+        Hear & There needs JavaScript to use location and play landmark stories. Please enable
+        JavaScript in your browser.
+      </p></noscript
+    >
+  </body>
 </html>

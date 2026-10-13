@@ -14,11 +14,14 @@ export const landmarks = [
     audio: 'assets/audio/styx.wav',
     ambience: 'chime',
     durationLabel: 'About 30 seconds',
-    description: 'A bronze horse. A field full of stories. Meet one of Whitman’s most recognizable neighbors.',
-    transcript: 'Welcome to Styx, on the edge of Ankeny Field. Look closely at this horse. What seems to be weathered driftwood is actually bronze. Artist Deborah Butterfield created Styx in 2002, using wood gathered from the Snake and Columbia rivers as the starting point for the casting. The sculpture was made at the Walla Walla Foundry. Take a moment to notice the spaces between its branches, and the way the field becomes part of the sculpture. Sometimes, getting to know a campus starts with standing still.',
+    description:
+      'A bronze horse. A field full of stories. Meet one of Whitman’s most recognizable neighbors.',
+    transcript:
+      'Welcome to Styx, on the edge of Ankeny Field. Look closely at this horse. What seems to be weathered driftwood is actually bronze. Artist Deborah Butterfield created Styx in 2002, using wood gathered from the Snake and Columbia rivers as the starting point for the casting. The sculpture was made at the Walla Walla Foundry. Take a moment to notice the spaces between its branches, and the way the field becomes part of the sculpture. Sometimes, getting to know a campus starts with standing still.',
     source: 'https://www.whitman.edu/documents/global/Campus-Tours/Whitman-Sculpture-Tour.pdf',
-    coordinateNote: 'OpenStreetMap artwork node 12023094079, checked against the Whitman sculpture-tour location. Field-test the trigger on campus.',
-    coordinateSource: 'https://www.openstreetmap.org/node/12023094079'
+    coordinateNote:
+      'OpenStreetMap artwork node 12023094079, checked against the Whitman sculpture-tour location. Field-test the trigger on campus.',
+    coordinateSource: 'https://www.openstreetmap.org/node/12023094079',
   },
   {
     id: 'tennis',
@@ -33,20 +36,26 @@ export const landmarks = [
     audio: 'assets/audio/tennis.wav',
     ambience: 'rally',
     durationLabel: 'About 25 seconds',
-    description: 'The bounce of a ball. The pause before a serve. A different kind of campus conversation.',
-    transcript: 'You’re near Whitman’s outdoor tennis courts, between Memorial Building and Maxey Hall. This is one of the places where campus has its own rhythm. When a game is underway, listen for the bounce of a ball, the sound of a racket, and the little pauses in between. These courts are part of Whitman’s athletic life, with priority for team practices, tennis classes, and students. Whether the courts are busy or quiet today, take a breath and notice the sounds around you.',
+    description:
+      'The bounce of a ball. The pause before a serve. A different kind of campus conversation.',
+    transcript:
+      'You’re near Whitman’s outdoor tennis courts, between Memorial Building and Maxey Hall. This is one of the places where campus has its own rhythm. When a game is underway, listen for the bounce of a ball, the sound of a racket, and the little pauses in between. These courts are part of Whitman’s athletic life, with priority for team practices, tennis classes, and students. Whether the courts are busy or quiet today, take a breath and notice the sounds around you.',
     source: 'https://www.whitman.edu/campus-map?plc=x37212',
-    coordinateNote: 'Center of the outdoor courts from Whitman’s official interactive-map polygon; field-test the boundary.'
-  }
+    coordinateNote:
+      'Center of the outdoor courts from Whitman’s official interactive-map polygon; field-test the boundary.',
+  },
 ];
 
 export const campus = {
   center: [46.07185, -118.328],
-  bounds: [[46.0703, -118.3303], [46.07335, -118.3256]],
+  bounds: [
+    [46.0703, -118.3303],
+    [46.07335, -118.3256],
+  ],
   // Normal browser caching is retained. No tile prefetching or offline downloads.
   tileUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
   maximumAccuracy: 65,
-  maximumFixAge: 25000
+  maximumFixAge: 25000,
 };
 
 // A presentation-only movement sequence, not walking directions or a suggested route.
@@ -56,5 +65,5 @@ export const simulation = [
   { label: 'Listening at Styx', coordinates: landmarks[0].coordinates, seconds: 53 },
   { label: 'Between the landmarks', coordinates: [46.07177, -118.32888], seconds: 64 },
   { label: 'At the outdoor courts', coordinates: landmarks[1].coordinates, seconds: 76 },
-  { label: 'Listening at the courts', coordinates: landmarks[1].coordinates, seconds: 116 }
+  { label: 'Listening at the courts', coordinates: landmarks[1].coordinates, seconds: 116 },
 ];

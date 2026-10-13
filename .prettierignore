@@ -1,0 +1,4 @@
+assets/vendor/
+dist/
+.codex-review/
+tests/fixture.html
