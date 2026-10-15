@@ -1472,9 +1472,9 @@ dialog li p {
     min-height: 0;
   }
   .map-section {
-    height: 46dvh;
-    min-height: 300px;
-    max-height: 430px;
+    height: clamp(190px, 24dvh, 220px);
+    min-height: 0;
+    max-height: none;
   }
   .map-caption {
     top: 15px;
@@ -1502,7 +1502,7 @@ dialog li p {
     border-top: 1px solid var(--line);
     max-height: none;
     min-height: 0;
-    padding: 25px 6%;
+    padding: 18px 6%;
   }
   .panel-heading h2 {
     font-size: 32px;
@@ -1638,6 +1638,29 @@ dialog li p {
   }
   .stop-button strong {
     font-size: 9px;
+  }
+}
+@media (max-width: 760px) and (max-height: 720px) {
+  .explorer-panel {
+    padding: 10px 6%;
+  }
+  .panel-heading p:last-child {
+    display: none;
+  }
+  .map-section {
+    height: 150px;
+  }
+  .stop-list {
+    gap: 6px;
+  }
+  .stop-button {
+    min-height: 58px;
+    padding: 6px 8px;
+    gap: 6px;
+  }
+  .stop-button img {
+    width: 32px;
+    height: 32px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
