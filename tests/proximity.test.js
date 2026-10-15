@@ -9,7 +9,7 @@ test('distance uses real-world meters and handles identical points', () => {
   assert.ok(Math.abs(distanceMeters([0, 0], [0, 1]) - 111195) < 1);
   assert.ok(distanceMeters(landmarks[0].coordinates, landmarks[1].coordinates) > 60);
 });
-test('both landmarks activate at their centers', () => {
+test('every landmark activates at its center', () => {
   for (const stop of landmarks)
     assert.equal(locate(stop.coordinates, landmarks).active.id, stop.id);
 });
@@ -42,7 +42,7 @@ test('demo interpolates, reaches each stop, and terminates exactly', () => {
   assert.deepEqual(simulationPosition(simulation, 76).coordinates, landmarks[1].coordinates);
   assert.equal(simulationPosition(simulation, 6).complete, false);
   assert.equal(simulationPosition(simulation, 500).complete, true);
-  assert.deepEqual(simulationPosition(simulation, 500).coordinates, landmarks[1].coordinates);
+  assert.deepEqual(simulationPosition(simulation, 500).coordinates, landmarks.at(-1).coordinates);
 });
 test('the demo begins out of range and enters each landmark only once', () => {
   let current = null;
@@ -53,7 +53,10 @@ test('the demo begins out of range and enters each landmark only once', () => {
     if (result.active && result.active.id !== current) arrivals.push(result.active.id);
     current = result.active?.id || null;
   }
-  assert.deepEqual(arrivals, ['styx', 'tennis']);
+  assert.deepEqual(
+    arrivals,
+    landmarks.map((landmark) => landmark.id)
+  );
 });
 test('every stop has a playable local WAV, photograph, source, and transcript', async () => {
   for (const stop of landmarks) {

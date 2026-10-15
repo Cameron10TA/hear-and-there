@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#002868" />
     <meta
       name="description"
-      content="A different way to experience Whitman College. Discover the stories and sounds of Styx and the outdoor tennis courts as you walk."
+      content="A different way to experience Whitman College. Discover the stories and sounds of Styx, the outdoor tennis courts, Penrose Library, and Cleveland Commons as you walk."
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta
@@ -74,11 +74,11 @@
               ></p>
             </div>
             <div class="welcome-details">
-              <span><span aria-hidden="true">◉</span> 2 places to discover</span
+              <span><span aria-hidden="true">◉</span> 4 places to discover</span
               ><span><span aria-hidden="true">♫</span> Best with headphones</span>
             </div>
           </div>
-          <div class="welcome-visual" aria-label="A glimpse of the two campus landmarks">
+          <div class="welcome-visual" aria-label="A glimpse of Whitman campus landmarks">
             <div class="visual-orbit orbit-one" aria-hidden="true"></div>
             <div class="visual-orbit orbit-two" aria-hidden="true"></div>
             <span class="visual-coordinates">46.0719° N &nbsp; 118.3280° W</span>
@@ -222,22 +222,20 @@
             <div id="simulation-panel" class="simulation-panel" hidden>
               <div>
                 <span class="eyebrow">SIMULATED WALK</span
-                ><span id="simulation-time">0:00 / 1:56</span>
+                ><span id="simulation-time">0:00 / 4:06</span>
               </div>
               <p id="simulation-label">Approaching Ankeny Field</p>
               <input
                 id="simulation-seek"
                 type="range"
                 min="0"
-                max="116"
+                max="246"
                 value="0"
                 step="1"
                 aria-label="Simulated walk position"
               />
-              <div class="simulation-buttons">
-                <button id="simulation-toggle">Pause walk</button
-                ><button id="simulation-styx">Go to Styx</button
-                ><button id="simulation-tennis">Go to courts</button>
+              <div class="simulation-buttons" id="simulation-buttons">
+                <button id="simulation-toggle">Pause walk</button>
               </div>
               <small>This dot is simulated. Your real location is not used.</small>
             </div>
@@ -270,8 +268,8 @@
         <li>
           <strong>Tap, then wander.</strong>
           <p>
-            Tap Start exploring to enable sound. Near Styx or the outdoor courts, an arrival sound
-            and short story play automatically.
+            Tap Start exploring to enable sound. Near a landmark, an arrival sound and short story
+            play automatically.
           </p>
         </li>
         <li>

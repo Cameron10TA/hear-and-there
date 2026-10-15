@@ -72,6 +72,16 @@ control('QA: courts', () => {
   accuracy = 8;
   emit();
 });
+control('QA: Penrose Library', () => {
+  position = [...landmarks[2].coordinates];
+  accuracy = 8;
+  emit();
+});
+control('QA: Cleveland Commons', () => {
+  position = [...landmarks[3].coordinates];
+  accuracy = 8;
+  emit();
+});
 control('QA: off campus', () => {
   position = [47.6, -122.3];
   accuracy = 8;
