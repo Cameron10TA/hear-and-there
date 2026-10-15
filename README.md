@@ -46,6 +46,8 @@ Suggested independent areas:
 
 Repository owner: `Cameron10TA`. The owner can add the other three developers as collaborators in GitHub's repository settings. They are not invited automatically.
 
+AI-assisted pushes and pull requests follow the shared [pre-PR skill](.agents/skills/pre-pr/SKILL.md), routed automatically by [AGENTS.md](AGENTS.md). It reviews the final changes, runs the applicable checks, and records correctness and privacy/security evidence before every push, including follow-up fixes. In a repository-aware agent, invoke it as `$pre-pr`. These instructions do not install a Git hook or change GitHub branch protection.
+
 ## Change landmarks or audio
 
 Edit `src/landmarks.js`. Each entry includes latitude/longitude, an entry radius and larger exit radius, a photograph, a local audio-file path, a transcript, and a source. Add a matching image and audio file under `assets/`. Keep the transcript accurate when replacing audio. Prefer compact MP3 or AAC recordings for future content; Web Audio decodes supported local audio formats. The current short WAV samples need no external voice service.
