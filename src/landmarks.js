@@ -44,13 +44,57 @@ export const landmarks = [
     coordinateNote:
       'Center of the outdoor courts from Whitman’s official interactive-map polygon; field-test the boundary.',
   },
+  {
+    id: 'penrose',
+    name: 'Penrose Library',
+    subtitle: 'A place to follow a question',
+    category: 'Learning & discovery',
+    coordinates: [46.0715561, -118.3295078],
+    radius: 25,
+    exitRadius: 40,
+    image: 'assets/penrose-library.png',
+    imageAlt: 'Penrose Library at Whitman College, beside Ankeny Field.',
+    audio: 'assets/audio/penrose.wav',
+    ambience: 'chime',
+    durationLabel: 'About 30 seconds',
+    description:
+      'Four floors of books, archives, study spaces, and windows looking out toward Ankeny Field.',
+    transcript:
+      'Welcome to Penrose Library, just west of Ankeny Field. A library can be a collection of answers, but it is also a place to learn how to ask better questions. Penrose brings together books, journals, digital collections, and the Whitman College and Northwest Archives, where materials preserve stories from the college and the region. Across four floors, you can find quiet corners, shared tables, and views back toward the field. Pause here for a moment. What question would you bring inside?',
+    source: 'https://library.whitman.edu/about_the_library/',
+    coordinateNote:
+      'Center of the Penrose Library polygon on Whitman’s official interactive campus map; field-test the boundary.',
+    coordinateSource: 'https://www.whitman.edu/campus-map?plc=x37199',
+  },
+  {
+    id: 'cleveland',
+    name: 'Cleveland Commons',
+    subtitle: 'Where campus gathers around a meal',
+    category: 'Food & campus life',
+    coordinates: [46.0688099, -118.3285184],
+    radius: 35,
+    exitRadius: 52,
+    image: 'assets/cleveland-commons.jpg',
+    imageAlt: 'Cleveland Commons, Whitman College’s campus dining hall.',
+    audio: 'assets/audio/cleveland.wav',
+    ambience: 'chime',
+    durationLabel: 'About 30 seconds',
+    description:
+      'A busy dining hall, a daily changing menu, and a gathering place named for a longtime dean.',
+    transcript:
+      'You’re near Cleveland Commons, a place where the campus day often meets around food. The 500-seat dining hall serves the Whitman community and welcomes the public. Its marketplace-style stations change with the day, from pizza and noodles to soup, salads, and coffee. The building is named for Chuck Cleveland, a longtime dean of students, and was designed with sustainability in mind, including solar panels and reclaimed wood from fallen campus trees. Take a breath before heading on. What sounds tell you that people have gathered here?',
+    source: 'https://www.whitman.edu/campus-map?plc=x46558',
+    coordinateNote:
+      'Center of the Cleveland Commons polygon on Whitman’s official interactive campus map; field-test the boundary.',
+    coordinateSource: 'https://www.whitman.edu/campus-map?plc=x46558',
+  },
 ];
 
 export const campus = {
-  center: [46.07185, -118.328],
+  center: [46.07055, -118.32885],
   bounds: [
-    [46.0703, -118.3303],
-    [46.07335, -118.3256],
+    [46.0679, -118.3305],
+    [46.073, -118.3255],
   ],
   // Normal browser caching is retained. No tile prefetching or offline downloads.
   tileUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -61,9 +105,28 @@ export const campus = {
 // A presentation-only movement sequence, not walking directions or a suggested route.
 export const simulation = [
   { label: 'Approaching Ankeny Field', coordinates: [46.07265, -118.3287], seconds: 0 },
-  { label: 'Near Styx', coordinates: landmarks[0].coordinates, seconds: 12 },
+  { label: 'Near Styx', coordinates: landmarks[0].coordinates, seconds: 12, stopId: 'styx' },
   { label: 'Listening at Styx', coordinates: landmarks[0].coordinates, seconds: 53 },
   { label: 'Between the landmarks', coordinates: [46.07177, -118.32888], seconds: 64 },
-  { label: 'At the outdoor courts', coordinates: landmarks[1].coordinates, seconds: 76 },
+  {
+    label: 'At the outdoor courts',
+    coordinates: landmarks[1].coordinates,
+    seconds: 76,
+    stopId: 'tennis',
+  },
   { label: 'Listening at the courts', coordinates: landmarks[1].coordinates, seconds: 116 },
+  {
+    label: 'At Penrose Library',
+    coordinates: landmarks[2].coordinates,
+    seconds: 140,
+    stopId: 'penrose',
+  },
+  { label: 'Listening at Penrose', coordinates: landmarks[2].coordinates, seconds: 176 },
+  {
+    label: 'At Cleveland Commons',
+    coordinates: landmarks[3].coordinates,
+    seconds: 206,
+    stopId: 'cleveland',
+  },
+  { label: 'Listening at Cleveland Commons', coordinates: landmarks[3].coordinates, seconds: 246 },
 ];

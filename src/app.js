@@ -195,7 +195,7 @@ function createMap() {
     attributionControl: true,
   });
   L.control.zoom({ position: 'topright' }).addTo(map);
-  map.setView(campus.center, window.innerWidth < 760 ? 17 : 18);
+  map.fitBounds(campus.bounds, { padding: [18, 18], maxZoom: 17 });
   const tiles = L.tileLayer(campus.tileUrl, {
     maxZoom: 19,
     attribution:
@@ -282,6 +282,20 @@ function buildStopList() {
     button.append(img, info, arrow);
     button.addEventListener('click', () => selectStop(stop));
     $('stop-list').append(button);
+  }
+}
+
+function buildSimulationButtons() {
+  const container = $('simulation-buttons');
+  const toggle = $('simulation-toggle');
+  container.replaceChildren(toggle);
+  for (const stop of landmarks) {
+    const arrival = simulation.find((frame) => frame.stopId === stop.id);
+    if (!arrival) continue;
+    const button = document.createElement('button');
+    button.textContent = `Go to ${stop.name}`;
+    button.addEventListener('click', () => seekDemo(arrival.seconds));
+    container.append(button);
   }
 }
 
@@ -409,6 +423,7 @@ $('start-button').addEventListener('click', async () => {
   $('welcome').hidden = true;
   $('explorer').hidden = false;
   buildStopList();
+  buildSimulationButtons();
   showMode();
   createMap();
   watchLocation();
@@ -546,7 +561,7 @@ function updateLocation() {
     $('nearby-eyebrow').textContent = offCampus ? 'WHITMAN IS WAITING' : 'LISTEN TO WHAT’S NEARBY';
     $('nearby-title').textContent = offCampus ? 'Explore from anywhere.' : 'A little closer.';
     $('nearby-message').textContent = offCampus
-      ? 'You’re away from campus. Try simulated walking to experience both landmarks, or come back when you’re at Whitman.'
+      ? 'You’re away from campus. Try the simulated walk to experience all four landmarks, or come back when you’re at Whitman.'
       : `${result.nearest.stop.name} is ${formatDistance(result.nearest.distance).toLowerCase()}. A story starts when you enter its listening area.`;
   }
 }
@@ -673,8 +688,6 @@ function seekDemo(value) {
   updateLocation();
 }
 $('simulation-seek').addEventListener('input', (event) => seekDemo(event.target.value));
-$('simulation-styx').addEventListener('click', () => seekDemo(12));
-$('simulation-tennis').addEventListener('click', () => seekDemo(76));
 $('simulation-toggle').addEventListener('click', () => {
   if (state.paused) return;
   if (state.elapsed >= simulation.at(-1).seconds) {
@@ -686,7 +699,11 @@ $('simulation-toggle').addEventListener('click', () => {
 });
 function recenter() {
   if (map)
-    map.setView(campus.center, window.innerWidth < 760 ? 17 : 18, { animate: !reducedMotion() });
+    map.fitBounds(campus.bounds, {
+      padding: [18, 18],
+      maxZoom: 17,
+      animate: !reducedMotion(),
+    });
 }
 $('recenter-button').addEventListener('click', recenter);
 $('end-button').addEventListener('click', () => {
