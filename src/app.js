@@ -26,7 +26,6 @@ const state = {
   tick: null,
   permission: null,
   requestGeneration: 0,
-  audioReady: false,
   audioError: '',
   positionError: '',
 };
@@ -88,6 +87,7 @@ function stopWatching() {
 function resetSession() {
   state.running = false;
   state.paused = false;
+  selectMode('live');
   state.activeId = null;
   state.selectedId = null;
   state.audioError = '';
@@ -101,6 +101,7 @@ function resetSession() {
   state.tick = null;
   audio.stop();
   audio.stopId = null;
+  audio.setMuted(false);
   void audio.suspend();
   if (map) {
     map.remove();
@@ -227,8 +228,15 @@ function createMap() {
       alt: `Open ${stop.name} story`,
       keyboard: true,
     }).addTo(map);
+    marker.getElement().setAttribute('aria-label', `Open ${stop.name} story`);
+    marker.getElement().addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      event.stopPropagation();
+      marker.fire('click');
+    });
     marker.bindTooltip(stop.name, {
-      permanent: true,
+      permanent: false,
       direction: 'bottom',
       offset: [0, 20],
       className: 'landmark-tooltip',
@@ -253,8 +261,8 @@ function landmarkIcon(index, active) {
   return L.divIcon({
     className: 'landmark-marker',
     html: `<span class="marker-inner${active ? ' active' : ''}">${String(index + 1).padStart(2, '0')}</span>`,
-    iconSize: [42, 42],
-    iconAnchor: [21, 21],
+    iconSize: [28, 28],
+    iconAnchor: [14, 14],
   });
 }
 
@@ -411,10 +419,8 @@ $('start-button').addEventListener('click', async () => {
   try {
     await unlocking;
     await audio.prepare(landmarks);
-    state.audioReady = true;
   } catch (error) {
     state.audioError = error.message;
-    state.audioReady = false;
   }
   if (!state.consent || request !== state.requestGeneration) return;
   state.running = true;
@@ -545,7 +551,7 @@ function updateLocation() {
       state.visited.add(result.active.id);
       selectStop(result.active);
       announce(`You’re near ${result.active.name}. A story is ready.`);
-      if (state.audioReady) {
+      if (audio.buffers.has(result.active.id)) {
         audio.offset = 0;
         audio.play(result.active, true).catch((error) => {
           state.audioError = error.message;
@@ -644,7 +650,7 @@ $('play-button').addEventListener('click', async () => {
   const generation = state.requestGeneration;
   try {
     await audio.unlock();
-    await audio.prepare(landmarks);
+    await audio.prepare([stop]);
     if (
       !state.running ||
       state.paused ||
@@ -653,7 +659,6 @@ $('play-button').addEventListener('click', async () => {
       state.selectedId !== stop.id
     )
       return;
-    state.audioReady = true;
     state.audioError = '';
     await audio.play(stop);
   } catch (error) {
@@ -686,6 +691,7 @@ function seekDemo(value) {
   state.visited.clear();
   state.lastTick = performance.now();
   updateLocation();
+  showMode();
 }
 $('simulation-seek').addEventListener('input', (event) => seekDemo(event.target.value));
 $('simulation-toggle').addEventListener('click', () => {

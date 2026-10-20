@@ -5,7 +5,7 @@ export class StoryAudio {
     this.onChange = onChange;
     this.context = null;
     this.buffers = new Map();
-    this.loading = null;
+    this.loading = new Map();
     this.source = null;
     this.timers = [];
     this.effects = [];
@@ -51,10 +51,11 @@ export class StoryAudio {
 
   async prepare(stops) {
     if (!this.context) throw new Error('Tap Start exploring to enable audio.');
-    if (!this.loading) {
-      this.loading = Promise.all(
-        stops.map(async (stop) => {
-          if (this.buffers.has(stop.id)) return;
+    return Promise.all(
+      stops.map((stop) => {
+        if (this.buffers.has(stop.id)) return;
+        if (this.loading.has(stop.id)) return this.loading.get(stop.id);
+        const loading = (async () => {
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), 15000);
           try {
@@ -68,14 +69,13 @@ export class StoryAudio {
             );
           } finally {
             clearTimeout(timeout);
+            this.loading.delete(stop.id);
           }
-        })
-      ).catch((error) => {
-        this.loading = null;
-        throw error;
-      });
-    }
-    return this.loading;
+        })();
+        this.loading.set(stop.id, loading);
+        return loading;
+      })
+    );
   }
 
   get duration() {

@@ -19,7 +19,7 @@ npm test
 npm run build
 ```
 
-The build copies only the website into `dist/`. Tests, development scripts, and local files are excluded. This is plain HTML, CSS, and JavaScript, with a vendored copy of Leaflet 1.9.4 for the map.
+The build recreates `dist/` and copies only the website into it, removing stale output from earlier builds. Tests, development scripts, and local files are excluded. This is plain HTML, CSS, and JavaScript, with a vendored copy of Leaflet 1.9.4 for the map.
 
 ## Visitor experience
 
@@ -66,14 +66,16 @@ Styx uses an OpenStreetMap artwork coordinate. The other three locations use cen
 
 ## Testing
 
-`npm test` covers geographical distances, entry/exit hysteresis, stale/inaccurate fixes, the complete simulation, and local content assets. For browser QA with fictional coordinates instead of real location:
+`npm test` covers geographical distances, entry/exit hysteresis, stale/inaccurate fixes, the complete simulation, local content assets, session reset, audio-loading recovery, and clean production builds. For browser QA with fictional coordinates instead of real location:
 
 ```sh
 node scripts/create-test-fixture.mjs
 npm run dev
 ```
 
-Open `http://localhost:4173/tests/fixture.html`. The red QA bar can grant/deny mock permission, move between landmarks, supply a bad fix, or simulate visibility changes. It uses the real application and real audio. **The fixture is not part of the production build.** Do not publish the repository root as the website; the Pages workflow publishes only `dist/`.
+Open `http://localhost:4173/tests/fixture.html`. The red QA bar can grant/deny mock permission, move between landmarks, supply an inaccurate or stale fix, simulate visibility changes, and fail/restore Cleveland's audio request. It uses the real application and real audio. **The fixture is not part of the production build.** Do not publish the repository root as the website; the Pages workflow publishes only `dist/`.
+
+See [the laptop test guide](docs/LAPTOP-TESTING.md) for repeatable scenarios that do not require a campus visit or real location access.
 
 See [the iPhone test checklist](docs/IPHONE-TESTING.md). Desktop responsive tests and mocked GPS are not a substitute for physical Safari tests, OS lock behavior, and an on-campus walk.
 

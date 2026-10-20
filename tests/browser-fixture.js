@@ -3,13 +3,26 @@
 import { landmarks } from '../src/landmarks.js';
 let position = [...landmarks[0].coordinates];
 let accuracy = 8;
+let age = 0;
 let denied = false;
+let failedAudio = false;
 let watcher = null;
 const permission = { state: 'granted', onchange: null };
 const result = () => ({
   coords: { latitude: position[0], longitude: position[1], accuracy },
-  timestamp: Date.now(),
+  timestamp: Date.now() - age,
 });
+const realFetch = window.fetch.bind(window);
+window.fetch = (input, options) => {
+  const url = new URL(typeof input === 'string' ? input : input.url, document.baseURI);
+  const blocked = new URL(
+    landmarks.find((stop) => stop.id === 'cleveland').audio,
+    document.baseURI
+  );
+  if (failedAudio && url.href === blocked.href)
+    return Promise.resolve(new Response('Local QA audio failure', { status: 503 }));
+  return realFetch(input, options);
+};
 Object.defineProperty(navigator, 'geolocation', {
   configurable: true,
   value: {
@@ -62,29 +75,18 @@ control('QA: deny location', () => {
   permission.onchange?.();
   watcher?.failure({ code: 1 });
 });
-control('QA: Styx', () => {
-  position = [...landmarks[0].coordinates];
-  accuracy = 8;
-  emit();
-});
-control('QA: courts', () => {
-  position = [...landmarks[1].coordinates];
-  accuracy = 8;
-  emit();
-});
-control('QA: Penrose Library', () => {
-  position = [...landmarks[2].coordinates];
-  accuracy = 8;
-  emit();
-});
-control('QA: Cleveland Commons', () => {
-  position = [...landmarks[3].coordinates];
-  accuracy = 8;
-  emit();
-});
+for (const stop of landmarks) {
+  control(`QA: ${stop.name}`, () => {
+    position = [...stop.coordinates];
+    accuracy = 8;
+    age = 0;
+    emit();
+  });
+}
 control('QA: off campus', () => {
   position = [47.6, -122.3];
   accuracy = 8;
+  age = 0;
   emit();
 });
 control('QA: poor GPS', () => {
@@ -92,6 +94,16 @@ control('QA: poor GPS', () => {
   emit();
 });
 control('QA: location unavailable', () => watcher?.failure({ code: 2 }));
+control('QA: stale GPS', () => {
+  age = 60000;
+  emit();
+});
+control('QA: fail Cleveland audio', () => {
+  failedAudio = true;
+});
+control('QA: restore audio', () => {
+  failedAudio = false;
+});
 control('QA: hide page', () => {
   Object.defineProperty(document, 'hidden', { configurable: true, value: true });
   document.dispatchEvent(new Event('visibilitychange'));
