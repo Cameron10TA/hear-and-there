@@ -567,7 +567,7 @@ function updateLocation() {
     $('nearby-eyebrow').textContent = offCampus ? 'WHITMAN IS WAITING' : 'LISTEN TO WHAT’S NEARBY';
     $('nearby-title').textContent = offCampus ? 'Explore from anywhere.' : 'A little closer.';
     $('nearby-message').textContent = offCampus
-      ? 'You’re away from campus. Try the simulated walk to experience all seven landmarks, or come back when you’re at Whitman.'
+      ? 'You’re away from campus. Try the simulated walk to experience all nine landmarks, or come back when you’re at Whitman.'
       : `${result.nearest.stop.name} is ${formatDistance(result.nearest.distance).toLowerCase()}. A story starts when you enter its listening area.`;
   }
 }

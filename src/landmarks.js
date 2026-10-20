@@ -151,6 +151,50 @@ export const landmarks = [
       'Whitman interactive campus-map polygon x37158, placed just west of the building on the exterior path to keep the trigger outside the residence hall; field-test the boundary.',
     coordinateSource: 'https://www.whitman.edu/campus-map?plc=x37158',
   },
+  {
+    id: 'stanton',
+    name: 'Stanton Hall',
+    subtitle: 'A sophomore hall built around community',
+    category: 'Campus life',
+    coordinates: [46.06887, -118.32945],
+    radius: 18,
+    exitRadius: 30,
+    image: 'assets/stanton-hall.jpg',
+    imageAlt: 'Stanton Hall with a volleyball court on the lawn in front.',
+    audio: 'assets/audio/stanton.wav',
+    ambience: 'chime',
+    durationLabel: 'About 30 seconds',
+    description:
+      'A modern hall for mostly sophomores, with a broad lawn and Cleveland Commons nearby.',
+    transcript:
+      'You’re near Stanton Hall, a modern Whitman residence hall built for mostly sophomore students. Its broad lawn, volleyball court, and outdoor gathering spaces open toward Cleveland Commons, just across the way. The building is designed around shared places as well as room to find a quieter moment. From this exterior path, take in the green space and the movement between home and the rest of campus. Please leave the residence spaces to the people who live here.',
+    source: 'https://www.whitman.edu/life-at-whitman/residence-life/residence-halls',
+    coordinateNote:
+      'Whitman interactive campus-map polygon x46557; trigger point is approximately 20 m north-east of the building outline, toward the exterior grounds and Cleveland Commons. Field-test the boundary.',
+    coordinateSource: 'https://www.whitman.edu/campus-map?plc=x46557',
+  },
+  {
+    id: 'douglas',
+    name: 'Douglas Hall',
+    subtitle: 'A residence hall centered on a courtyard',
+    category: 'Campus life',
+    coordinates: [46.06946, -118.32885],
+    radius: 18,
+    exitRadius: 30,
+    image: 'assets/douglas-hall.jpg',
+    imageAlt: 'Exterior of Douglas Hall at Whitman College.',
+    audio: 'assets/audio/douglas.wav',
+    ambience: 'chime',
+    durationLabel: 'About 30 seconds',
+    description:
+      'A residence hall north of Cleveland Commons, with suites arranged around a central courtyard.',
+    transcript:
+      'Welcome to Douglas Hall, just north of Cleveland Commons. Its suites are arranged around a central courtyard, a shared outdoor space at the heart of the building. The hall is named for William O. Douglas, Whitman Class of 1920, who later served on the U.S. Supreme Court. From the public path, notice how the courtyard design creates a quieter center within the larger campus. We’ll keep this story outside and respect the privacy of the people who live here.',
+    source: 'https://www.whitman.edu/campus-map?plc=x37174',
+    coordinateNote:
+      'Whitman interactive campus-map polygon x37174; trigger point is approximately 22 m south of the building outline, toward its exterior grounds. Field-test the boundary.',
+    coordinateSource: 'https://www.whitman.edu/campus-map?plc=x37174',
+  },
 ];
 
 export const campus = {
@@ -185,6 +229,7 @@ export const simulation = [
     stopId: 'penrose',
   },
   { label: 'Listening at Penrose', coordinates: landmarks[2].coordinates, seconds: 176 },
+  { label: 'Continuing across campus', coordinates: [46.0696, -118.3302], seconds: 191 },
   {
     label: 'At Cleveland Commons',
     coordinates: landmarks[3].coordinates,
@@ -198,4 +243,8 @@ export const simulation = [
   { label: 'Listening near Lyman House', coordinates: landmarks[5].coordinates, seconds: 364 },
   { label: 'At Anderson Hall', coordinates: landmarks[6].coordinates, seconds: 410, stopId: 'anderson' },
   { label: 'Listening near Anderson Hall', coordinates: landmarks[6].coordinates, seconds: 445 },
+  { label: 'At Stanton Hall', coordinates: landmarks[7].coordinates, seconds: 470, stopId: 'stanton' },
+  { label: 'Listening near Stanton Hall', coordinates: landmarks[7].coordinates, seconds: 505 },
+  { label: 'At Douglas Hall', coordinates: landmarks[8].coordinates, seconds: 535, stopId: 'douglas' },
+  { label: 'Listening near Douglas Hall', coordinates: landmarks[8].coordinates, seconds: 570 },
 ];

@@ -146,7 +146,7 @@ test('seeking backward from completion offers Continue movement', async (t) => {
     .children.find((node) => node.textContent === 'Go to Penrose Library')
     .fire('click');
   assert.equal(get('simulation-toggle').textContent, 'Continue movement');
-  assert.equal(get('simulation-time').textContent, '2:20 / 7:25');
+  assert.equal(get('simulation-time').textContent, '2:20 / 9:30');
   await get('simulation-toggle').fire('click');
   assert.equal(get('simulation-toggle').textContent, 'Pause movement');
 });

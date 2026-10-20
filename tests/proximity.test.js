@@ -41,8 +41,8 @@ test('demo interpolates, reaches each stop, and terminates exactly', () => {
   assert.deepEqual(simulationPosition(simulation, 12).coordinates, landmarks[0].coordinates);
   assert.deepEqual(simulationPosition(simulation, 76).coordinates, landmarks[1].coordinates);
   assert.equal(simulationPosition(simulation, 6).complete, false);
-  assert.equal(simulationPosition(simulation, 500).complete, true);
-  assert.deepEqual(simulationPosition(simulation, 500).coordinates, landmarks.at(-1).coordinates);
+  assert.equal(simulationPosition(simulation, 570).complete, true);
+  assert.deepEqual(simulationPosition(simulation, 570).coordinates, landmarks.at(-1).coordinates);
 });
 test('the demo begins out of range and enters each landmark only once', () => {
   let current = null;

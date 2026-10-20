@@ -1,6 +1,6 @@
 # Hear & There
 
-A browser-only audio walk at Whitman College in Walla Walla. The seven stops are **Styx**, the **outdoor tennis courts**, **Penrose Library**, **Cleveland Commons**, **Jewett Hall**, **Lyman House**, and **Anderson Hall**.
+A browser-only audio walk at Whitman College in Walla Walla. The nine stops are **Styx**, the **outdoor tennis courts**, **Penrose Library**, **Cleveland Commons**, **Jewett Hall**, **Lyman House**, **Anderson Hall**, **Stanton Hall**, and **Douglas Hall**.
 
 **Website:** https://Cameron10TA.github.io/hear-and-there/
 
