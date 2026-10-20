@@ -45,6 +45,9 @@ class FakeContext {
   async suspend() {
     this.state = 'suspended';
   }
+  async decodeAudioData() {
+    return { duration: 30 };
+  }
 }
 globalThis.window = { AudioContext: FakeContext };
 globalThis.document = { hidden: false };
@@ -105,4 +108,59 @@ test('a finished story can be replayed from the beginning', async () => {
   await player.play(stop);
   assert.deepEqual(player.source.started, [0, 0]);
   player.stop();
+});
+
+test('loading a later selection fetches it even after another story was prepared', async (t) => {
+  const requests = [];
+  t.mock.method(globalThis, 'fetch', async (url) => {
+    requests.push(url);
+    return { ok: true, arrayBuffer: async () => new ArrayBuffer(8) };
+  });
+  const player = await ready();
+  await player.prepare([{ id: 'first', audio: 'first.wav' }]);
+  await player.prepare([{ id: 'second', audio: 'second.wav' }]);
+  assert.deepEqual(requests, ['first.wav', 'second.wav']);
+  assert.ok(player.buffers.has('second'));
+});
+
+test('a failed story can retry without blocking a cached story or refetching it', async (t) => {
+  let offline = true;
+  const requests = [];
+  t.mock.method(globalThis, 'fetch', async (url) => {
+    requests.push(url);
+    return { ok: url !== 'broken.wav' || !offline, arrayBuffer: async () => new ArrayBuffer(8) };
+  });
+  const player = await ready();
+  const good = { id: 'good', audio: 'good.wav' };
+  const broken = { id: 'broken', audio: 'broken.wav' };
+  await player.prepare([good]);
+  await assert.rejects(player.prepare([good, broken]), /could not load/);
+  await player.prepare([good]);
+  await player.play(good);
+  assert.ok(player.playing);
+  player.stop();
+  offline = false;
+  await player.prepare([broken]);
+  assert.ok(player.buffers.has('broken'));
+  assert.deepEqual(requests, ['good.wav', 'broken.wav', 'broken.wav']);
+});
+
+test('overlapping preparations share each in-flight story request', async (t) => {
+  const finish = [];
+  let requests = 0;
+  t.mock.method(globalThis, 'fetch', () => {
+    requests++;
+    return new Promise((resolve) => {
+      finish.push(resolve);
+    });
+  });
+  const player = await ready();
+  const selected = { id: 'shared', audio: 'shared.wav' };
+  const first = player.prepare([selected]);
+  const second = player.prepare([selected, { id: 'other', audio: 'other.wav' }]);
+  for (const resolve of finish) resolve({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) });
+  await Promise.all([first, second]);
+  assert.equal(requests, 2, 'shared audio is fetched once while the new selection also loads');
+  assert.ok(player.buffers.has('shared'));
+  assert.ok(player.buffers.has('other'));
 });
