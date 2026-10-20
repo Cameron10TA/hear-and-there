@@ -6,6 +6,9 @@ let accuracy = 8;
 let age = 0;
 let denied = false;
 let failedAudio = false;
+let holdAudio = false;
+let failedTiles = false;
+const pendingAudio = new Set();
 let watcher = null;
 const permission = { state: 'granted', onchange: null };
 const result = () => ({
@@ -13,7 +16,7 @@ const result = () => ({
   timestamp: Date.now() - age,
 });
 const realFetch = window.fetch.bind(window);
-window.fetch = (input, options) => {
+window.fetch = async (input, options) => {
   const url = new URL(typeof input === 'string' ? input : input.url, document.baseURI);
   const blocked = new URL(
     landmarks.find((stop) => stop.id === 'cleveland').audio,
@@ -21,8 +24,24 @@ window.fetch = (input, options) => {
   );
   if (failedAudio && url.href === blocked.href)
     return Promise.resolve(new Response('Local QA audio failure', { status: 503 }));
+  if (holdAudio && url.pathname.includes('/assets/audio/')) {
+    await new Promise((resolve, reject) => {
+      const release = () => { cleanup(); resolve(); };
+      const abort = () => { cleanup(); reject(new DOMException('Aborted', 'AbortError')); };
+      const cleanup = () => { pendingAudio.delete(release); options?.signal?.removeEventListener('abort', abort); };
+      if (options?.signal?.aborted) { abort(); return; }
+      pendingAudio.add(release);
+      options?.signal?.addEventListener('abort', abort, { once: true });
+    });
+  }
   return realFetch(input, options);
 };
+if (window.L) {
+  const tileUrl = L.TileLayer.prototype.getTileUrl;
+  L.TileLayer.prototype.getTileUrl = function (coordinates) {
+    return failedTiles ? 'tests/missing-qa-tile.png' : tileUrl.call(this, coordinates);
+  };
+}
 Object.defineProperty(navigator, 'geolocation', {
   configurable: true,
   value: {
@@ -82,6 +101,12 @@ for (const stop of landmarks) {
     age = 0;
     emit();
   });
+  if (stop.listeningPosition) control(`QA: ${stop.name} path`, () => {
+    position = [...stop.listeningPosition];
+    accuracy = 8;
+    age = 0;
+    emit();
+  });
 }
 control('QA: off campus', () => {
   position = [47.6, -122.3];
@@ -104,6 +129,13 @@ control('QA: fail Cleveland audio', () => {
 control('QA: restore audio', () => {
   failedAudio = false;
 });
+control('QA: hold audio downloads', () => { holdAudio = true; });
+control('QA: release audio downloads', () => {
+  holdAudio = false;
+  for (const release of pendingAudio) release();
+});
+control('QA: fail map tiles', () => { failedTiles = true; });
+control('QA: restore map tiles', () => { failedTiles = false; });
 control('QA: hide page', () => {
   Object.defineProperty(document, 'hidden', { configurable: true, value: true });
   document.dispatchEvent(new Event('visibilitychange'));

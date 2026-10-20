@@ -164,3 +164,20 @@ test('overlapping preparations share each in-flight story request', async (t) =>
   assert.ok(player.buffers.has('shared'));
   assert.ok(player.buffers.has('other'));
 });
+
+test('a timed-out audio download reports a retryable error and clears the in-flight request', async (t) => {
+  const player = await ready();
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  t.mock.method(globalThis, 'fetch', (_, { signal }) => new Promise((_, reject) => {
+    signal.addEventListener('abort', () => reject(new Error('aborted')), { once: true });
+  }));
+  const selected = { id: 'slow', audio: 'slow.wav' };
+  const loading = player.prepare([selected]);
+  const rejected = assert.rejects(loading, /taking too long.*retry/);
+  t.mock.timers.tick(15000);
+  await rejected;
+  assert.equal(player.loading.has('slow'), false);
+  t.mock.method(globalThis, 'fetch', async () => ({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) }));
+  await player.prepare([selected]);
+  assert.ok(player.buffers.has('slow'));
+});

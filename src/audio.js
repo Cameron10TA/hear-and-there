@@ -65,7 +65,9 @@ export class StoryAudio {
             this.buffers.set(stop.id, buffer);
           } catch {
             throw new Error(
-              'Story audio could not load. Check your connection and tap play to retry.'
+              controller.signal.aborted
+                ? 'Audio is taking too long. Read the story or tap play to retry.'
+                : 'Story audio could not load. Read the story or tap play to retry.'
             );
           } finally {
             clearTimeout(timeout);

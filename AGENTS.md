@@ -3,6 +3,14 @@
 This repository is `Cameron10TA/hear-and-there`, a browser-only campus audio
 experience hosted on GitHub Pages. Read `README.md` for the current architecture.
 
+## Add or revise locations
+
+Use [the add-location skill](.agents/skills/add-location/SKILL.md) when adding
+campus stops or revising their listening boundaries. It covers outdoor path
+coverage, sourced content and media, simulation integration, and validation.
+Apply it even when the user does not name the skill. Respect current team
+assignments and the user's requested scope.
+
 ## Before publication
 
 Read and complete [the pre-PR skill](.agents/skills/pre-pr/SKILL.md) before every
