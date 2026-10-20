@@ -5,10 +5,12 @@ import {
   distanceMeters,
   simulationPosition,
   formatDistance,
+  zoneBufferPixels,
 } from './proximity.js';
 import { StoryAudio } from './audio.js';
 
 const $ = (id) => document.getElementById(id);
+$('stop-count').textContent = String(landmarks.length);
 const state = {
   consent: false,
   mode: 'live',
@@ -27,10 +29,17 @@ const state = {
   permission: null,
   requestGeneration: 0,
   audioError: '',
+  audioRequest: 0,
+  audioLoading: false,
+  audioSlow: false,
+  audioArrival: false,
+  audioWaitTimer: null,
+  unlocking: null,
   positionError: '',
 };
 const audio = new StoryAudio(renderAudio);
 let map,
+  tileLayer,
   userMarker,
   accuracyCircle,
   stopMarkers = new Map(),
@@ -85,6 +94,7 @@ function stopWatching() {
 }
 
 function resetSession() {
+  cancelStoryRequest();
   state.running = false;
   state.paused = false;
   selectMode('live');
@@ -96,6 +106,7 @@ function resetSession() {
   state.elapsed = 0;
   state.demoMoving = true;
   state.fix = null;
+  state.unlocking = null;
   stopWatching();
   clearInterval(state.tick);
   state.tick = null;
@@ -106,6 +117,7 @@ function resetSession() {
   if (map) {
     map.remove();
     map = null;
+    tileLayer = null;
     stopMarkers.clear();
     userMarker = null;
     accuracyCircle = null;
@@ -180,9 +192,12 @@ $('consent-button').addEventListener('click', () => {
 });
 
 function createMap() {
+  $('map-error').hidden = true;
+  $('map-retry').hidden = false;
   if (!window.L) {
     $('map-error').hidden = false;
-    $('map-error').textContent =
+    $('map-retry').hidden = true;
+    $('map-error-message').textContent =
       'The map could not load. Landmark distances and stories still work.';
     return;
   }
@@ -203,25 +218,51 @@ function createMap() {
       '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>',
     updateWhenIdle: true,
     keepBuffer: 1,
-  }).addTo(map);
+  });
+  tileLayer = tiles;
   let tileFailures = 0;
-  tiles.on('tileerror', () => {
-    if (++tileFailures >= 2) $('map-error').hidden = false;
-  });
-  tiles.on('tileload', () => {
+  let tileTimer;
+  tiles.on('loading', () => {
     tileFailures = 0;
-    $('map-error').hidden = true;
+    clearTimeout(tileTimer);
+    tileTimer = setTimeout(() => {
+      $('map-error-message').textContent = 'The map is taking longer to load. You can still explore the stories below.';
+      $('map-error').hidden = false;
+    }, 8000);
   });
+  tiles.on('tileerror', () => {
+    tileFailures++;
+    $('map-error-message').textContent = 'Some map tiles could not load. Stories and distances still work.';
+    $('map-error').hidden = false;
+  });
+  tiles.on('load', () => {
+    clearTimeout(tileTimer);
+    if (!tileFailures) $('map-error').hidden = true;
+  });
+  map.on('unload', () => clearTimeout(tileTimer));
+  tiles.addTo(map);
   landmarks.forEach((stop, index) => {
-    L.circle(stop.coordinates, {
-      radius: stop.radius,
+    const zoneStyle = {
       color: '#002868',
       weight: 1,
       dashArray: '4 5',
       fillColor: '#ffc627',
       fillOpacity: 0.12,
       interactive: false,
-    }).addTo(map);
+    };
+    if (stop.zone) {
+      const outline = stop.zone.walkingOutline ?? stop.zone.outline;
+      const area = L.polygon(outline, {
+        ...zoneStyle,
+        color: '#ffc627',
+        opacity: 0.2,
+        dashArray: null,
+        lineJoin: 'round',
+        weight: zoneBufferPixels(stop, map.getZoom()) * 2,
+      }).addTo(map);
+      L.polygon(outline, { ...zoneStyle, fill: false }).addTo(map);
+      map.on('zoomend', () => area.setStyle({ weight: zoneBufferPixels(stop, map.getZoom()) * 2 }));
+    } else L.circle(stop.coordinates, { ...zoneStyle, radius: stop.radius }).addTo(map);
     const marker = L.marker(stop.coordinates, {
       icon: landmarkIcon(index, false),
       title: `Open ${stop.name} story`,
@@ -294,6 +335,7 @@ function buildStopList() {
 }
 
 function buildSimulationButtons() {
+  $('simulation-seek').max = String(simulation.at(-1).seconds);
   const container = $('simulation-buttons');
   const toggle = $('simulation-toggle');
   container.replaceChildren(toggle);
@@ -310,6 +352,7 @@ function buildSimulationButtons() {
 function selectStop(stop) {
   if (!state.running || !state.consent) return;
   if (state.selectedId !== stop.id) {
+    cancelStoryRequest();
     audio.stop();
     audio.stopId = stop.id;
     state.audioError = '';
@@ -332,31 +375,31 @@ function selectStop(stop) {
 
 function renderAudio() {
   const playing = audio.playing || audio.pending;
-  $('play-button').textContent = playing ? 'Ⅱ' : '▶';
+  $('play-button').textContent = state.audioLoading ? '×' : playing ? 'Ⅱ' : state.audioError ? '↻' : '▶';
   $('play-button').setAttribute(
     'aria-label',
-    playing
-      ? 'Pause story'
-      : audio.offset > 0 && audio.offset < audio.duration
-        ? 'Resume story'
-        : 'Play story'
+    state.audioLoading
+      ? 'Cancel loading story'
+      : state.audioError
+        ? 'Retry story audio'
+        : playing
+          ? 'Pause story'
+          : audio.offset > 0 && audio.offset < audio.duration
+            ? 'Resume story'
+            : 'Play story'
   );
   $('play-button').disabled = state.paused;
-  $('audio-status').textContent =
-    state.audioError ||
-    (state.paused
-      ? 'Walk paused'
-      : audio.pending
-        ? 'You’ve arrived…'
-        : audio.playing
-          ? audio.muted
-            ? 'Playing · muted'
-            : 'Now playing'
-          : audio.offset >= audio.duration && audio.duration
-            ? 'Listen again'
-            : audio.offset > 0
-              ? 'Paused · tap to resume'
-              : 'Sample narration');
+  let status = 'Sample narration';
+  if (state.paused) status = 'Walk paused';
+  else if (state.audioError) status = state.audioError;
+  else if (state.audioLoading)
+    status = state.audioSlow ? 'Still loading… You can read the story below.' : 'Loading story…';
+  else if (audio.pending) status = 'You’ve arrived…';
+  else if (audio.playing) status = audio.muted ? 'Playing · muted' : 'Now playing';
+  else if (audio.duration && audio.offset >= audio.duration) status = 'Listen again';
+  else if (audio.offset > 0) status = 'Paused · tap to resume';
+  // The player ticks frequently; announce only actual status changes.
+  if ($('audio-status').textContent !== status) $('audio-status').textContent = status;
   $('elapsed-time').textContent = time(audio.elapsed);
   $('total-time').textContent = time(audio.duration);
   const percent = audio.duration ? Math.min(100, (audio.elapsed / audio.duration) * 100) : 0;
@@ -409,20 +452,22 @@ function watchLocation() {
   );
 }
 
-$('start-button').addEventListener('click', async () => {
-  if (!state.consent || state.permission?.state === 'denied') return;
+$('start-button').addEventListener('click', () => {
+  if (state.running || !state.consent || state.permission?.state === 'denied') return;
   // Unlock synchronously inside the user gesture; no awaits before this call.
   const unlocking = audio.unlock();
+  state.unlocking = unlocking;
   const request = state.requestGeneration;
   $('start-button').disabled = true;
   $('start-button').textContent = 'Getting your walk ready…';
-  try {
-    await unlocking;
-    await audio.prepare(landmarks);
-  } catch (error) {
+  void unlocking.then(() => {
+    if (!state.running || state.paused || document.hidden)
+      void audio.suspend();
+  }).catch((error) => {
+    if (request !== state.requestGeneration || state.unlocking !== unlocking || !state.running) return;
     state.audioError = error.message;
-  }
-  if (!state.consent || request !== state.requestGeneration) return;
+    renderAudio();
+  });
   state.running = true;
   state.paused = false;
   state.lastTick = performance.now();
@@ -515,6 +560,7 @@ function updateLocation() {
           ? 'Try stepping outdoors and enabling Precise Location. Automatic stories wait for a clearer signal.'
           : 'Automatic audio is paused until your location updates. You can still read a story or try simulated walking.';
       if (audio.playing || audio.pending) audio.pause();
+      if (state.audioLoading && state.audioArrival) cancelStoryRequest();
       if (userMarker && map) {
         map.removeLayer(userMarker);
         userMarker = null;
@@ -536,6 +582,7 @@ function updateLocation() {
     $(`distance-${stop.id}`).textContent =
       stop.id === result.active?.id ? 'You’re in listening range' : formatDistance(distance);
   const changed = state.activeId !== (result.active?.id || null);
+  if (changed && state.audioLoading && state.audioArrival) cancelStoryRequest();
   state.activeId = result.active?.id || null;
   if (changed) {
     landmarks.forEach((stop, index) =>
@@ -551,23 +598,15 @@ function updateLocation() {
       state.visited.add(result.active.id);
       selectStop(result.active);
       announce(`You’re near ${result.active.name}. A story is ready.`);
-      if (audio.buffers.has(result.active.id)) {
-        audio.offset = 0;
-        audio.play(result.active, true).catch((error) => {
-          state.audioError = error.message;
-          renderAudio();
-        });
-      } else {
-        state.audioError = 'Tap play to load the story';
-        renderAudio();
-      }
+      audio.offset = 0;
+      void loadAndPlayStory(result.active, true, state.unlocking);
     }
   } else {
     const offCampus = distanceMeters(coordinates, campus.center) > 650;
     $('nearby-eyebrow').textContent = offCampus ? 'WHITMAN IS WAITING' : 'LISTEN TO WHAT’S NEARBY';
     $('nearby-title').textContent = offCampus ? 'Explore from anywhere.' : 'A little closer.';
     $('nearby-message').textContent = offCampus
-      ? 'You’re away from campus. Try the simulated walk to experience all nine landmarks, or come back when you’re at Whitman.'
+      ? 'You’re away from campus. Try the simulated walk to experience all the landmarks, or come back when you’re at Whitman.'
       : `${result.nearest.stop.name} is ${formatDistance(result.nearest.distance).toLowerCase()}. A story starts when you enter its listening area.`;
   }
 }
@@ -588,6 +627,7 @@ function tick() {
 
 function pauseSession() {
   if (!state.running) return;
+  cancelStoryRequest();
   state.paused = true;
   stopWatching();
   void audio.suspend();
@@ -604,15 +644,22 @@ window.addEventListener('pageshow', (event) => {
 });
 
 $('resume-button').addEventListener('click', async () => {
-  if (!state.consent || !state.running) return;
+  if (!state.consent || !state.running || !state.paused) return;
+  const request = state.requestGeneration;
   const unlocking = audio.unlock();
+  state.unlocking = unlocking;
   $('resume-button').disabled = true;
   // A fresh native permission check also protects Safari without Permissions API support.
   try {
     await unlocking;
+    if (request !== state.requestGeneration || !state.running || !state.consent || document.hidden) return;
     await new Promise((resolve, reject) =>
       navigator.geolocation.getCurrentPosition(
         (result) => {
+          if (request !== state.requestGeneration) {
+            resolve();
+            return;
+          }
           state.fix = positionFrom(result);
           resolve();
         },
@@ -620,7 +667,7 @@ $('resume-button').addEventListener('click', async () => {
         { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 }
       )
     );
-    if (!state.running || !state.consent || document.hidden) return;
+    if (request !== state.requestGeneration || !state.running || !state.consent || document.hidden) return;
     state.paused = false;
     state.lastTick = performance.now();
     $('resume-panel').hidden = true;
@@ -629,6 +676,7 @@ $('resume-button').addEventListener('click', async () => {
     renderAudio();
     // Previously playing stories remain paused; the listener chooses whether to resume them.
   } catch (error) {
+    if (request !== state.requestGeneration || !state.running) return;
     if (error.code === 1) blockLocation(errorText(error));
     else {
       $('gps-status').textContent = 'Could not resume. Check Location Services and try again.';
@@ -639,37 +687,72 @@ $('resume-button').addEventListener('click', async () => {
   }
 });
 
+function cancelStoryRequest() {
+  const wasLoading = state.audioLoading;
+  state.audioRequest++;
+  clearTimeout(state.audioWaitTimer);
+  state.audioLoading = false;
+  state.audioSlow = false;
+  state.audioArrival = false;
+  if (wasLoading) renderAudio();
+}
+
+async function loadAndPlayStory(stop, arrival, unlocking) {
+  cancelStoryRequest();
+  const token = state.audioRequest;
+  const generation = state.requestGeneration;
+  const current = () => token === state.audioRequest && generation === state.requestGeneration &&
+    state.running && state.consent && !state.paused && !document.hidden && state.selectedId === stop.id;
+  state.audioLoading = true;
+  state.audioArrival = arrival;
+  state.audioError = '';
+  renderAudio();
+  state.audioWaitTimer = setTimeout(() => {
+    if (!current()) return;
+    state.audioSlow = true;
+    renderAudio();
+  }, 4000);
+  try {
+    await unlocking;
+    if (!current()) return;
+    await audio.prepare([stop]);
+    if (!current()) return;
+    clearTimeout(state.audioWaitTimer);
+    state.audioLoading = false;
+    await audio.play(stop, arrival);
+  } catch (error) {
+    if (current()) state.audioError = error.message;
+  } finally {
+    if (token === state.audioRequest) {
+      clearTimeout(state.audioWaitTimer);
+      state.audioLoading = false;
+      state.audioSlow = false;
+      renderAudio();
+    }
+  }
+}
+
 $('play-button').addEventListener('click', async () => {
   if (!state.running || state.paused || !state.consent) return;
+  if (state.audioLoading) {
+    cancelStoryRequest();
+    renderAudio();
+    return;
+  }
   if (audio.playing || audio.pending) {
     audio.pause();
     return;
   }
   const stop = landmarks.find((item) => item.id === state.selectedId);
   if (!stop) return;
-  const generation = state.requestGeneration;
-  try {
-    await audio.unlock();
-    await audio.prepare([stop]);
-    if (
-      !state.running ||
-      state.paused ||
-      !state.consent ||
-      generation !== state.requestGeneration ||
-      state.selectedId !== stop.id
-    )
-      return;
-    state.audioError = '';
-    await audio.play(stop);
-  } catch (error) {
-    state.audioError = error.message;
-    renderAudio();
-  }
+  state.unlocking = audio.unlock();
+  await loadAndPlayStory(stop, false, state.unlocking);
 });
 $('mute-button').addEventListener('click', () => audio.setMuted(!audio.muted));
 
 function changeMode() {
   if (!state.running || !state.consent || state.paused) return;
+  cancelStoryRequest();
   audio.stop();
   state.mode = state.mode === 'demo' ? 'live' : 'demo';
   state.activeId = null;
@@ -685,6 +768,7 @@ function changeMode() {
 $('switch-mode').addEventListener('click', changeMode);
 function seekDemo(value) {
   if (state.mode !== 'demo' || !state.running || state.paused || !state.consent) return;
+  cancelStoryRequest();
   audio.stop();
   state.elapsed = Number(value);
   state.activeId = null;
@@ -712,6 +796,11 @@ function recenter() {
     });
 }
 $('recenter-button').addEventListener('click', recenter);
+$('map-retry').addEventListener('click', () => {
+  if (!state.running || state.paused || !state.consent || !tileLayer) return;
+  $('map-error').hidden = true;
+  tileLayer.redraw();
+});
 $('end-button').addEventListener('click', () => {
   state.requestGeneration++;
   resetSession();

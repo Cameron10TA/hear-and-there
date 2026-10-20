@@ -1,6 +1,6 @@
 # Hear & There
 
-A browser-only audio walk at Whitman College in Walla Walla. The nine stops are **Styx**, the **outdoor tennis courts**, **Penrose Library**, **Cleveland Commons**, **Jewett Hall**, **Lyman House**, **Anderson Hall**, **Stanton Hall**, and **Douglas Hall**.
+A browser-only audio walk at Whitman College in Walla Walla. The eleven stops are **Styx**, the **outdoor tennis courts**, **Penrose Library**, **Cleveland Commons**, **Memorial Building**, **Reid Campus Center**, **Jewett Hall**, **Lyman House**, **Anderson Hall**, **Stanton Hall**, and **Douglas Hall**.
 
 **Website:** https://Cameron10TA.github.io/hear-and-there/
 
@@ -31,7 +31,9 @@ The build recreates `dist/` and copies only the website into it, removing stale 
 6. Locking the screen or leaving the page pauses audio, GPS watching, and simulation. Return and tap **Resume exploring**; a fresh location request checks access again. Tap the story's play button to resume an interrupted narration.
 7. **End walk** clears the session location and visited stops. A reload also starts fresh.
 
-The simulation follows fixed test positions and includes a time slider and jump buttons. It is a presentation tool, not a recommended walking route. Location consent is still required, but real coordinates are not used to move its marker.
+Starting opens the map and stories immediately while audio unlocks. Only a story being played or reached is downloaded; other recordings do not delay startup. Slow audio shows waiting feedback and a cancel button, then offers retry after a 15-second download timeout. Transcripts remain available. Switching stories, moving out of an automatic arrival zone, pausing, or ending the walk prevents a late download from starting unexpectedly. Recordings stay in memory for replay. Map failures offer **Retry map** while stories remain usable.
+
+The simulation uses outdoor listening points at the buildings and visits Memorial before Cleveland. It follows fixed test positions and includes a time slider and jump buttons. It is a presentation tool, not a recommended walking route. Location consent is still required, but real coordinates are not used to move its marker.
 
 ## Work together
 
@@ -50,9 +52,16 @@ AI-assisted pushes and pull requests follow the shared [pre-PR skill](.agents/sk
 
 ## Change landmarks or audio
 
-Edit `src/landmarks.js`. Each entry includes latitude/longitude, an entry radius and larger exit radius, a photograph, a local audio-file path, a transcript, and a source. Add a matching image and audio file under `assets/`. Keep the transcript accurate when replacing audio. Prefer compact MP3 or AAC recordings for future content; Web Audio decodes supported local audio formats. The current short WAV samples need no external voice service.
+For a complete new stop or a listening-zone update, use the shared
+[add-location skill](.agents/skills/add-location/SKILL.md), or invoke
+`$add-location` in a repository-aware agent. It covers outdoor paths, sources,
+photos, matching audio/transcripts, simulation, and verification. `AGENTS.md`
+also routes these tasks to the skill. The files live in the repository so
+teammates get the same workflow when they pull the change.
 
-Styx uses an OpenStreetMap artwork coordinate. The campus locations use Whitman's official interactive-map polygons; the residence hall triggers are placed on exterior paths. **These are starting points: verify the circles on campus with an iPhone.** Entry radii range from 18 m to 42 m. Larger exit radii reduce GPS jitter. Stale fixes over 25 seconds old and accuracy estimates worse than 65 m do not trigger automatic stories. Geolocation reports an estimate, not a guaranteed boundary.
+Edit `src/landmarks.js`. Each entry includes latitude/longitude, either circular entry/exit radii or a polygon `zone` with the physical `outline`, an outdoor `walkingOutline`, and `buffer`/`exitBuffer` in meters, a photograph, a local audio-file path, a transcript, and a source. Add a matching image and audio file under `assets/`. Keep the transcript accurate when replacing audio. Prefer compact MP3 or AAC recordings for future content; Web Audio decodes supported local audio formats. The current short WAV samples need no external voice service.
+
+Styx keeps its 30 m circular entry zone (48 m exit) around an OpenStreetMap artwork coordinate. The outdoor courts and all nine buildings retain Whitman’s official footprint polygons for distance and overlap decisions. Their listening areas extend to the adjacent mapped outdoor paths through a separate `walkingOutline`, with an 8 m entry margin beyond that area and a 14 m exit margin to reduce GPS jitter. You do not need to enter a building or leave the nearby path. A neighboring entry takes over once you leave the current entry; an actual footprint takes priority over an overlapping buffer. Distances to these buildings measure to the footprint. The five residence halls use the same path-based model; their stories and media are preserved. Shared paths near Anderson/Cleveland, Anderson/Stanton, and connected Jewett/Lyman have explicit overlap tests. **Field-test every side on campus with an iPhone before treating the buffers as calibrated.** Stale fixes over 25 seconds old and accuracy estimates worse than 65 m do not trigger automatic stories. Geolocation reports an estimate, not a guaranteed boundary.
 
 ## Privacy and services
 
@@ -73,7 +82,7 @@ node scripts/create-test-fixture.mjs
 npm run dev
 ```
 
-Open `http://localhost:4173/tests/fixture.html`. The red QA bar can grant/deny mock permission, move between landmarks, supply an inaccurate or stale fix, simulate visibility changes, and fail/restore Cleveland's audio request. It uses the real application and real audio. **The fixture is not part of the production build.** Do not publish the repository root as the website; the Pages workflow publishes only `dist/`.
+Open `http://localhost:4173/tests/fixture.html`. The red QA bar can grant/deny mock permission, move between landmarks or their outdoor listening positions, supply an inaccurate or stale fix, simulate visibility changes, fail/restore Cleveland's audio, hold/release audio downloads, and fail/restore map tiles. It uses the real application and real audio. **The fixture is not part of the production build.** Do not publish the repository root as the website; the Pages workflow publishes only `dist/`.
 
 See [the laptop test guide](docs/LAPTOP-TESTING.md) for repeatable scenarios that do not require a campus visit or real location access.
 

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#002868" />
     <meta
       name="description"
-      content="Walk with Hear & There at Whitman College. Listen to stories and sounds at Styx, the outdoor tennis courts, Penrose Library, Cleveland Commons, Jewett Hall, Lyman House, Anderson Hall, Stanton Hall, and Douglas Hall."
+      content="A different way to experience Whitman College. Discover campus stories and sounds, from Styx and Penrose Library to Memorial Building and Reid Campus Center."
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta
@@ -74,7 +74,7 @@
               ></p>
             </div>
             <div class="welcome-details">
-              <span><span aria-hidden="true">◉</span> 4 places to discover</span
+              <span><span aria-hidden="true">◉</span> <span id="stop-count">11</span> places to discover</span
               ><span><span aria-hidden="true">♫</span> Best with headphones</span>
             </div>
           </div>
@@ -150,10 +150,12 @@
             <div class="map-legend">
               <span><i class="legend-you"></i>You</span
               ><span><i class="legend-stop"></i>Audio landmark</span>
+              <span><i class="legend-zone"></i>Listening area</span>
             </div>
-            <p id="map-error" class="map-error" hidden>
-              Map tiles aren’t available. Landmark distances and audio still work.
-            </p>
+            <div id="map-error" class="map-error" hidden>
+              <span id="map-error-message" role="status">Map tiles aren’t available. Landmark distances and audio still work.</span>
+              <button id="map-retry" class="text-button">Retry map</button>
+            </div>
           </div>
           <aside class="explorer-panel" aria-label="Landmark stories and audio">
             <div id="resume-panel" class="resume-panel" hidden>
@@ -180,7 +182,7 @@
                 <div class="player">
                   <button id="play-button" class="play-button" aria-label="Play story">▶</button>
                   <div class="player-center">
-                    <strong id="audio-status">Sample narration</strong>
+                    <strong id="audio-status" role="status">Sample narration</strong>
                     <div
                       class="progress-track"
                       role="progressbar"
@@ -222,14 +224,14 @@
             <div id="simulation-panel" class="simulation-panel" hidden>
               <div>
                 <span class="eyebrow">SIMULATED WALK</span
-                ><span id="simulation-time">0:00 / 9:30</span>
+                ><span id="simulation-time">0:00 / 12:50</span>
               </div>
               <p id="simulation-label">Approaching Ankeny Field</p>
               <input
                 id="simulation-seek"
                 type="range"
                 min="0"
-                max="570"
+                max="770"
                 value="0"
                 step="1"
                 aria-label="Simulated walk position"

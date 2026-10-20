@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Campus Location"
+  short_description: "Add campus stories with outdoor path-aware zones"
+  default_prompt: "Use $add-location to add a campus listening stop with outdoor path coverage, sourced content, matching media, and validation."
