@@ -88,12 +88,75 @@ export const landmarks = [
       'Center of the Cleveland Commons polygon on Whitman’s official interactive campus map; field-test the boundary.',
     coordinateSource: 'https://www.whitman.edu/campus-map?plc=x46558',
   },
+  {
+    id: 'jewett',
+    name: 'Jewett Hall',
+    subtitle: 'A first-year hall beside Ankeny Field',
+    category: 'Campus life',
+    coordinates: [46.07282, -118.32744],
+    radius: 18,
+    exitRadius: 30,
+    image: 'assets/jewett-hall.jpg',
+    imageAlt: 'Exterior of Jewett Hall at Whitman College.',
+    audio: 'assets/audio/jewett.wav',
+    ambience: 'chime',
+    durationLabel: 'About 30 seconds',
+    description: 'A first-year residence hall near Ankeny Field, with Jewett Café just steps away.',
+    transcript:
+      'Welcome to Jewett Hall, one of Whitman’s first-year residence halls. The building sits beside Ankeny Field, with Jewett Café nearby. Inside are shared lounges and places to study, but this story is for the public path outside. Pause here and notice how quickly the campus shifts from open field to the everyday places where students gather, recharge, and make a home.',
+    source: 'https://www.whitman.edu/life-at-whitman/residence-life/residence-halls',
+    coordinateNote:
+      'Whitman interactive campus-map polygon x37184, placed just west of the building on the exterior path to keep the trigger outside the residence hall; field-test the boundary.',
+    coordinateSource: 'https://www.whitman.edu/campus-map?plc=x37184',
+  },
+  {
+    id: 'lyman',
+    name: 'Lyman House',
+    subtitle: 'A close-knit hall connected to campus life',
+    category: 'Campus life',
+    coordinates: [46.07224, -118.32623],
+    radius: 18,
+    exitRadius: 30,
+    image: 'assets/lyman-house.jpg',
+    imageAlt: 'Exterior of Lyman House at Whitman College.',
+    audio: 'assets/audio/lyman.wav',
+    ambience: 'chime',
+    durationLabel: 'About 30 seconds',
+    description: 'A first-year community with a shared café connection to neighboring Jewett Hall.',
+    transcript:
+      'You’re near Lyman House, a Whitman residence hall with a close connection to neighboring Jewett Hall and Jewett Café. The hall looks toward Ankeny Field, where the open campus meets the routines of home. From this public path, take a moment to notice that transition: a place to come together, then the wider campus just beyond it. Please leave the private living spaces to residents.',
+    source: 'https://www.whitman.edu/life-at-whitman/residence-life/residence-halls',
+    coordinateNote:
+      'Whitman interactive campus-map polygon x37188, placed just east of the building on the exterior path to keep the trigger outside the residence hall; field-test the boundary.',
+    coordinateSource: 'https://www.whitman.edu/campus-map?plc=x37188',
+  },
+  {
+    id: 'anderson',
+    name: 'Anderson Hall',
+    subtitle: 'A first-year hall near Stanton Field',
+    category: 'Campus life',
+    coordinates: [46.06896, -118.33014],
+    radius: 18,
+    exitRadius: 30,
+    image: 'assets/anderson-hall.jpg',
+    imageAlt: 'Exterior of Anderson Hall at Whitman College.',
+    audio: 'assets/audio/anderson.wav',
+    ambience: 'chime',
+    durationLabel: 'About 30 seconds',
+    description: 'A traditional first-year residence hall close to Stanton Field and Cleveland Commons.',
+    transcript:
+      'Welcome to Anderson Hall, a traditional first-year residence hall near Stanton Field. Cleveland Commons is just a short walk away, and the field gives this part of campus a wide-open feel. From the public path, notice how the lawn and nearby gathering places make room for both quiet pauses and campus activity. This is a home for students, so let’s keep the story outside and give residents their privacy.',
+    source: 'https://www.whitman.edu/life-at-whitman/residence-life/residence-halls',
+    coordinateNote:
+      'Whitman interactive campus-map polygon x37158, placed just west of the building on the exterior path to keep the trigger outside the residence hall; field-test the boundary.',
+    coordinateSource: 'https://www.whitman.edu/campus-map?plc=x37158',
+  },
 ];
 
 export const campus = {
   center: [46.07055, -118.32885],
   bounds: [
-    [46.0679, -118.3305],
+    [46.0679, -118.331],
     [46.073, -118.3255],
   ],
   // Normal browser caching is retained. No tile prefetching or offline downloads.
@@ -129,4 +192,10 @@ export const simulation = [
     stopId: 'cleveland',
   },
   { label: 'Listening at Cleveland Commons', coordinates: landmarks[3].coordinates, seconds: 246 },
+  { label: 'At Jewett Hall', coordinates: landmarks[4].coordinates, seconds: 270, stopId: 'jewett' },
+  { label: 'Listening near Jewett Hall', coordinates: landmarks[4].coordinates, seconds: 305 },
+  { label: 'At Lyman House', coordinates: landmarks[5].coordinates, seconds: 329, stopId: 'lyman' },
+  { label: 'Listening near Lyman House', coordinates: landmarks[5].coordinates, seconds: 364 },
+  { label: 'At Anderson Hall', coordinates: landmarks[6].coordinates, seconds: 410, stopId: 'anderson' },
+  { label: 'Listening near Anderson Hall', coordinates: landmarks[6].coordinates, seconds: 445 },
 ];

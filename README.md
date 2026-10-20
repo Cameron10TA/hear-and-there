@@ -1,6 +1,6 @@
 # Hear & There
 
-A browser-only audio walk at Whitman College in Walla Walla. The four stops are **Styx**, the **outdoor tennis courts**, **Penrose Library**, and **Cleveland Commons**.
+A browser-only audio walk at Whitman College in Walla Walla. The seven stops are **Styx**, the **outdoor tennis courts**, **Penrose Library**, **Cleveland Commons**, **Jewett Hall**, **Lyman House**, and **Anderson Hall**.
 
 **Website:** https://Cameron10TA.github.io/hear-and-there/
 
@@ -52,7 +52,7 @@ AI-assisted pushes and pull requests follow the shared [pre-PR skill](.agents/sk
 
 Edit `src/landmarks.js`. Each entry includes latitude/longitude, an entry radius and larger exit radius, a photograph, a local audio-file path, a transcript, and a source. Add a matching image and audio file under `assets/`. Keep the transcript accurate when replacing audio. Prefer compact MP3 or AAC recordings for future content; Web Audio decodes supported local audio formats. The current short WAV samples need no external voice service.
 
-Styx uses an OpenStreetMap artwork coordinate. The other three locations use centers from Whitman's official interactive-map polygons. **These are starting points: verify the circles on campus with an iPhone.** Entry radii are 30 m, 42 m, 25 m, and 35 m. Larger exit radii reduce GPS jitter. Stale fixes over 25 seconds old and accuracy estimates worse than 65 m do not trigger automatic stories. Geolocation reports an estimate, not a guaranteed boundary.
+Styx uses an OpenStreetMap artwork coordinate. The campus locations use Whitman's official interactive-map polygons; the residence hall triggers are placed on exterior paths. **These are starting points: verify the circles on campus with an iPhone.** Entry radii range from 18 m to 42 m. Larger exit radii reduce GPS jitter. Stale fixes over 25 seconds old and accuracy estimates worse than 65 m do not trigger automatic stories. Geolocation reports an estimate, not a guaranteed boundary.
 
 ## Privacy and services
 
