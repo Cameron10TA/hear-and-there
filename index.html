@@ -172,6 +172,22 @@
                 Keep exploring. A story starts when you enter a landmark’s listening area.
               </p>
             </div>
+            <div class="place-filters" role="group" aria-label="Find a place">
+              <label class="place-search-field" for="place-search">
+                Search places
+                <input id="place-search" type="search" placeholder="Try Maxey or Penrose" maxlength="100" autocomplete="off" spellcheck="false" aria-controls="stop-list" />
+              </label>
+              <label for="place-category">
+                Category
+                <select id="place-category" aria-controls="stop-list">
+                  <option value="all">All categories</option>
+                </select>
+              </label>
+              <button id="reset-place-filters" class="filter-reset" type="button" disabled>Reset filters</button>
+              <p id="place-results" class="place-results" role="status" aria-live="polite" aria-atomic="true"></p>
+              <p class="filter-note">Filters narrow this list; nearby stories still play.</p>
+            </div>
+            <p id="no-place-results" class="no-place-results" hidden>No places match. Try another name or category.</p>
             <div id="stop-list" class="stop-list"></div>
             <article id="story-card" class="story-card" hidden>
               <img id="story-image" src="assets/styx.jpg" alt="" width="400" height="275" />

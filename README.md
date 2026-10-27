@@ -35,6 +35,8 @@ Starting opens the map and stories immediately while audio unlocks. Only a story
 
 The 50:48 simulation uses outdoor listening points at all 56 stops. It follows fixed test positions and includes a time slider and jump buttons. It is a presentation tool, not a recommended walking route. Location consent is still required, but real coordinates are not used to move its marker.
 
+Search the place list by name, or filter by Academics, Housing, Athletics, Arts & culture, and Campus life. Search ignores case and accents and combines with the selected category. The result count updates immediately; **Reset filters** restores the full list. These controls narrow the list while nearby automatic stories, map selection, and simulation jumps remain available. Search and category choices stay in memory and clear when the walk ends or access is revoked.
+
 ## Work together
 
 Each developer can clone the repository and work on a separate branch. Push a branch and open a pull request for another teammate to review. Merging into `main` runs the tests, builds the static files, and deploys GitHub Pages.

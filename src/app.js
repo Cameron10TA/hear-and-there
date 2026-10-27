@@ -8,6 +8,7 @@ import {
   zoneBufferPixels,
 } from './proximity.js';
 import { StoryAudio } from './audio.js';
+import { matchesPlace, placeCategories } from './catalog.js';
 
 const $ = (id) => document.getElementById(id);
 $('stop-count').textContent = String(landmarks.length);
@@ -21,6 +22,8 @@ const state = {
   watcher: null,
   activeId: null,
   selectedId: null,
+  placeQuery: '',
+  placeCategory: 'all',
   visited: new Set(),
   elapsed: 0,
   demoMoving: true,
@@ -38,6 +41,7 @@ const state = {
   positionError: '',
 };
 const audio = new StoryAudio(renderAudio);
+const stopButtons = new Map();
 let map,
   tileLayer,
   userMarker,
@@ -100,6 +104,7 @@ function resetSession() {
   selectMode('live');
   state.activeId = null;
   state.selectedId = null;
+  resetPlaceFilters();
   state.audioError = '';
   state.positionError = '';
   state.visited.clear();
@@ -309,6 +314,7 @@ function landmarkIcon(index, active) {
 
 function buildStopList() {
   $('stop-list').replaceChildren();
+  stopButtons.clear();
   for (const stop of landmarks) {
     const button = document.createElement('button');
     button.className = 'stop-button';
@@ -333,8 +339,52 @@ function buildStopList() {
     button.append(img, info, arrow);
     button.addEventListener('click', () => selectStop(stop));
     $('stop-list').append(button);
+    stopButtons.set(stop.id, button);
   }
+  filterPlaces();
 }
+
+function filterPlaces() {
+  let count = 0;
+  for (const stop of landmarks) {
+    const matches = matchesPlace(stop, state.placeQuery, state.placeCategory);
+    const button = stopButtons.get(stop.id);
+    if (button) button.hidden = !matches;
+    if (matches) count++;
+  }
+  $('place-results').textContent = `${count} of ${landmarks.length} places`;
+  $('no-place-results').hidden = count !== 0;
+  $('reset-place-filters').disabled = !state.placeQuery && state.placeCategory === 'all';
+}
+
+function resetPlaceFilters() {
+  state.placeQuery = '';
+  state.placeCategory = 'all';
+  $('place-search').value = '';
+  $('place-category').value = 'all';
+  filterPlaces();
+}
+
+$('place-category').replaceChildren();
+for (const category of placeCategories) {
+  const option = document.createElement('option');
+  option.value = category.id;
+  option.textContent = category.label;
+  $('place-category').append(option);
+}
+$('place-category').value = 'all';
+$('place-search').addEventListener('input', () => {
+  state.placeQuery = $('place-search').value;
+  filterPlaces();
+});
+$('place-category').addEventListener('change', () => {
+  state.placeCategory = $('place-category').value;
+  filterPlaces();
+});
+$('reset-place-filters').addEventListener('click', () => {
+  resetPlaceFilters();
+  $('place-search').focus();
+});
 
 function buildSimulationButtons() {
   $('simulation-seek').max = String(simulation.at(-1).seconds);
