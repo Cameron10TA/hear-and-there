@@ -315,6 +315,8 @@ function buildStopList() {
     button.id = `stop-${stop.id}`;
     button.setAttribute('aria-pressed', 'false');
     const img = document.createElement('img');
+    img.loading = 'lazy';
+    img.decoding = 'async';
     img.src = stop.image;
     img.alt = '';
     const info = document.createElement('span');

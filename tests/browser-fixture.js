@@ -66,11 +66,11 @@ Object.defineProperty(navigator, 'permissions', {
     },
   },
 });
-const bar = document.createElement('div');
+const bar = document.createElement('details');
 bar.style.cssText =
   'position:relative;z-index:2000;padding:8px;background:#ffe4e4;display:flex;gap:6px;flex-wrap:wrap;font:11px Arial';
 bar.setAttribute('aria-label', 'LOCAL TEST CONTROLS');
-const label = document.createElement('strong');
+const label = document.createElement('summary');
 label.textContent = 'LOCAL QA ONLY · mocked GPS';
 bar.append(label);
 function control(text, action) {
