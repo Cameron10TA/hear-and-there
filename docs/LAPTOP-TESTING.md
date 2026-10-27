@@ -22,6 +22,8 @@ For quiet testing, choose **QA: off campus** before enabling location, then star
 | Consent gate        | Before enabling location, exploration is hidden. Choose **QA: deny location**, then **Enable location**. The explanation and retry button appear; simulation remains blocked. Grant mock location and retry to continue.                            |
 | All stops | Pause simulation and use each **Go to** button. Check the title, image, transcript, duration, and playback. Jump buttons are generated for all 56 stops. The slider ends at 50:48; use each named jump rather than relying on the previous eleven-stop times. |
 | Map selection       | Click each numbered marker. The matching story opens. Tab to a marker and use Enter or Space. Its accessible name includes the stop name; the label appears on hover/focus instead of all labels overlapping.                                       |
+| Search and categories | Search **Penrose**: two results. Choose **Academics**: only Penrose Library. Choose **Housing**: zero results and a helpful message. Reset restores all 56 places and focuses search. Search **hua wen** to find the accented Chinese House name. Check keyboard focus on search, category, reset, and results. |
+| Search while listening | Start a story, then enter a query with no matches. The current card and playback stay available. A new outdoor arrival can still select and play its story even if the list excludes it. End or revoke permission: search and category clear before a new session. |
 | Simulation end      | Move the slider to 50:48. The movement button says **Restart walk**. Jump back to Penrose: it says **Continue movement**. Continue from that stop, or seek to the end and restart at 0:00. |
 | End and restart     | Switch modes and mute, then **End walk**. Fresh consent is required, **Explore in person** is selected, and mute is cleared. A new walk starts in live mode unless you choose simulation.                                                           |
 | Permission revoked  | During either mode, choose **QA: deny location**. The walk stops and the gate returns. Grant and retry; the next session has fresh defaults.                                                                                                        |
@@ -91,3 +93,17 @@ Four street frontages are provisional model estimates rather than surveyed
 sidewalks: College House, Lavender House, Sherwood House, and Third Space Center.
 Check these first on campus. Physical Safari, lock-screen behavior, and GPS/access
 calibration remain pending as listed in `IPHONE-TESTING.md`.
+
+## Place search and category filters — October 27, 2026
+
+All 55 automated tests pass. New coverage checks accent/case/punctuation matching,
+category grouping, combined filters, no matches and reset, preservation of the
+current player and automatic arrivals, and clearing filters on end/revocation.
+Browser checks with fictional GPS verified Penrose's two results, Academics
+narrowing to Penrose Library, Housing producing zero combined results, reset
+restoring 56 places and focusing search, and **hua wen** finding the accented
+Chinese House name. Keyboard Tab moves from search to category to reset, and
+Arrow Down changes the category. Desktop (1265 px) had no horizontal overflow;
+320 × 568 and 390 × 844 iframe layouts were visually checked for controls, result
+cards, long names, and focus outlines. No console errors/warnings appeared in the
+checked flow. This verifies browser layout and handlers, not physical iPhone behavior.

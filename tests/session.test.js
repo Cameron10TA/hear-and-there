@@ -177,6 +177,70 @@ test('a missing recording does not block another story on arrival or manual play
 });
 
 const flush = () => new Promise((resolve) => setImmediate(resolve));
+
+test('search and category update the existing list, show no matches, and reset together', async (t) => {
+  const { get } = await setup(t);
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  const buttons = [...get('stop-list').children];
+  const visible = () => buttons.filter((b) => !b.hidden).map((b) => b.id);
+  assert.equal(get('place-results').textContent, '56 of 56 places');
+  get('place-search').value = 'Penrose';
+  await get('place-search').fire('input');
+  assert.deepEqual(visible(), ['stop-penrose', 'stop-penrose-house']);
+  get('place-category').value = 'academics';
+  await get('place-category').fire('change');
+  assert.deepEqual(visible(), ['stop-penrose']);
+  assert.equal(get('place-results').textContent, '1 of 56 places');
+  get('place-category').value = 'housing';
+  await get('place-category').fire('change');
+  assert.equal(visible().length, 0);
+  assert.equal(get('no-place-results').hidden, false);
+  await get('reset-place-filters').fire('click');
+  assert.equal(visible().length, landmarks.length);
+  assert.equal(get('place-search').value, '');
+  assert.equal(get('place-category').value, 'all');
+  assert.equal(get('reset-place-filters').disabled, true);
+  assert.equal(get('no-place-results').hidden, true);
+  assert.deepEqual(get('stop-list').children, buttons, 'filtering preserves distance and selection nodes');
+});
+
+test('filtering does not interrupt playback or block an automatic arrival outside the results', async (t) => {
+  const { get, move, playback } = await setup(t);
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  move(landmarks.find((s) => s.id === 'penrose').listeningPosition);
+  await flush();
+  assert.equal(playback.mock.callCount(), 1);
+  get('place-search').value = 'nothing-matches-this';
+  await get('place-search').fire('input');
+  assert.equal(get('story-title').textContent, 'Penrose Library');
+  assert.equal(get('play-button').getAttribute('aria-label'), 'Pause story');
+  assert.equal(playback.mock.callCount(), 1);
+  move(landmarks.find((s) => s.id === 'reid').listeningPosition);
+  await flush();
+  assert.equal(get('story-title').textContent, 'Reid Campus Center');
+  assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'reid');
+  assert.equal(get('place-results').textContent, '0 of 56 places');
+});
+
+for (const ending of ['end', 'revoke']) {
+  test(`${ending} clears search and category before the next session`, async (t) => {
+    const { get, permission } = await setup(t);
+    await get('consent-button').fire('click');
+    await get('start-button').fire('click');
+    get('place-search').value = 'Maxey';
+    await get('place-search').fire('input');
+    get('place-category').value = 'academics';
+    await get('place-category').fire('change');
+    if (ending === 'end') await get('end-button').fire('click');
+    else { permission.state = 'denied'; permission.onchange(); }
+    assert.equal(get('place-search').value, '');
+    assert.equal(get('place-category').value, 'all');
+    assert.equal(get('place-results').textContent, '56 of 56 places');
+  });
+}
+
 const deferred = () => { let resolve; const promise = new Promise((done) => { resolve = done; }); return { promise, resolve }; };
 
 test('start immediately opens the explorer without waiting for audio unlock or downloading all stories', async (t) => {
