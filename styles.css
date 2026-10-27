@@ -796,6 +796,10 @@ figure {
 .stop-list {
   display: grid;
   gap: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 3px;
 }
 .stop-button {
   display: flex;
@@ -819,9 +823,12 @@ figure {
   height: 47px;
   object-fit: cover;
   border-radius: 4px;
+  flex-shrink: 0;
 }
 .stop-button > span {
   flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .stop-button strong {
   font-size: 12px;
@@ -1064,6 +1071,10 @@ details a {
   display: flex;
   gap: 5px;
   flex-wrap: wrap;
+  max-height: 220px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 3px;
 }
 .simulation-buttons button {
   background: #fff;
@@ -1072,7 +1083,9 @@ details a {
   min-height: 37px;
   padding: 7px 8px;
   border-radius: 4px;
-  flex: 1;
+  flex: 1 1 130px;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .simulation-panel small {
   display: block;

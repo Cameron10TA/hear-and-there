@@ -34,3 +34,51 @@ active story should remain selected through small drift, then yield when its
 entry area ends. Only one story should play, with no repeated arrival sound.
 Recheck the original Penrose/courts shared path. Tune outlines before increasing
 buffers if field results differ from the modeled boundaries.
+
+## Complete-building expansion: field calibration
+
+The 56-stop version includes all 54 building features in Whitman's Walla Walla
+campus map, plus Styx and the courts. The two remote farm observatories are outside
+this walk. Use the per-building sources and OSM way IDs in `SOURCES.md` to record
+which approaches have actually been checked; laptop geometry is not GPS evidence.
+
+- Verify the four **estimated street frontages first**: College House on East
+  Main Street; Lavender House on Merriam Street; Sherwood House on Alvarado
+  Terrace; and Third Space Center on Marcus Street. The model places the listening
+  line 6 m from the mapped road centerline on the building side. This is not a
+  surveyed sidewalk. Confirm that a public sidewalk exists there, its position,
+  and whether the 8/14 m margins reach it without taking over a neighbor's approach.
+  Move the outline to the actual sidewalk; do not walk in traffic to test it.
+- Keep Sherwood House's check on the public sidewalk. Its stairs, driveway,
+  and residential grounds are private. At the Bike Shop, verify the public alley
+  outside the pictured gate (OSM service way 1565067585); do not enter the fenced
+  workspace. Check present access before using any mapped alley.
+- Check the small houses on Boyer/Merriam/Cypress: Fine Arts, La Casa Hispana,
+  La Maison, Environmental, Chinese, German, Community Service, Spirituality,
+  Wellness, Lavender, Multicultural, and Writing. Confirm which frontages are
+  public sidewalks and which paths lead into private residences.
+- Walk the northern sidewalks at Beta Theta Pi, Tau Kappa Epsilon, Sigma Chi,
+  and Phi Delta Theta. At the Beta/Olin sidewalk overlap, an active Olin story
+  may persist through its exit margin; depart before expecting a fresh Beta
+  arrival. Verify this does not make the frontage impractical in real use.
+- Check Hall of Science's north/west/south approaches, Olin's long sides and
+  recess, Harper Joy's west/east paths, and Sherwood/Climbing Center's connected
+  approaches. Test shared paths in both directions: Science/Penrose,
+  Harper Joy/Penrose, Olin/Jewett, Climbing/Memorial, and Maxey/courts.
+- Verify Hunter/Reid, Baker/Douglas, Prentiss/Douglas, and Writing/Cleveland
+  boundaries. In particular, a current Cleveland story may remain selected at
+  Writing House's west sidewalk until departure; fresh arrival selects Writing.
+- Check Fouts and Third Space around the creek and bridge. Use the modeled
+  Marcus Street frontage for Third Space only after confirming its sidewalk;
+  the south path is nearer Fouts. Never cross the creek or a fence to test a zone.
+- Check all three Nancy Serrurier Village halls (Harvey, Robart, Stegner) against
+  the current completed paths. The official footprints are newer than some OSM
+  surroundings. Verify the south path's Robart/Third Space overlap.
+- Check the remaining outdoor frontages at Baker Ferguson Fitness Center,
+  College House, Bratton Tennis Center, Technology Services, Facilities Services,
+  Cordiner, Hall of Music, Dance Studio, Glover Alston, Boyer House, Penrose House,
+  and Welty. Use sidewalks around work and care facilities and respect privacy.
+
+For every building, compare the shaded area at two zoom levels, approach along
+each accessible side, pause near the entry/exit boundary, depart, and return.
+Record exact public-path corrections without publishing personal GPS histories.

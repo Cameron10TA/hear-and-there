@@ -48,7 +48,9 @@ test('the demo begins out of range and enters each landmark only once', () => {
   let current = null;
   const arrivals = [];
   assert.equal(locate(simulation[0].coordinates, landmarks).active, null);
-  for (let t = 0; t <= simulation.at(-1).seconds; t++) {
+  // Short passages near adjacent zones can be missed by whole-second samples.
+  for (let tick = 0; tick <= simulation.at(-1).seconds * 10; tick++) {
+    const t = tick / 10;
     const result = locate(simulationPosition(simulation, t).coordinates, landmarks, current);
     if (result.active && result.active.id !== current) arrivals.push(result.active.id);
     current = result.active?.id || null;
@@ -105,12 +107,13 @@ test('every footprint edge and vertex is in range, including a 6 m perimeter on 
           const nearby = offset(point, x, y);
           assert.equal(locate(nearby, [stop]).active?.id, stop.id, `${stop.id} perimeter coverage ${i}`);
           const selected = locate(nearby, landmarks).active;
-          // Jewett and Lyman physically connect; their shared perimeter cannot
-          // belong exclusively to both. The nearer physical building wins.
-          if (['jewett', 'lyman'].includes(stop.id) && selected?.id !== stop.id) {
-            assert.equal(selected?.id, stop.id === 'jewett' ? 'lyman' : 'jewett');
-            assert.ok(footprintDistance(nearby, selected.zone.outline) <= footprintDistance(nearby, outline));
-          } else assert.equal(selected?.id, stop.id, `${stop.id} buffered edge ${i}`);
+          // Adjacent buildings can share a perimeter margin. The same nearest
+          // physical-footprint rule applies across the complete campus.
+          assert.ok(selected, `${stop.id} buffered edge ${i}`);
+          if (selected.id !== stop.id) {
+            assert.ok(selected.zone, 'a physical neighbor takes priority');
+            assert.ok(footprintDistance(nearby, selected.zone.outline) <= footprintDistance(nearby, outline), `${stop.id}: nearer ${selected.id}`);
+          }
         }
       }
     }
@@ -228,6 +231,26 @@ const outdoorPaths = {
   ],
 };
 
+// These existing source points are now shared with additional buildings. Keep
+// explicit expectations, plus each stop's isolated coverage assertion below.
+const sharedPathOwners = new Map([
+  ['46.0730829,-118.3274321', 'olin'],
+  ['46.069632,-118.3292147', 'prentiss'],
+  ['46.0715599,-118.3279343', 'maxey'],
+  ['46.0711493,-118.3279425', 'maxey'],
+  ['46.0710039,-118.3279415', 'maxey'],
+  ['46.0719793,-118.3300345', 'hall-of-science'],
+  ['46.0716174,-118.3302624', 'harper-joy'],
+  ['46.0714966,-118.3302424', 'harper-joy'],
+  ['46.0708126,-118.3303266', 'climbing-center'],
+  ['46.0692411,-118.3281914', 'multicultural-house'],
+  ['46.0688378,-118.3279106', 'writing-house'],
+  ['46.0685486,-118.3279188', 'writing-house'],
+  ['46.0699763,-118.3309819', 'hunter'],
+  ['46.0697083,-118.3309038', 'hunter'],
+  ['46.0696395,-118.3308904', 'hunter'],
+]);
+
 test('outdoor paths around every stop trigger without entering a building', () => {
   let previouslyMissed = 0;
   for (const [id, points] of Object.entries(outdoorPaths)) {
@@ -236,7 +259,8 @@ test('outdoor paths around every stop trigger without entering a building', () =
       const distance = footprintDistance(point, stop.zone.outline);
       assert.ok(distance > 0, `${id}: checkpoint must be outdoors`);
       if (distance > stop.zone.buffer) previouslyMissed++;
-      assert.equal(locate(point, landmarks).active?.id, id, `${id}: path ${point}`);
+      assert.equal(locate(point, [stop]).active?.id, id, `${id}: outdoor coverage ${point}`);
+      assert.equal(locate(point, landmarks).active?.id, sharedPathOwners.get(point.join(',')) ?? id, `${id}: shared path ${point}`);
     }
   }
   assert.ok(previouslyMissed >= 15, 'checks paths missed by the former wall buffer');
@@ -246,14 +270,20 @@ test('demo listening points are outside footprints and inside the outdoor listen
   for (const stop of landmarks.filter((item) => item.zone)) {
     assert.ok(footprintDistance(stop.listeningPosition, stop.zone.outline) > 0);
     assert.equal(locate(stop.listeningPosition, landmarks).active?.id, stop.id);
-    for (const neighbor of landmarks.filter((item) => item.id !== stop.id))
-      assert.equal(locate(stop.listeningPosition, landmarks, neighbor.id).active?.id, stop.id);
+    for (const neighbor of landmarks.filter((item) => item.id !== stop.id)) {
+      const active = locate(stop.listeningPosition, landmarks, neighbor.id).active?.id;
+      if ((stop.id === 'beta-theta-pi' && neighbor.id === 'olin') || (stop.id === 'writing-house' && neighbor.id === 'cleveland')) {
+        assert.equal(active, neighbor.id, 'the shared sidewalk retains the current story through its exit margin');
+        assert.equal(locate([47.6, -122.3], landmarks, neighbor.id).active, null, 'departure releases the neighbor');
+        assert.equal(locate(stop.listeningPosition, landmarks).active?.id, stop.id, 'arrival after departure selects the new story');
+      } else assert.equal(active, stop.id, `${stop.id} arriving from ${neighbor.id}`);
+    }
   }
 });
 
 test('residence overlaps choose one story, retain it through drift, and release on departure', () => {
   for (const { point, closest, other, departure } of [
-    { point: [46.0688251, -118.3291148], closest: 'anderson', other: 'cleveland', departure: [46.0688378, -118.3279106] },
+    { point: [46.0688251, -118.3291148], closest: 'anderson', other: 'cleveland', departure: [46.0683301, -118.3285186] },
     { point: [46.0725757, -118.3267989], closest: 'jewett', other: 'lyman', departure: [46.0723041, -118.326654] },
     { point: [46.0687506, -118.3299415], closest: 'stanton', other: 'anderson', departure: [46.0690033, -118.3296454] },
   ]) {
@@ -267,7 +297,7 @@ test('residence overlaps choose one story, retain it through drift, and release 
   }
   // Keep the open space between Douglas and Cleveland separate from either stop.
   assert.equal(locate([46.0694, -118.3287], landmarks).active, null);
-  assert.equal(locate([46.07335, -118.3269], landmarks).active, null);
+  assert.equal(locate([46.07335, -118.3269], landmarks).active?.id, 'tau-kappa-epsilon');
 });
 
 test('shared path selects one nearest building and holds it through small GPS drift', () => {
@@ -275,5 +305,5 @@ test('shared path selects one nearest building and holds it through small GPS dr
   assert.equal(locate(point, landmarks).active?.id, 'penrose');
   for (const [x, y] of [[2, 0], [-2, 0], [0, 2], [0, -2]])
     assert.equal(locate(offset(point, x, y), landmarks, 'penrose').active?.id, 'penrose');
-  assert.equal(locate([46.0711493, -118.3279425], landmarks, 'penrose').active?.id, 'tennis');
+  assert.equal(locate([46.0711493, -118.3279425], landmarks, 'penrose').active?.id, 'maxey');
 });
