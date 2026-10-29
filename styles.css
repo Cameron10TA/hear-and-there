@@ -595,10 +595,68 @@ figure {
   margin: auto;
 }
 .map-section {
+  display: flex;
+  flex-direction: column;
   position: relative;
   min-height: 0;
   isolation: isolate;
   background: #e9eddf;
+}
+.map-canvas {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  isolation: isolate;
+}
+.map-filters {
+  background: white;
+  border-bottom: 1px solid var(--line);
+  padding: 10px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 18px;
+}
+.map-filters > label:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.map-filters select,
+.tour-panel select {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 8px;
+  color: var(--blue);
+  background: white;
+  font: 16px var(--sans);
+}
+.map-filters select {
+  max-width: 185px;
+}
+.map-filters p {
+  flex-basis: 100%;
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 5px 0 0;
+  color: var(--muted);
+}
+.unlistened-filter {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.unlistened-filter input {
+  width: 19px;
+  height: 19px;
+  margin: 0;
+  flex: none;
+  accent-color: var(--blue);
 }
 .map-section #map {
   width: 100%;
@@ -607,30 +665,6 @@ figure {
   inset: 0;
   z-index: 0;
   background: #e6e9df;
-}
-.map-caption {
-  position: absolute;
-  top: 24px;
-  left: 28px;
-  padding: 16px 20px;
-  background: #fffef5f2;
-  box-shadow: 0 3px 20px #17335212;
-  border: 1px solid #fff8;
-  border-radius: 8px;
-  max-width: calc(100% - 108px);
-  pointer-events: none;
-}
-.map-caption .eyebrow {
-  display: block;
-  font-size: 8px;
-  letter-spacing: 1.3px;
-  margin-bottom: 7px;
-}
-.map-caption strong {
-  font-family: var(--serif);
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1.1;
 }
 .map-recenter {
   position: absolute;
@@ -711,6 +745,31 @@ figure {
 .landmark-marker {
   background: transparent !important;
   border: 0 !important;
+  display: grid !important;
+  place-items: center;
+}
+.landmark-cluster {
+  border: 0;
+  background: transparent;
+}
+.landmark-marker:focus-visible,
+.landmark-cluster:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+.cluster-inner {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff8dc;
+  border: 3px solid var(--blue);
+  box-shadow: 0 0 0 4px #ffc62775, 0 3px 12px #00286833;
+  color: var(--blue);
+  font-size: 15px;
+  font-weight: 700;
 }
 .marker-inner {
   background: var(--blue);
@@ -807,6 +866,62 @@ figure {
 .collection {
   margin-top: 24px;
 }
+.tour-panel {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.tour-panel > label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tour-panel select {
+  width: 100%;
+}
+#tour-details > p {
+  margin: 10px 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+#tour-details .tour-duration,
+#tour-details #tour-progress {
+  font-size: 11px;
+  font-weight: 600;
+  color: #366349;
+}
+.tour-next {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  background: var(--blue);
+  color: white;
+  border-radius: 5px;
+  font: 12px/1.5 var(--sans);
+}
+.tour-next:disabled {
+  opacity: .6;
+  cursor: default;
+}
+#tour-stop-list {
+  padding-left: 24px;
+  margin: 4px 0 12px;
+}
+.tour-stop-button {
+  min-height: 44px;
+  padding: 8px 5px;
+  text-align: left;
+  background: transparent;
+  color: var(--blue);
+  font: 12px/1.5 var(--sans);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+#tour-details > .tour-note {
+  font-size: 10px;
+}
 .collection-heading h2 {
   margin: 0 0 8px;
   font: 400 23px/1.2 var(--serif);
@@ -851,10 +966,11 @@ figure {
 }
 .place-search-field,
 .place-results,
-.filter-note {
+.filter-note,
+.place-filters .unlistened-filter {
   grid-column: 1 / -1;
 }
-.place-filters input,
+.place-filters input:not([type='checkbox']),
 .place-filters select {
   width: 100%;
   min-width: 0;
@@ -1623,12 +1739,12 @@ dialog li p {
     min-height: 0;
   }
   .map-section {
-    height: clamp(190px, 24dvh, 220px);
+    height: clamp(310px, 40dvh, 370px);
     min-height: 0;
     max-height: none;
   }
-  .map-caption {
-    display: none;
+  .map-filters {
+    padding: 8px 5%;
   }
   .map-legend {
     left: 12px;
@@ -1778,7 +1894,7 @@ dialog li p {
     padding: 10px 6%;
   }
   .map-section {
-    height: 150px;
+    height: 300px;
   }
   .stop-list {
     gap: 6px;

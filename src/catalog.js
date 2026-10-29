@@ -29,3 +29,9 @@ export function matchesPlace(stop, query = '', category = 'all') {
   return (category === 'all' || placeCategory(stop) === category) &&
     normalize(query).split(/\s+/).every((word) => name.includes(word));
 }
+
+export function matchesFilters(stop, { query = '', category = 'all', tour, unlistenedOnly = false, completed = new Set() } = {}) {
+  return matchesPlace(stop, query, category) &&
+    (!tour || tour.stopIds.includes(stop.id)) &&
+    (!unlistenedOnly || !completed.has(stop.id));
+}
