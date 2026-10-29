@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { StoryAudio } from '../src/audio.js';
 import { landmarks, simulation } from '../src/landmarks.js';
+import { tours } from '../src/tours.js';
 
 // Exercise the real app event handlers with a minimal DOM and fictional GPS.
 // Audio hardware/rendering are covered separately by audio tests and browser QA.
@@ -28,9 +29,10 @@ class Element {
     this.children.push(...children);
   }
   replaceChildren(...children) {
+    if (this.children.includes(globalThis.document?.activeElement)) document.activeElement = null;
     this.children = children;
   }
-  focus() {}
+  focus() { document.activeElement = this; }
   scrollIntoView() {}
   async fire(type, extra = {}) {
     await this.listeners.get(type)?.({ target: this, ...extra });
@@ -38,7 +40,7 @@ class Element {
 }
 
 let sequence = 0;
-async function setup(t, { failedStop, prepareGate, unlockGate, withMap = false } = {}) {
+async function setup(t, { failedStop, prepareGate, unlockGate, withMap = false, mapZoom = 19 } = {}) {
   const nodes = new Map();
   const get = (id) => {
     if (!nodes.has(id)) nodes.set(id, new Element());
@@ -80,17 +82,27 @@ async function setup(t, { failedStop, prepareGate, unlockGate, withMap = false }
     },
   };
   const markers = [];
+  let createdMap;
   if (withMap) {
     const layer = () => Object.assign(new Element(), {
-      addTo() { return this; },
+      layers: new Set(), zoom: mapZoom,
+      addTo(map) { map.layers.add(this); this.listeners.get('add')?.(); return this; },
       on(type, callback) { this.addEventListener(type, callback); },
       getElement() { return this; },
       setIcon(icon) { this.icon = icon; },
-      bindTooltip() {}, setStyle() {}, setLatLng() {}, setRadius() {},
-      fitBounds() {}, getZoom: () => 17, invalidateSize() {}, remove() {}, removeLayer() {},
+      bindTooltip() {}, setStyle() {}, setLatLng() {}, setRadius() {}, setZIndexOffset() {},
+      fitBounds() {}, getZoom() { return this.zoom; }, invalidateSize() {}, remove() { this.layers.clear(); },
+      hasLayer(item) { return this.layers.has(item); },
+      removeLayer(item) { this.layers.delete(item); },
+      setView(coordinates, zoom) { this.zoom = zoom; this.listeners.get('zoomend')?.(); },
+      project([lat, lng]) {
+        const scale = 256 * 2 ** this.zoom;
+        const sine = Math.sin(lat * Math.PI / 180);
+        return { x: (lng + 180) / 360 * scale, y: (0.5 - Math.log((1 + sine) / (1 - sine)) / (4 * Math.PI)) * scale };
+      },
     });
     globals.L = {
-      map: layer, tileLayer: layer, polygon: layer, circle: layer,
+      map: () => (createdMap = layer()), tileLayer: layer, polygon: layer, circle: layer,
       divIcon: (options) => options,
       control: { zoom: layer },
       marker: (coordinates, options) => {
@@ -135,7 +147,7 @@ async function setup(t, { failedStop, prepareGate, unlockGate, withMap = false }
     this.onChange();
   });
   await import(`../src/app.js?session-test=${sequence++}`);
-  return { get, permission, preparation, playback, markers,
+  return { get, permission, preparation, playback, markers, map: () => createdMap,
     finish: () => {
       player.pending = false;
       player.playing = false;
@@ -217,6 +229,163 @@ test('a missing recording does not block another story on arrival or manual play
 
 const flush = () => new Promise((resolve) => setImmediate(resolve));
 
+test('collections scope and order the list, reuse completion, and keep progress across modes', async (t) => {
+  const { get, playback, finish } = await setup(t);
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  get('place-search').value = 'no match';
+  await get('place-search').fire('input');
+  get('tour-select').value = 'first-visit';
+  await get('tour-select').fire('change');
+  assert.equal(get('place-search').value, '');
+  assert.equal(get('place-results').textContent, '6 of 6 places');
+  assert.deepEqual(get('stop-list').children.filter((node) => !node.hidden).map((node) => node.id), tours[0].stopIds.map((id) => `stop-${id}`));
+  assert.match(get('tour-duration').textContent, /6 stops · About 3 min/);
+  assert.equal(playback.mock.callCount(), 0, 'choosing a collection alone never starts audio');
+  await get('tour-next').fire('click');
+  await flush();
+  assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'styx');
+  assert.equal(get('tour-progress').textContent, '0 of 6 stories completed');
+  finish();
+  assert.equal(get('tour-progress').textContent, '1 of 6 stories completed');
+  assert.equal(get('tour-next').textContent, 'Listen next: Penrose Library');
+  get('tour-select').value = 'arts';
+  await get('tour-select').fire('change');
+  assert.equal(get('tour-progress').textContent, '1 of 7 stories completed');
+  assert.equal(get('tour-next').textContent, 'Listen next: Fouts Center for Visual Arts');
+  await get('switch-mode').fire('click');
+  assert.equal(get('tour-select').value, 'arts');
+  assert.equal(get('tour-progress').textContent, '1 of 7 stories completed');
+  await get('end-button').fire('click');
+});
+
+test('finishing a themed collection shows its own completion goal without completing the full campus', async (t) => {
+  const { get, finish } = await setup(t);
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  get('tour-select').value = 'first-visit';
+  await get('tour-select').fire('change');
+  for (const id of tours[0].stopIds) {
+    await get('tour-next').fire('click');
+    await flush();
+    assert.equal(get('story-title').textContent, landmarks.find((stop) => stop.id === id).name);
+    finish();
+  }
+  assert.equal(get('tour-progress').textContent, '6 of 6 stories completed');
+  assert.equal(get('tour-complete').hidden, false);
+  assert.equal(get('tour-next').disabled, true);
+  assert.equal(get('collection-complete').hidden, true);
+  get('place-unlistened').checked = true;
+  await get('place-unlistened').fire('change');
+  assert.equal(get('place-results').textContent, '0 of 6 places');
+  assert.match(get('no-place-results').textContent, /Turn off Not listened/);
+  get('tour-select').value = 'student-life';
+  await get('tour-select').fire('change');
+  assert.equal(get('tour-progress').textContent, '2 of 7 stories completed');
+  assert.equal(get('tour-next').disabled, false);
+  assert.equal(get('place-unlistened').checked, false);
+  await get('end-button').fire('click');
+});
+
+test('map and list share category/search/unlistened filters while keeping a current story visible', async (t) => {
+  const { get, markers, map, finish } = await setup(t, { withMap: true });
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  const shown = () => markers.filter((marker) => map().hasLayer(marker));
+  get('map-category').value = 'arts';
+  await get('map-category').fire('change');
+  assert.equal(get('place-category').value, 'arts');
+  assert.equal(get('place-results').textContent, '7 of 56 places');
+  assert.equal(shown().length, 7);
+  get('place-search').value = 'penrose';
+  await get('place-search').fire('input');
+  assert.equal(shown().length, 0);
+  await get('reset-place-filters').fire('click');
+  assert.equal(get('map-category').value, 'all');
+  await get('stop-list').children.find((node) => node.id === 'stop-penrose').fire('click');
+  await flush();
+  const selectedButton = get('stop-list').children.find((node) => node.id === 'stop-penrose');
+  selectedButton.focus();
+  finish();
+  assert.equal(document.activeElement, selectedButton, 'completion keeps keyboard focus on a still-visible card');
+  get('map-unlistened').checked = true;
+  await get('map-unlistened').fire('change');
+  assert.equal(get('place-unlistened').checked, true);
+  assert.equal(get('place-results').textContent, '55 of 56 places');
+  assert.equal(get('stop-list').children.find((node) => node.id === 'stop-penrose').hidden, true);
+  assert.equal(document.activeElement, get('play-button'), 'hiding a focused completed card moves focus to its available player');
+  assert.ok(shown().some((marker) => marker.options.title === 'Listen to Penrose Library'));
+  assert.match(get('map-results').textContent, /Current story\/location kept visible/);
+  get('place-category').value = 'housing';
+  await get('place-category').fire('change');
+  assert.equal(get('map-category').value, 'housing');
+  assert.equal(get('place-results').textContent, '28 of 56 places');
+  assert.equal(shown().length, 29, 'the selected library is kept alongside the matching housing pins');
+  assert.equal(get('story-title').textContent, 'Penrose Library');
+  get('tour-select').value = 'first-visit';
+  await get('tour-select').fire('change');
+  assert.match(markers.find((marker) => marker.options.title === 'Listen to Memorial Building').icon.html, />03</);
+  get('tour-select').value = 'arts';
+  await get('tour-select').fire('change');
+  assert.match(markers.find((marker) => marker.options.title === 'Listen to Penrose Library').icon.html, />•</, 'a current place outside the tour does not duplicate a tour pin number');
+  await get('end-button').fire('click');
+});
+
+test('a nearby arrival outside the selected collection and visibility filters still plays and stays visible', async (t) => {
+  const { get, move, markers, map, playback } = await setup(t, { withMap: true });
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  get('tour-select').value = 'arts';
+  await get('tour-select').fire('change');
+  get('place-search').value = 'no matches';
+  await get('place-search').fire('input');
+  move(landmarks.find((stop) => stop.id === 'cleveland').listeningPosition);
+  await flush();
+  assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'cleveland');
+  assert.equal(get('place-results').textContent, '0 of 7 places');
+  assert.equal(get('story-title').textContent, 'Cleveland Commons');
+  assert.equal(markers.filter((marker) => map().hasLayer(marker)).length, 2, 'the current story pin and visitor position remain');
+  await get('end-button').fire('click');
+});
+
+test('a numbered map group zooms in by keyboard and never starts narration', async (t) => {
+  const { get, markers, map, playback } = await setup(t, { withMap: true, mapZoom: 17 });
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  const cluster = markers.find((marker) => marker.options.icon.className === 'landmark-cluster' && map().hasLayer(marker));
+  assert.ok(cluster);
+  assert.match(cluster.getAttribute('aria-label'), /Zoom into \d+ places/);
+  cluster.onkeydown({ key: 'Enter', preventDefault() {}, stopPropagation() {} });
+  assert.equal(map().getZoom(), 19);
+  assert.equal(markers.filter((marker) => marker.options.icon.className === 'landmark-cluster' && map().hasLayer(marker)).length, 0);
+  assert.equal(markers.filter((marker) => map().hasLayer(marker)).length, landmarks.length);
+  assert.equal(playback.mock.callCount(), 0);
+  await get('end-button').fire('click');
+});
+
+for (const ending of ['end', 'revoke']) {
+  test(`${ending} clears the collection and both map/list filter controls`, async (t) => {
+    const { get, permission } = await setup(t);
+    await get('consent-button').fire('click');
+    await get('start-button').fire('click');
+    get('tour-select').value = 'arts';
+    await get('tour-select').fire('change');
+    get('map-category').value = 'arts';
+    await get('map-category').fire('change');
+    get('map-unlistened').checked = true;
+    await get('map-unlistened').fire('change');
+    if (ending === 'end') await get('end-button').fire('click');
+    else { permission.state = 'denied'; permission.onchange(); }
+    assert.equal(get('tour-select').value, '');
+    assert.equal(get('tour-details').hidden, true);
+    assert.equal(get('map-category').value, 'all');
+    assert.equal(get('place-category').value, 'all');
+    assert.equal(get('map-unlistened').checked, false);
+    assert.equal(get('place-unlistened').checked, false);
+    assert.equal(get('place-results').textContent, '56 of 56 places');
+  });
+}
+
 test('a place card starts narration, keeps the manual choice through GPS changes, and can return to arrivals', async (t) => {
   const { get, playback, move } = await setup(t);
   await get('consent-button').fire('click');
@@ -252,7 +421,7 @@ test('map click and keyboard activation play the matching story, with accessible
   assert.match(reid.icon.html, /listened/);
   assert.match(reid.getAttribute('aria-label'), /Listened/);
   const penrose = markers.find((marker) => marker.options.title === 'Listen to Penrose Library');
-  await penrose.listeners.get('keydown')({ key: 'Enter', preventDefault() {}, stopPropagation() {} });
+  await penrose.onkeydown({ key: 'Enter', preventDefault() {}, stopPropagation() {} });
   await flush();
   assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'penrose');
   await get('end-button').fire('click');

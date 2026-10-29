@@ -135,27 +135,35 @@
         </div>
         <div class="explorer-layout">
           <div class="map-section">
-            <div id="map" role="region" aria-label="Interactive map of Whitman College"></div>
-            <div class="map-caption">
-              <span class="eyebrow">YOUR CAMPUS, AT YOUR PACE</span
-              ><strong>Follow your curiosity.</strong>
+            <div class="map-filters" role="group" aria-label="Filter map and places">
+              <label for="map-category">Category
+                <select id="map-category" aria-controls="map stop-list"><option value="all">All categories</option></select>
+              </label>
+              <label class="unlistened-filter" for="map-unlistened">
+                <input id="map-unlistened" type="checkbox" aria-controls="map stop-list" />
+                Not listened to yet
+              </label>
+              <p id="map-results" role="status" aria-live="polite" aria-atomic="true">56 matching places</p>
             </div>
-            <button
-              id="recenter-button"
-              class="map-recenter"
-              aria-label="Show the campus and your nearby position"
-              title="Show campus"
-            >
-              ⌖
-            </button>
-            <div class="map-legend">
-              <span><i class="legend-you"></i>You</span
-              ><span><i class="legend-stop"></i>Audio landmark</span>
-              <span><i class="legend-zone"></i>Listening area</span>
-            </div>
-            <div id="map-error" class="map-error" hidden>
-              <span id="map-error-message" role="status">Map tiles aren’t available. Landmark distances and audio still work.</span>
-              <button id="map-retry" class="text-button">Retry map</button>
+            <div class="map-canvas">
+              <div id="map" role="region" tabindex="-1" aria-label="Interactive map of Whitman College"></div>
+              <button
+                id="recenter-button"
+                class="map-recenter"
+                aria-label="Show the campus and your nearby position"
+                title="Show campus"
+              >
+                ⌖
+              </button>
+              <div class="map-legend">
+                <span><i class="legend-you"></i>You</span
+                ><span><i class="legend-stop"></i>Audio landmark</span>
+                <span><i class="legend-zone"></i>Listening area</span>
+              </div>
+              <div id="map-error" class="map-error" hidden>
+                <span id="map-error-message" role="status">Map tiles aren’t available. Landmark distances and audio still work.</span>
+                <button id="map-retry" class="text-button">Retry map</button>
+              </div>
             </div>
           </div>
           <aside class="explorer-panel" aria-label="Landmark stories and audio">
@@ -232,6 +240,24 @@
               <strong>Choose a place to start listening.</strong>
               <p>Tap a map marker or a place below. Nearby stories also play automatically.</p>
             </div>
+            <section class="tour-panel" aria-label="Themed story collections">
+              <label for="tour-select">Choose a collection</label>
+              <select id="tour-select" aria-controls="tour-details stop-list map">
+                <option value="">All campus stories</option>
+              </select>
+              <div id="tour-details" hidden>
+                <p id="tour-description"></p>
+                <p id="tour-duration" class="tour-duration"></p>
+                <p id="tour-progress" role="status" aria-live="polite" aria-atomic="true"></p>
+                <p id="tour-complete" class="collection-complete" hidden>Collection complete. Choose another theme or replay a favorite.</p>
+                <button id="tour-next" class="tour-next">Listen next</button>
+                <details id="tour-stops">
+                  <summary>Suggested story order <span aria-hidden="true">+</span></summary>
+                  <ol id="tour-stop-list"></ol>
+                </details>
+                <p class="tour-note">Narration time excludes walking. Listen in any order; this collection provides no walking directions.</p>
+              </div>
+            </section>
             <section class="collection" aria-labelledby="collection-title">
               <div class="collection-heading">
                 <h2 id="collection-title">Find your next story</h2>
@@ -251,8 +277,12 @@
                   </select>
                 </label>
                 <button id="reset-place-filters" class="filter-reset" type="button" disabled>Reset filters</button>
+                <label class="unlistened-filter" for="place-unlistened">
+                  <input id="place-unlistened" type="checkbox" aria-controls="map stop-list" />
+                  Not listened to yet
+                </label>
                 <p id="place-results" class="place-results" role="status" aria-live="polite" aria-atomic="true"></p>
-                <p class="filter-note">Filters narrow this list. Choose a place to listen.</p>
+                <p class="filter-note">Collections and filters narrow the map and list. Nearby stories still play; your current story stays available.</p>
               </div>
               <p id="no-place-results" class="no-place-results" hidden>No places match. Try another name or category.</p>
               <div id="stop-list" class="stop-list"></div>

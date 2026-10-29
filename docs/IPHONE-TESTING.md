@@ -35,6 +35,23 @@ Record the iPhone model, iOS version, date, and result in a GitHub issue. Do not
   a manually selected story is playing or loading. Physical-device results remain
   pending until this checklist is actually run on a phone.
 
+## Themed collections and map groups
+
+- Check all three themed collections. Their narration estimates exclude walking.
+  Use Listen next and the suggested-order buttons, finish a story, switch themes,
+  and complete a collection. Shared completions must remain counted. Merely
+  selecting a theme or filter must not start audio or preload its recordings.
+- Use category and Not listened to yet above the map and in the list. Confirm
+  both stay synchronized, long names fit, zero matches have useful guidance,
+  and the current story remains playable even when its pin is kept outside filters.
+- Tap a numbered group to zoom in; no story should start from a group. Zoom fully
+  in to expose individual pins. With VoiceOver, verify group counts, names, and
+  individual pin actions after filtering and re-adding layers. Check that the
+  44-pixel targets work with touch, orientation changes, and larger text.
+- Listening boundaries have not changed. While filters hide a nearby place,
+  confirm automatic arrival still works and exposes the current place's pin.
+  Check pauses, resumed sessions, map tile failure, and progress reset on end/revoke.
+
 ## Residence paths and shared boundaries
 
 Check the five residence halls outdoors as well: Jewett's north sidewalk and

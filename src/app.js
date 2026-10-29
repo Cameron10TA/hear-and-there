@@ -8,8 +8,10 @@ import {
   zoneBufferPixels,
 } from './proximity.js';
 import { StoryAudio } from './audio.js';
-import { matchesPlace, placeCategories } from './catalog.js';
+import { matchesFilters, placeCategories } from './catalog.js';
 import { ListeningProgress, bonusTrail } from './progress.js';
+import { tours, findTour, tourSummary } from './tours.js';
+import { groupMapStops } from './map-pins.js';
 
 const $ = (id) => document.getElementById(id);
 $('stop-count').textContent = String(landmarks.length);
@@ -26,6 +28,8 @@ const state = {
   manualStory: false,
   placeQuery: '',
   placeCategory: 'all',
+  tourId: '',
+  unlistenedOnly: false,
   visited: new Set(),
   elapsed: 0,
   demoMoving: true,
@@ -45,11 +49,14 @@ const state = {
 const progress = new ListeningProgress();
 const audio = new StoryAudio(renderAudio, completeStory);
 const stopButtons = new Map();
+const tourButtons = new Map();
 let map,
   tileLayer,
   userMarker,
   accuracyCircle,
   stopMarkers = new Map(),
+  stopAreas = new Map(),
+  groupMarkers = new Map(),
   lastLocationRender = 0;
 const time = (seconds) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
@@ -108,6 +115,9 @@ function resetSession() {
   state.activeId = null;
   state.selectedId = null;
   state.manualStory = false;
+  state.tourId = '';
+  $('tour-select').value = '';
+  buildTourStops();
   resetPlaceFilters();
   state.audioError = '';
   state.positionError = '';
@@ -116,6 +126,7 @@ function resetSession() {
   renderProgress();
   $('trail-details').open = false;
   $('simulation-jumps').open = false;
+  $('tour-stops').open = false;
   state.elapsed = 0;
   state.demoMoving = true;
   state.fix = null;
@@ -132,6 +143,8 @@ function resetSession() {
     map = null;
     tileLayer = null;
     stopMarkers.clear();
+    stopAreas.clear();
+    groupMarkers.clear();
     userMarker = null;
     accuracyCircle = null;
   }
@@ -272,23 +285,18 @@ function createMap() {
         dashArray: null,
         lineJoin: 'round',
         weight: zoneBufferPixels(stop, map.getZoom()) * 2,
-      }).addTo(map);
-      L.polygon(outline, { ...zoneStyle, fill: false }).addTo(map);
+      });
+      const edge = L.polygon(outline, { ...zoneStyle, fill: false });
+      stopAreas.set(stop.id, [area, edge]);
       map.on('zoomend', () => area.setStyle({ weight: zoneBufferPixels(stop, map.getZoom()) * 2 }));
-    } else L.circle(stop.coordinates, { ...zoneStyle, radius: stop.radius }).addTo(map);
+    } else stopAreas.set(stop.id, [L.circle(stop.coordinates, { ...zoneStyle, radius: stop.radius })]);
     const marker = L.marker(stop.coordinates, {
       icon: landmarkIcon(index, false),
       title: `Listen to ${stop.name}`,
       alt: `Listen to ${stop.name}`,
       keyboard: true,
-    }).addTo(map);
-    marker.getElement().setAttribute('aria-label', `Listen to ${stop.name}`);
-    marker.getElement().addEventListener('keydown', (event) => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
-      event.preventDefault();
-      event.stopPropagation();
-      marker.fire('click');
     });
+    marker.on('add', () => labelMarker(marker, `Listen to ${stop.name}`));
     marker.bindTooltip(stop.name, {
       permanent: false,
       direction: 'bottom',
@@ -300,19 +308,39 @@ function createMap() {
     });
     stopMarkers.set(stop.id, marker);
   });
+  map.on('zoomend', renderMarkers);
+  renderMarkers();
   requestAnimationFrame(() => map.invalidateSize());
+}
+
+function labelMarker(marker, label) {
+  const element = marker.getElement();
+  if (!element) return;
+  element.setAttribute('aria-label', label);
+  element.setAttribute('title', label);
+  // Re-adding a filtered marker can create a new element. Assign one handler.
+  element.onkeydown = (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    event.stopPropagation();
+    marker.fire('click');
+  };
 }
 
 function reducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 function landmarkIcon(index, active) {
-  const listened = progress.completed.has(landmarks[index].id);
+  const stop = landmarks[index];
+  const listened = progress.completed.has(stop.id);
+  const tour = findTour(state.tourId);
+  const order = tour?.stopIds.indexOf(stop.id);
+  const label = tour ? (order >= 0 ? String(order + 1).padStart(2, '0') : '•') : String(index + 1).padStart(2, '0');
   return L.divIcon({
     className: 'landmark-marker',
-    html: `<span class="marker-inner${active ? ' active' : ''}${listened ? ' listened' : ''}">${String(index + 1).padStart(2, '0')}${listened ? '<i aria-hidden="true">✓</i>' : ''}</span>`,
-    iconSize: [28, 28],
-    iconAnchor: [14, 14],
+    html: `<span class="marker-inner${active ? ' active' : ''}${listened ? ' listened' : ''}">${label}${listened ? '<i aria-hidden="true">✓</i>' : ''}</span>`,
+    iconSize: [44, 44],
+    iconAnchor: [22, 22],
   });
 }
 
@@ -356,14 +384,62 @@ function buildStopList() {
 }
 
 function renderMarkers() {
+  const matching = landmarks.filter(visiblePlace);
+  if (!map || !state.running) {
+    $('map-results').textContent = `${matching.length} matching places`;
+    return;
+  }
+  const pinned = new Set([state.activeId, state.selectedId].filter(Boolean));
+  const visible = landmarks.filter((stop) => visiblePlace(stop) || pinned.has(stop.id));
+  const groups = groupMapStops(visible, (coordinates) => map.project(coordinates), map.getZoom(), pinned);
+  const singleIds = new Set(groups.filter((group) => group.stops.length === 1).map((group) => group.stops[0].id));
+  const clusters = groups.filter((group) => group.stops.length > 1);
+  const keys = new Set(clusters.map((group) => group.key));
+  for (const [key, marker] of groupMarkers) {
+    if (!keys.has(key)) {
+      map.removeLayer(marker);
+      groupMarkers.delete(key);
+    }
+  }
   landmarks.forEach((stop, index) => {
     const marker = stopMarkers.get(stop.id);
     if (!marker) return;
-    marker.setIcon(landmarkIcon(index, state.activeId === stop.id));
-    const label = `Listen to ${stop.name}${progress.completed.has(stop.id) ? ' · Listened' : ''}`;
-    marker.getElement().setAttribute('aria-label', label);
-    marker.getElement().setAttribute('title', label);
+    const shown = singleIds.has(stop.id);
+    setLayerVisible(marker, shown);
+    for (const area of stopAreas.get(stop.id) || []) setLayerVisible(area, shown);
+    if (shown) {
+      marker.setIcon(landmarkIcon(index, state.activeId === stop.id));
+      marker.setZIndexOffset(pinned.has(stop.id) ? 1000 : 0);
+      labelMarker(marker, `Listen to ${stop.name}${progress.completed.has(stop.id) ? ' · Listened' : ''}`);
+    }
   });
+  for (const group of clusters) {
+    if (groupMarkers.has(group.key)) continue;
+    const count = group.stops.length;
+    const label = `Zoom into ${count} places: ${group.stops.slice(0, 3).map((stop) => stop.name).join(', ')}${count > 3 ? ', and more' : ''}`;
+    const marker = L.marker(group.coordinates, {
+      icon: L.divIcon({
+        className: 'landmark-cluster', html: `<span class="cluster-inner">${count}</span>`,
+        iconSize: [44, 44], iconAnchor: [22, 22],
+      }),
+      title: label, keyboard: true,
+    });
+    marker.on('add', () => labelMarker(marker, label));
+    marker.on('click', () => {
+      map.setView(group.coordinates, Math.min(19, map.getZoom() + 2), { animate: !reducedMotion() });
+      $('map').focus({ preventScroll: true });
+    });
+    marker.bindTooltip(`${count} places · zoom in`, { direction: 'top', className: 'landmark-tooltip' });
+    marker.addTo(map);
+    groupMarkers.set(group.key, marker);
+  }
+  const kept = visible.length - matching.length;
+  $('map-results').textContent = `${matching.length} matching places${clusters.length ? ' · Numbered groups zoom in' : ''}${kept ? ' · Current story/location kept visible' : ''}`;
+}
+
+function setLayerVisible(layer, visible) {
+  if (visible && !map.hasLayer(layer)) layer.addTo(map);
+  else if (!visible && map.hasLayer(layer)) map.removeLayer(layer);
 }
 
 function renderProgress() {
@@ -383,6 +459,8 @@ function renderProgress() {
     }
   }
   $('story-listened').hidden = !progress.completed.has(state.selectedId);
+  renderTour();
+  filterPlaces();
 }
 
 function completeStory(id) {
@@ -390,7 +468,6 @@ function completeStory(id) {
   const wasUnlocked = progress.bonusUnlocked;
   progress.finish(id);
   renderProgress();
-  renderMarkers();
   if (!wasUnlocked && progress.bonusUnlocked) {
     $('trail-details').open = true;
     announce('You found the hidden thread. Open the bonus below the place list.');
@@ -398,45 +475,138 @@ function completeStory(id) {
 }
 
 function filterPlaces() {
+  const tour = findTour(state.tourId);
+  const scope = tour ? tourSummary(tour, landmarks).stops : landmarks;
+  const ordered = [...scope, ...landmarks.filter((stop) => !scope.includes(stop))];
+  if (stopButtons.size) {
+    const list = $('stop-list');
+    const buttons = ordered.map((stop) => stopButtons.get(stop.id));
+    // Keep focused buttons attached when only visibility or completion changes.
+    if (buttons.some((button, index) => button !== list.children[index])) list.replaceChildren(...buttons);
+  }
   let count = 0;
   for (const stop of landmarks) {
-    const matches = matchesPlace(stop, state.placeQuery, state.placeCategory);
+    const matches = visiblePlace(stop);
     const button = stopButtons.get(stop.id);
-    if (button) button.hidden = !matches;
+    if (button) {
+      if (!matches && document.activeElement === button) $('play-button').focus({ preventScroll: true });
+      button.hidden = !matches;
+    }
     if (matches) count++;
   }
-  $('place-results').textContent = `${count} of ${landmarks.length} places`;
+  $('place-results').textContent = `${count} of ${scope.length} places`;
   $('no-place-results').hidden = count !== 0;
-  $('reset-place-filters').disabled = !state.placeQuery && state.placeCategory === 'all';
+  $('no-place-results').textContent = state.unlistenedOnly
+    ? 'No unlistened places match. Turn off Not listened to yet, reset filters, or choose another collection.'
+    : 'No places match. Try another name, category, or collection.';
+  $('reset-place-filters').disabled = !state.placeQuery && state.placeCategory === 'all' && !state.unlistenedOnly;
+  renderMarkers();
+}
+
+function visiblePlace(stop) {
+  return matchesFilters(stop, {
+    query: state.placeQuery, category: state.placeCategory, tour: findTour(state.tourId),
+    unlistenedOnly: state.unlistenedOnly, completed: progress.completed,
+  });
 }
 
 function resetPlaceFilters() {
   state.placeQuery = '';
   state.placeCategory = 'all';
+  state.unlistenedOnly = false;
   $('place-search').value = '';
   $('place-category').value = 'all';
+  $('map-category').value = 'all';
+  $('place-unlistened').checked = false;
+  $('map-unlistened').checked = false;
   filterPlaces();
 }
 
-$('place-category').replaceChildren();
-for (const category of placeCategories) {
-  const option = document.createElement('option');
-  option.value = category.id;
-  option.textContent = category.label;
-  $('place-category').append(option);
+for (const id of ['place-category', 'map-category']) {
+  $(id).replaceChildren();
+  for (const category of placeCategories) {
+    const option = document.createElement('option');
+    option.value = category.id;
+    option.textContent = category.label;
+    $(id).append(option);
+  }
+  $(id).value = 'all';
+  $(id).addEventListener('change', () => {
+    state.placeCategory = $(id).value;
+    $('place-category').value = state.placeCategory;
+    $('map-category').value = state.placeCategory;
+    filterPlaces();
+  });
 }
-$('place-category').value = 'all';
+for (const id of ['place-unlistened', 'map-unlistened']) {
+  $(id).addEventListener('change', () => {
+    state.unlistenedOnly = $(id).checked;
+    $('place-unlistened').checked = state.unlistenedOnly;
+    $('map-unlistened').checked = state.unlistenedOnly;
+    filterPlaces();
+  });
+}
 $('place-search').addEventListener('input', () => {
   state.placeQuery = $('place-search').value;
-  filterPlaces();
-});
-$('place-category').addEventListener('change', () => {
-  state.placeCategory = $('place-category').value;
   filterPlaces();
 });
 $('reset-place-filters').addEventListener('click', () => {
   resetPlaceFilters();
   $('place-search').focus();
+});
+
+for (const tour of tours) {
+  const option = document.createElement('option');
+  option.value = tour.id;
+  option.textContent = `${tour.name} · ${tour.stopIds.length} stops`;
+  $('tour-select').append(option);
+}
+$('tour-select').addEventListener('change', () => {
+  state.tourId = findTour($('tour-select').value)?.id || '';
+  buildTourStops();
+  renderTour();
+  resetPlaceFilters();
+});
+
+function buildTourStops() {
+  tourButtons.clear();
+  $('tour-stop-list').replaceChildren();
+  const tour = findTour(state.tourId);
+  if (!tour) return;
+  for (const stop of tourSummary(tour, landmarks).stops) {
+    const item = document.createElement('li');
+    const button = document.createElement('button');
+    button.className = 'tour-stop-button';
+    button.addEventListener('click', () => listenToStop(stop));
+    item.append(button);
+    $('tour-stop-list').append(item);
+    tourButtons.set(stop.id, button);
+  }
+}
+
+function renderTour() {
+  const tour = findTour(state.tourId);
+  $('tour-details').hidden = !tour;
+  if (!tour) return;
+  const summary = tourSummary(tour, landmarks, progress.completed);
+  $('tour-description').textContent = tour.description;
+  $('tour-duration').textContent = `${summary.stops.length} stops · About ${summary.minutes} min of narration`;
+  $('tour-progress').textContent = `${summary.completed} of ${summary.stops.length} stories completed`;
+  $('tour-complete').hidden = Boolean(summary.next);
+  $('tour-next').textContent = summary.next ? `Listen next: ${summary.next.name}` : 'Collection completed';
+  $('tour-next').disabled = !summary.next || state.paused;
+  for (const stop of summary.stops) {
+    const button = tourButtons.get(stop.id);
+    if (!button) continue;
+    const label = `${stop.name}${progress.completed.has(stop.id) ? ' · Listened' : ''}`;
+    button.textContent = label;
+    button.setAttribute('aria-label', `Listen to ${label}`);
+  }
+}
+$('tour-next').addEventListener('click', () => {
+  const tour = findTour(state.tourId);
+  const stop = tour && tourSummary(tour, landmarks, progress.completed).next;
+  if (stop) listenToStop(stop);
 });
 
 function buildSimulationButtons() {
@@ -499,10 +669,13 @@ function selectStop(stop) {
   $('between-stops').hidden = true;
   for (const landmark of landmarks)
     $(`stop-${landmark.id}`).setAttribute('aria-pressed', String(landmark.id === stop.id));
+  renderMarkers();
   renderAudio();
 }
 
 function renderAudio() {
+  const tour = findTour(state.tourId);
+  $('tour-next').disabled = state.paused || !tour || !tourSummary(tour, landmarks, progress.completed).next;
   $('manual-playback').hidden = !state.manualStory;
   const playing = audio.playing || audio.pending;
   $('play-button').textContent = state.audioLoading ? '×' : playing ? 'Ⅱ' : state.audioError ? '↻' : '▶';
