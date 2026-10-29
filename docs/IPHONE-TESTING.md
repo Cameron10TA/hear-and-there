@@ -17,6 +17,24 @@ Use the published HTTPS site in Safari. The first version is designed for iPhone
 
 Record the iPhone model, iOS version, date, and result in a GitHub issue. Do not attach precise personal location histories.
 
+## Feedback update: controls and listening collection
+
+- In simulation, confirm the yellow slider, movement button, and **Jump to a place**
+  appear before the story. The player appears before search and the place list.
+  Check portrait/landscape, larger text, and VoiceOver without horizontal overflow.
+- Tap a map marker and a place card. Each should play its story directly after
+  the initial Start gesture. Choosing one pauses simulated movement. In live mode,
+  a nearby arrival or poor fix must not replace the manually chosen narration.
+  Use **Follow nearby stories** / **Follow simulated walk** to return to arrivals.
+- Let a story finish. Verify the Listened label, numbered map marker with a check,
+  accessible completion label, and count. Pause partway or switch stories: neither
+  should earn completion. Replay a completed story: the count must not increase.
+- Finish Styx, Penrose Library, and Memorial Building in order to reveal the hidden
+  thread bonus. Seeking or switching modes must preserve completion and clues.
+  End/revoke/reload must clear both. Recheck pause-on-lock and explicit resume while
+  a manually selected story is playing or loading. Physical-device results remain
+  pending until this checklist is actually run on a phone.
+
 ## Residence paths and shared boundaries
 
 Check the five residence halls outdoors as well: Jewett's north sidewalk and

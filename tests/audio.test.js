@@ -110,6 +110,26 @@ test('a finished story can be replayed from the beginning', async () => {
   player.stop();
 });
 
+test('completion is emitted only when narration ends naturally, never for pause or cancellation', async () => {
+  const completed = [];
+  const player = new StoryAudio(() => {}, (id) => completed.push(id));
+  await player.unlock();
+  player.buffers.set(stop.id, { duration: 30 });
+  await player.play(stop);
+  const canceledEnd = player.source.onended;
+  player.pause();
+  canceledEnd();
+  assert.deepEqual(completed, []);
+  await player.play(stop);
+  player.source.onended();
+  assert.deepEqual(completed, ['test']);
+  await player.play(stop);
+  const previousEnd = player.source.onended;
+  player.stop();
+  previousEnd();
+  assert.deepEqual(completed, ['test']);
+});
+
 test('loading a later selection fetches it even after another story was prepared', async (t) => {
   const requests = [];
   t.mock.method(globalThis, 'fetch', async (url) => {

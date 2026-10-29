@@ -9,6 +9,7 @@ import {
 } from './proximity.js';
 import { StoryAudio } from './audio.js';
 import { matchesPlace, placeCategories } from './catalog.js';
+import { ListeningProgress, bonusTrail } from './progress.js';
 
 const $ = (id) => document.getElementById(id);
 $('stop-count').textContent = String(landmarks.length);
@@ -22,6 +23,7 @@ const state = {
   watcher: null,
   activeId: null,
   selectedId: null,
+  manualStory: false,
   placeQuery: '',
   placeCategory: 'all',
   visited: new Set(),
@@ -40,7 +42,8 @@ const state = {
   unlocking: null,
   positionError: '',
 };
-const audio = new StoryAudio(renderAudio);
+const progress = new ListeningProgress();
+const audio = new StoryAudio(renderAudio, completeStory);
 const stopButtons = new Map();
 let map,
   tileLayer,
@@ -104,10 +107,15 @@ function resetSession() {
   selectMode('live');
   state.activeId = null;
   state.selectedId = null;
+  state.manualStory = false;
   resetPlaceFilters();
   state.audioError = '';
   state.positionError = '';
   state.visited.clear();
+  progress.reset();
+  renderProgress();
+  $('trail-details').open = false;
+  $('simulation-jumps').open = false;
   state.elapsed = 0;
   state.demoMoving = true;
   state.fix = null;
@@ -270,11 +278,11 @@ function createMap() {
     } else L.circle(stop.coordinates, { ...zoneStyle, radius: stop.radius }).addTo(map);
     const marker = L.marker(stop.coordinates, {
       icon: landmarkIcon(index, false),
-      title: `Open ${stop.name} story`,
-      alt: `Open ${stop.name} story`,
+      title: `Listen to ${stop.name}`,
+      alt: `Listen to ${stop.name}`,
       keyboard: true,
     }).addTo(map);
-    marker.getElement().setAttribute('aria-label', `Open ${stop.name} story`);
+    marker.getElement().setAttribute('aria-label', `Listen to ${stop.name}`);
     marker.getElement().addEventListener('keydown', (event) => {
       if (event.key !== 'Enter' && event.key !== ' ') return;
       event.preventDefault();
@@ -288,12 +296,7 @@ function createMap() {
       className: 'landmark-tooltip',
     });
     marker.on('click', () => {
-      selectStop(stop);
-      if (window.innerWidth < 760)
-        $('story-card').scrollIntoView({
-          behavior: reducedMotion() ? 'instant' : 'smooth',
-          block: 'start',
-        });
+      listenToStop(stop);
     });
     stopMarkers.set(stop.id, marker);
   });
@@ -304,9 +307,10 @@ function reducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 function landmarkIcon(index, active) {
+  const listened = progress.completed.has(landmarks[index].id);
   return L.divIcon({
     className: 'landmark-marker',
-    html: `<span class="marker-inner${active ? ' active' : ''}">${String(index + 1).padStart(2, '0')}</span>`,
+    html: `<span class="marker-inner${active ? ' active' : ''}${listened ? ' listened' : ''}">${String(index + 1).padStart(2, '0')}${listened ? '<i aria-hidden="true">✓</i>' : ''}</span>`,
     iconSize: [28, 28],
     iconAnchor: [14, 14],
   });
@@ -331,17 +335,66 @@ function buildStopList() {
     const distance = document.createElement('small');
     distance.id = `distance-${stop.id}`;
     distance.textContent = 'Locating…';
-    info.append(title, distance);
+    const badge = document.createElement('span');
+    badge.id = `listened-${stop.id}`;
+    badge.className = 'listened-badge';
+    badge.textContent = '✓ Listened';
+    badge.hidden = !progress.completed.has(stop.id);
+    info.append(title, distance, badge);
     const arrow = document.createElement('span');
     arrow.className = 'stop-arrow';
-    arrow.textContent = '↗';
+    arrow.textContent = '▶';
     arrow.setAttribute('aria-hidden', 'true');
     button.append(img, info, arrow);
-    button.addEventListener('click', () => selectStop(stop));
+    button.setAttribute('aria-label', `Listen to ${stop.name}`);
+    button.addEventListener('click', () => listenToStop(stop));
     $('stop-list').append(button);
     stopButtons.set(stop.id, button);
   }
   filterPlaces();
+  renderProgress();
+}
+
+function renderMarkers() {
+  landmarks.forEach((stop, index) => {
+    const marker = stopMarkers.get(stop.id);
+    if (!marker) return;
+    marker.setIcon(landmarkIcon(index, state.activeId === stop.id));
+    const label = `Listen to ${stop.name}${progress.completed.has(stop.id) ? ' · Listened' : ''}`;
+    marker.getElement().setAttribute('aria-label', label);
+    marker.getElement().setAttribute('title', label);
+  });
+}
+
+function renderProgress() {
+  const count = progress.completed.size;
+  $('listening-progress').textContent = `${count} of ${landmarks.length} stories completed`;
+  $('collection-complete').hidden = count !== landmarks.length;
+  $('bonus-reveal').hidden = !progress.bonusUnlocked;
+  $('trail-status').textContent = progress.bonusUnlocked
+    ? 'Hidden thread complete. Your bonus is revealed below.'
+    : `${progress.trailStep} of ${bonusTrail.length} clues completed in order`;
+  for (const stop of landmarks) {
+    const completed = progress.completed.has(stop.id);
+    const button = stopButtons.get(stop.id);
+    if (button) {
+      $(`listened-${stop.id}`).hidden = !completed;
+      button.setAttribute('aria-label', `Listen to ${stop.name}${completed ? ' · Listened' : ''}`);
+    }
+  }
+  $('story-listened').hidden = !progress.completed.has(state.selectedId);
+}
+
+function completeStory(id) {
+  if (!state.running || !state.consent || state.paused) return;
+  const wasUnlocked = progress.bonusUnlocked;
+  progress.finish(id);
+  renderProgress();
+  renderMarkers();
+  if (!wasUnlocked && progress.bonusUnlocked) {
+    $('trail-details').open = true;
+    announce('You found the hidden thread. Open the bonus below the place list.');
+  }
 }
 
 function filterPlaces() {
@@ -389,16 +442,39 @@ $('reset-place-filters').addEventListener('click', () => {
 function buildSimulationButtons() {
   $('simulation-seek').max = String(simulation.at(-1).seconds);
   const container = $('simulation-buttons');
-  const toggle = $('simulation-toggle');
-  container.replaceChildren(toggle);
+  container.replaceChildren();
   for (const stop of landmarks) {
     const arrival = simulation.find((frame) => frame.stopId === stop.id);
     if (!arrival) continue;
     const button = document.createElement('button');
     button.textContent = `Go to ${stop.name}`;
-    button.addEventListener('click', () => seekDemo(arrival.seconds));
+    button.addEventListener('click', () => {
+      if (state.paused) return;
+      seekDemo(arrival.seconds);
+      $('simulation-jumps').open = false;
+      $('play-button').scrollIntoView({
+        behavior: reducedMotion() ? 'instant' : 'smooth',
+        block: 'nearest',
+      });
+    });
     container.append(button);
   }
+}
+
+function listenToStop(stop) {
+  if (!state.running || !state.consent || state.paused || document.hidden) return;
+  // Unlock inside the click, before any download or other asynchronous work.
+  state.unlocking = audio.unlock();
+  state.manualStory = true;
+  if (state.mode === 'demo') state.demoMoving = false;
+  selectStop(stop);
+  audio.pause();
+  showMode();
+  void loadAndPlayStory(stop, false, state.unlocking);
+  $('story-card').scrollIntoView({
+    behavior: reducedMotion() ? 'instant' : 'smooth',
+    block: 'nearest',
+  });
 }
 
 function selectStop(stop) {
@@ -419,6 +495,7 @@ function selectStop(stop) {
   $('story-transcript').textContent = stop.transcript;
   $('story-source').href = stop.source;
   $('story-card').hidden = false;
+  $('story-listened').hidden = !progress.completed.has(stop.id);
   $('between-stops').hidden = true;
   for (const landmark of landmarks)
     $(`stop-${landmark.id}`).setAttribute('aria-pressed', String(landmark.id === stop.id));
@@ -426,6 +503,7 @@ function selectStop(stop) {
 }
 
 function renderAudio() {
+  $('manual-playback').hidden = !state.manualStory;
   const playing = audio.playing || audio.pending;
   $('play-button').textContent = state.audioLoading ? '×' : playing ? 'Ⅱ' : state.audioError ? '↻' : '▶';
   $('play-button').setAttribute(
@@ -468,7 +546,8 @@ function showMode() {
     state.mode === 'demo' ? 'Simulated campus walk' : 'Live campus walk';
   $('simulation-panel').hidden = state.mode !== 'demo';
   $('switch-mode').textContent =
-    state.mode === 'demo' ? 'Return to live location ↗' : 'Try simulated walking ↗';
+    state.mode === 'demo' ? 'Return to live location' : 'Try simulated walking';
+  $('follow-walk').textContent = state.mode === 'demo' ? 'Follow simulated walk' : 'Follow nearby stories';
   $('simulation-toggle').textContent = state.demoMoving
     ? 'Pause movement'
     : state.elapsed >= simulation.at(-1).seconds
@@ -605,13 +684,11 @@ function updateLocation() {
         (state.fix?.accuracy > campus.maximumAccuracy
           ? 'Location is too approximate'
           : 'Waiting for a fresh location…');
-      $('nearby-title').textContent = 'Finding your place.';
-      $('nearby-eyebrow').textContent = 'LOCATION SIGNAL';
       $('nearby-message').textContent =
         state.fix?.accuracy > campus.maximumAccuracy
           ? 'Try stepping outdoors and enabling Precise Location. Automatic stories wait for a clearer signal.'
-          : 'Automatic audio is paused until your location updates. You can still read a story or try simulated walking.';
-      if (audio.playing || audio.pending) audio.pause();
+          : 'Automatic audio waits for a fresh location. Choose any story to listen, or try simulated walking.';
+      if (!state.manualStory && (audio.playing || audio.pending)) audio.pause();
       if (state.audioLoading && state.audioArrival) cancelStoryRequest();
       if (userMarker && map) {
         map.removeLayer(userMarker);
@@ -636,17 +713,11 @@ function updateLocation() {
   const changed = state.activeId !== (result.active?.id || null);
   if (changed && state.audioLoading && state.audioArrival) cancelStoryRequest();
   state.activeId = result.active?.id || null;
-  if (changed) {
-    landmarks.forEach((stop, index) =>
-      stopMarkers.get(stop.id)?.setIcon(landmarkIcon(index, state.activeId === stop.id))
-    );
-  }
+  if (changed) renderMarkers();
   if (result.active) {
-    $('nearby-eyebrow').textContent = 'YOU’VE FOUND A STORY';
-    $('nearby-title').textContent = 'You’re here.';
     $('nearby-message').textContent =
-      `You’re near ${result.active.name}. Take a moment to listen and look around.`;
-    if (changed && !state.visited.has(result.active.id)) {
+      `Nearby: ${result.active.name}. You’re in listening range.`;
+    if (changed && !state.manualStory && !state.visited.has(result.active.id)) {
       state.visited.add(result.active.id);
       selectStop(result.active);
       announce(`You’re near ${result.active.name}. A story is ready.`);
@@ -655,8 +726,6 @@ function updateLocation() {
     }
   } else {
     const offCampus = distanceMeters(coordinates, campus.center) > 650;
-    $('nearby-eyebrow').textContent = offCampus ? 'WHITMAN IS WAITING' : 'LISTEN TO WHAT’S NEARBY';
-    $('nearby-title').textContent = offCampus ? 'Explore from anywhere.' : 'A little closer.';
     $('nearby-message').textContent = offCampus
       ? 'You’re away from campus. Try the simulated walk to experience all the landmarks, or come back when you’re at Whitman.'
       : `${result.nearest.stop.name} is ${formatDistance(result.nearest.distance).toLowerCase()}. A story starts when you enter its listening area.`;
@@ -797,15 +866,34 @@ $('play-button').addEventListener('click', async () => {
   }
   const stop = landmarks.find((item) => item.id === state.selectedId);
   if (!stop) return;
+  state.manualStory = true;
+  if (state.mode === 'demo') state.demoMoving = false;
+  showMode();
   state.unlocking = audio.unlock();
   await loadAndPlayStory(stop, false, state.unlocking);
 });
 $('mute-button').addEventListener('click', () => audio.setMuted(!audio.muted));
 
+function followWalk() {
+  if (!state.running || !state.consent || state.paused) return;
+  cancelStoryRequest();
+  audio.stop();
+  state.manualStory = false;
+  if (state.activeId) state.visited.delete(state.activeId);
+  state.activeId = null;
+  if (state.mode === 'demo') state.demoMoving = true;
+  state.lastTick = performance.now();
+  showMode();
+  updateLocation();
+  renderAudio();
+}
+$('follow-walk').addEventListener('click', followWalk);
+
 function changeMode() {
   if (!state.running || !state.consent || state.paused) return;
   cancelStoryRequest();
   audio.stop();
+  state.manualStory = false;
   state.mode = state.mode === 'demo' ? 'live' : 'demo';
   state.activeId = null;
   state.visited.clear();
@@ -822,6 +910,7 @@ function seekDemo(value) {
   if (state.mode !== 'demo' || !state.running || state.paused || !state.consent) return;
   cancelStoryRequest();
   audio.stop();
+  state.manualStory = false;
   state.elapsed = Number(value);
   state.activeId = null;
   state.visited.clear();
@@ -832,6 +921,10 @@ function seekDemo(value) {
 $('simulation-seek').addEventListener('input', (event) => seekDemo(event.target.value));
 $('simulation-toggle').addEventListener('click', () => {
   if (state.paused) return;
+  if (state.manualStory) {
+    followWalk();
+    return;
+  }
   if (state.elapsed >= simulation.at(-1).seconds) {
     seekDemo(0);
     state.demoMoving = true;
