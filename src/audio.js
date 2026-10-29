@@ -1,8 +1,9 @@
 // Recorded samples and synthesized arrival sounds share one audio context.
 // Unlock this context inside a tap handler, especially on iOS Safari.
 export class StoryAudio {
-  constructor(onChange) {
+  constructor(onChange, onComplete = () => {}) {
     this.onChange = onChange;
+    this.onComplete = onComplete;
     this.context = null;
     this.buffers = new Map();
     this.loading = new Map();
@@ -149,9 +150,11 @@ export class StoryAudio {
       this.playing = true;
       this.source.onended = () => {
         if (token !== this.generation) return;
+        this.source.onended = null;
         this.playing = false;
         this.offset = this.duration;
         this.source = null;
+        this.onComplete(stop.id);
         this.onChange();
       };
       this.source.start(0, this.offset);

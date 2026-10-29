@@ -138,7 +138,7 @@ test('neighboring footprint or entry takes priority over an old exit buffer', ()
   assert.equal(locate(tiny.coordinates, [building, tiny], 'building').active.id, 'tiny');
 });
 test('production source has no persistent visitor storage or test fixture', async () => {
-  for (const name of ['src/app.js', 'src/audio.js', 'src/landmarks.js', 'index.html']) {
+  for (const name of ['src/app.js', 'src/audio.js', 'src/progress.js', 'src/landmarks.js', 'index.html']) {
     const text = await readFile(name, 'utf8');
     assert.doesNotMatch(
       text,

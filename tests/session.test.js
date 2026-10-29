@@ -31,13 +31,14 @@ class Element {
     this.children = children;
   }
   focus() {}
+  scrollIntoView() {}
   async fire(type, extra = {}) {
     await this.listeners.get(type)?.({ target: this, ...extra });
   }
 }
 
 let sequence = 0;
-async function setup(t, { failedStop, prepareGate, unlockGate } = {}) {
+async function setup(t, { failedStop, prepareGate, unlockGate, withMap = false } = {}) {
   const nodes = new Map();
   const get = (id) => {
     if (!nodes.has(id)) nodes.set(id, new Element());
@@ -63,7 +64,8 @@ async function setup(t, { failedStop, prepareGate, unlockGate } = {}) {
       createElement: () => new Element(),
       querySelector: get,
     }),
-    window: { isSecureContext: true, scrollTo() {}, addEventListener() {} },
+    window: { isSecureContext: true, scrollTo() {}, addEventListener() {}, matchMedia: () => ({ matches: true }) },
+    requestAnimationFrame: (callback) => callback(),
     navigator: {
       permissions: { query: async () => permission },
       geolocation: {
@@ -77,6 +79,31 @@ async function setup(t, { failedStop, prepareGate, unlockGate } = {}) {
       },
     },
   };
+  const markers = [];
+  if (withMap) {
+    const layer = () => Object.assign(new Element(), {
+      addTo() { return this; },
+      on(type, callback) { this.addEventListener(type, callback); },
+      getElement() { return this; },
+      setIcon(icon) { this.icon = icon; },
+      bindTooltip() {}, setStyle() {}, setLatLng() {}, setRadius() {},
+      fitBounds() {}, getZoom: () => 17, invalidateSize() {}, remove() {}, removeLayer() {},
+    });
+    globals.L = {
+      map: layer, tileLayer: layer, polygon: layer, circle: layer,
+      divIcon: (options) => options,
+      control: { zoom: layer },
+      marker: (coordinates, options) => {
+        const marker = layer();
+        marker.options = options;
+        marker.icon = options.icon;
+        marker.fire = (type) => marker.listeners.get(type)?.();
+        markers.push(marker);
+        return marker;
+      },
+    };
+    globals.window.L = globals.L;
+  }
   for (const [key, value] of Object.entries(globals)) {
     const original = Object.getOwnPropertyDescriptor(globalThis, key);
     Object.defineProperty(globalThis, key, { configurable: true, value });
@@ -100,13 +127,23 @@ async function setup(t, { failedStop, prepareGate, unlockGate } = {}) {
       if (stop.id !== failedStop) this.buffers.set(stop.id, { duration: 30 });
     if (stops.some((stop) => stop.id === failedStop)) throw new Error('Audio request failed');
   });
+  let player;
   const playback = t.mock.method(StoryAudio.prototype, 'play', async function (stop) {
+    player = this;
     this.stopId = stop.id;
     this.pending = true;
     this.onChange();
   });
   await import(`../src/app.js?session-test=${sequence++}`);
-  return { get, permission, preparation, playback, move: (coordinates, accuracy = 8) => watchSuccess({
+  return { get, permission, preparation, playback, markers,
+    finish: () => {
+      player.pending = false;
+      player.playing = false;
+      player.offset = player.duration;
+      player.onComplete(player.stopId);
+      player.onChange();
+    },
+    move: (coordinates, accuracy = 8) => watchSuccess({
     coords: { latitude: coordinates[0], longitude: coordinates[1], accuracy }, timestamp: Date.now(),
   }) };
 }
@@ -147,10 +184,12 @@ test('seeking backward from completion offers Continue movement', async (t) => {
   get('simulation-seek').value = String(simulation.at(-1).seconds);
   await get('simulation-seek').fire('input');
   assert.equal(get('simulation-toggle').textContent, 'Restart walk');
+  get('simulation-jumps').open = true;
   await get('simulation-buttons')
     .children.find((node) => node.textContent === 'Go to Penrose Library')
     .fire('click');
   assert.equal(get('simulation-toggle').textContent, 'Continue movement');
+  assert.equal(get('simulation-jumps').open, false, 'choosing a jump exposes the player again');
   const clock = (seconds) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
   assert.equal(get('simulation-time').textContent, `${clock(simulation.find((frame) => frame.stopId === 'penrose').seconds)} / ${clock(simulation.at(-1).seconds)}`);
   await get('simulation-toggle').fire('click');
@@ -177,6 +216,126 @@ test('a missing recording does not block another story on arrival or manual play
 });
 
 const flush = () => new Promise((resolve) => setImmediate(resolve));
+
+test('a place card starts narration, keeps the manual choice through GPS changes, and can return to arrivals', async (t) => {
+  const { get, playback, move } = await setup(t);
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  await get('stop-list').children.find((node) => node.id === 'stop-reid').fire('click');
+  await flush();
+  assert.equal(playback.mock.callCount(), 1);
+  assert.equal(playback.mock.calls[0].arguments[0].id, 'reid');
+  assert.equal(get('manual-playback').hidden, false);
+  move(landmarks.find((stop) => stop.id === 'penrose').listeningPosition);
+  move(landmarks[0].coordinates, 500);
+  await flush();
+  assert.equal(get('story-title').textContent, 'Reid Campus Center');
+  assert.equal(get('play-button').getAttribute('aria-label'), 'Pause story');
+  assert.equal(playback.mock.callCount(), 1);
+  move(landmarks.find((stop) => stop.id === 'penrose').listeningPosition);
+  await get('follow-walk').fire('click');
+  await flush();
+  assert.equal(get('manual-playback').hidden, true);
+  assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'penrose');
+  await get('end-button').fire('click');
+});
+
+test('map click and keyboard activation play the matching story, with accessible completion labels', async (t) => {
+  const { get, markers, playback, finish } = await setup(t, { withMap: true });
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  const reid = markers.find((marker) => marker.options.title === 'Listen to Reid Campus Center');
+  reid.fire('click');
+  await flush();
+  assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'reid');
+  finish();
+  assert.match(reid.icon.html, /listened/);
+  assert.match(reid.getAttribute('aria-label'), /Listened/);
+  const penrose = markers.find((marker) => marker.options.title === 'Listen to Penrose Library');
+  await penrose.listeners.get('keydown')({ key: 'Enter', preventDefault() {}, stopPropagation() {} });
+  await flush();
+  assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'penrose');
+  await get('end-button').fire('click');
+});
+
+test('rapid selections cancel earlier downloads and play only the last chosen story', async (t) => {
+  const gate = deferred();
+  const { get, playback } = await setup(t, { prepareGate: gate.promise });
+  await get('consent-button').fire('click');
+  await get('choose-demo').fire('click');
+  await get('start-button').fire('click');
+  await get('simulation-buttons').children.find((node) => node.textContent === 'Go to Penrose Library').fire('click');
+  await flush();
+  for (const id of ['cleveland', 'memorial', 'reid']) {
+    await get('stop-list').children.find((node) => node.id === `stop-${id}`).fire('click');
+    await flush();
+  }
+  gate.resolve();
+  await flush();
+  assert.deepEqual(playback.mock.calls.map((call) => call.arguments[0].id), ['reid']);
+  assert.equal(get('simulation-toggle').textContent, 'Continue movement');
+  await get('end-button').fire('click');
+});
+
+for (const ending of ['end', 'revoke']) {
+  test(`completed stories and the hidden thread survive jumps and modes, then clear on ${ending}`, async (t) => {
+    const { get, permission, finish } = await setup(t);
+    await get('consent-button').fire('click');
+    await get('choose-demo').fire('click');
+    await get('start-button').fire('click');
+    const choose = async (id) => {
+      await get('stop-list').children.find((node) => node.id === `stop-${id}`).fire('click');
+      await flush();
+    };
+    await choose('styx');
+    assert.equal(get('listening-progress').textContent, '0 of 56 stories completed');
+    assert.equal(get('story-listened').hidden, true);
+    finish();
+    assert.equal(get('listened-styx').hidden, false);
+    assert.equal(get('story-listened').hidden, false);
+    await get('simulation-buttons').children.find((node) => node.textContent === 'Go to Penrose Library').fire('click');
+    await flush();
+    assert.equal(get('listening-progress').textContent, '1 of 56 stories completed');
+    finish();
+    await get('switch-mode').fire('click');
+    assert.equal(get('listening-progress').textContent, '2 of 56 stories completed');
+    await choose('memorial');
+    finish();
+    assert.equal(get('bonus-reveal').hidden, false);
+    assert.equal(get('trail-details').open, true);
+    await choose('memorial');
+    finish();
+    assert.equal(get('listening-progress').textContent, '3 of 56 stories completed');
+    if (ending === 'end') await get('end-button').fire('click');
+    else { permission.state = 'denied'; permission.onchange(); }
+    assert.equal(get('listening-progress').textContent, '0 of 56 stories completed');
+    assert.equal(get('bonus-reveal').hidden, true);
+    assert.equal(get('trail-details').open, false);
+    assert.equal(get('listened-styx').hidden, true);
+  });
+}
+
+test('finishing all stories displays collection completion, while paused choices cannot resume audio', async (t) => {
+  const { get, finish, playback } = await setup(t);
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  for (const stop of landmarks) {
+    await get('stop-list').children.find((node) => node.id === `stop-${stop.id}`).fire('click');
+    await flush();
+    finish();
+  }
+  assert.equal(get('listening-progress').textContent, '56 of 56 stories completed');
+  assert.equal(get('collection-complete').hidden, false);
+  const count = playback.mock.callCount();
+  document.hidden = true;
+  await document.fire('visibilitychange');
+  document.hidden = false;
+  await get('stop-list').children[0].fire('click');
+  await get('follow-walk').fire('click');
+  assert.equal(playback.mock.callCount(), count);
+  assert.equal(get('play-button').disabled, true);
+  await get('end-button').fire('click');
+});
 
 test('search and category update the existing list, show no matches, and reset together', async (t) => {
   const { get } = await setup(t);
@@ -256,7 +415,7 @@ test('start immediately opens the explorer without waiting for audio unlock or d
   assert.equal(preparation.mock.callCount(), 0, 'off-campus start does not fetch unused stories');
 });
 
-for (const action of ['cancel', 'select', 'hide', 'end', 'revoke', 'mode', 'seek', 'leave', 'poor GPS']) {
+for (const action of ['cancel', 'hide', 'end', 'revoke', 'mode', 'seek', 'leave', 'poor GPS']) {
   test(`late audio does not play after ${action}`, async (t) => {
     const gate = deferred();
     const { get, permission, playback, move } = await setup(t, { prepareGate: gate.promise });
@@ -270,7 +429,6 @@ for (const action of ['cancel', 'select', 'hide', 'end', 'revoke', 'mode', 'seek
     assert.equal(get('audio-status').textContent, 'Loading story…');
     assert.equal(get('play-button').getAttribute('aria-label'), 'Cancel loading story');
     if (action === 'cancel') await get('play-button').fire('click');
-    if (action === 'select') await get('stop-list').children.find((node) => node.id === 'stop-reid').fire('click');
     if (action === 'hide') { document.hidden = true; await document.fire('visibilitychange'); }
     if (action === 'end') await get('end-button').fire('click');
     if (action === 'revoke') { permission.state = 'denied'; permission.onchange(); }
@@ -295,14 +453,13 @@ test('slow stories remain readable, show waiting feedback, and play only the sel
   await get('consent-button').fire('click');
   await get('start-button').fire('click');
   await get('stop-list').children.find((node) => node.id === 'stop-reid').fire('click');
-  const playing = get('play-button').fire('click');
   await flush();
   assert.match(get('story-transcript').textContent, /Reid Campus Center/);
   t.mock.timers.tick(4000);
   assert.equal(get('audio-status').textContent, 'Still loading… You can read the story below.');
   assert.deepEqual(preparation.mock.calls[0].arguments[0].map((stop) => stop.id), ['reid']);
   gate.resolve();
-  await playing;
+  await flush();
   assert.equal(playback.mock.calls[0].arguments[0].id, 'reid');
   await get('end-button').fire('click');
 });
@@ -317,7 +474,7 @@ test('a failed arrival offers retry while another story remains playable', async
   assert.equal(get('play-button').getAttribute('aria-label'), 'Retry story audio');
   assert.match(get('story-transcript').textContent, /Cleveland Commons/);
   await get('stop-list').children.find((node) => node.id === 'stop-reid').fire('click');
-  await get('play-button').fire('click');
+  await flush();
   assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'reid');
   await get('end-button').fire('click');
 });

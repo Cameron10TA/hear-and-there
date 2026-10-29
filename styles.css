@@ -556,11 +556,21 @@ figure {
   gap: 12px;
   background: #fff;
 }
-.explorer-toolbar > div {
+.walk-status {
+  min-width: 0;
+}
+.walk-status-line {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: 8px 10px;
   font-size: 12px;
+}
+.walk-status > p {
+  margin: 7px 0 0 17px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--muted);
 }
 .status-dot {
   width: 7px;
@@ -579,13 +589,14 @@ figure {
 .explorer-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 390px;
-  min-height: calc(100dvh - 218px);
+  height: calc(100dvh - 210px);
+  min-height: 450px;
   max-width: 1800px;
   margin: auto;
 }
 .map-section {
   position: relative;
-  min-height: 610px;
+  min-height: 0;
   isolation: isolate;
   background: #e9eddf;
 }
@@ -720,6 +731,23 @@ figure {
   color: var(--blue);
   border-color: var(--blue);
 }
+.marker-inner.listened:not(.active) {
+  background: #366349;
+}
+.marker-inner > i {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: white;
+  color: #27543a;
+  border: 1px solid #27543a;
+  font: 700 11px var(--sans);
+}
 .marker-inner:after {
   content: '';
   position: absolute;
@@ -772,27 +800,41 @@ figure {
 .explorer-panel {
   background: var(--paper);
   border-left: 1px solid var(--line);
-  padding: 28px;
+  padding: 20px;
   overflow: auto;
-  max-height: calc(100dvh - 166px);
-  min-height: 600px;
+  min-height: 0;
 }
-.panel-heading .eyebrow {
-  font-size: 8px;
+.collection {
+  margin-top: 24px;
+}
+.collection-heading h2 {
   margin: 0 0 8px;
-  color: var(--green);
+  font: 400 23px/1.2 var(--serif);
 }
-.panel-heading h2 {
-  font: 400 32px/1.15 var(--serif);
-  letter-spacing: -1px;
-  margin: 0 0 10px;
-  color: var(--blue);
-}
-.panel-heading p:last-child {
+.collection-heading p {
+  margin: 0;
   font-size: 12px;
-  line-height: 1.65;
+  font-weight: 600;
+  color: #366349;
+}
+.collection-note {
+  margin: 6px 0 16px;
+  font-size: 11px;
+  line-height: 1.5;
   color: var(--muted);
-  margin: 0 0 22px;
+}
+.collection-complete {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #27543a;
+}
+.listened-badge {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #27543a;
+  margin-top: 5px;
 }
 .place-filters {
   display: grid;
@@ -910,8 +952,7 @@ figure {
   color: var(--muted);
 }
 .between-stops {
-  text-align: center;
-  padding: 22px 8px 16px;
+  padding: 15px 0 0;
 }
 .between-stops > strong {
   font: 400 18px var(--serif);
@@ -922,32 +963,6 @@ figure {
   color: var(--muted);
   line-height: 1.7;
   margin: 9px 0;
-}
-.sound-orbit {
-  width: 130px;
-  height: 130px;
-  position: relative;
-  margin: 0 auto 13px;
-  display: grid;
-  place-items: center;
-}
-.sound-orbit span {
-  border: 1px solid #c6d2c3;
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  position: absolute;
-  animation: position-pulse 4s infinite alternate;
-}
-.sound-orbit span:nth-child(2) {
-  width: 75px;
-  height: 75px;
-  animation-delay: 1s;
-}
-.sound-orbit i {
-  font-style: normal;
-  font-size: 42px;
-  color: #5c7760;
 }
 .story-card {
   margin-top: 17px;
@@ -975,7 +990,7 @@ figure {
   letter-spacing: -0.5px;
   margin: 0 0 10px;
 }
-.story-body > p:not(.eyebrow):not(.sample-note) {
+.story-body > p:not(.eyebrow):not(.sample-note):not(.listened-badge) {
   font-size: 12px;
   color: var(--muted);
   line-height: 1.65;
@@ -987,6 +1002,10 @@ figure {
   gap: 12px;
   padding: 15px 0 10px;
   border-top: 1px solid var(--line);
+}
+.story-body > .listened-badge {
+  color: #27543a;
+  margin: 0 0 9px;
 }
 .play-button {
   border-radius: 50%;
@@ -1042,6 +1061,35 @@ figure {
 .player .icon-button[aria-pressed='true'] {
   opacity: 0.5;
   text-decoration: line-through;
+}
+.manual-playback {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+.manual-playback p {
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+.manual-playback button {
+  min-height: 44px;
+  text-align: left;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.trail-details {
+  margin-top: 20px;
+}
+.trail-details h3 {
+  font: 400 24px/1.2 var(--serif);
+  margin: 16px 0 10px;
+}
+#trail-status {
+  font-weight: 600;
+  color: #366349;
 }
 details {
   border-top: 1px solid var(--line);
@@ -1106,7 +1154,17 @@ details a {
   border: 1px solid #e9dab0;
   border-radius: 6px;
   padding: 14px;
-  margin-top: 18px;
+  margin-top: 0;
+}
+.simulation-toggle {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #ded5b9;
+  background: white;
+  color: var(--blue);
+  border-radius: 4px;
+  font: 12px var(--sans);
+  padding: 8px 12px;
 }
 .simulation-panel > div:first-child {
   display: flex;
@@ -1144,7 +1202,7 @@ details a {
   background: #fff;
   border: 1px solid #ded5b9;
   font-size: 9px;
-  min-height: 37px;
+  min-height: 44px;
   padding: 7px 8px;
   border-radius: 4px;
   flex: 1 1 130px;
@@ -1541,7 +1599,7 @@ dialog li p {
   .explorer-toolbar {
     padding: 8px 5%;
   }
-  .explorer-toolbar > div {
+  .walk-status-line {
     flex-wrap: wrap;
     gap: 7px;
     font-size: 11px;
@@ -1561,6 +1619,7 @@ dialog li p {
   .explorer-layout {
     display: flex;
     flex-direction: column;
+    height: auto;
     min-height: 0;
   }
   .map-section {
@@ -1588,11 +1647,8 @@ dialog li p {
     min-height: 0;
     padding: 18px 6%;
   }
-  .panel-heading h2 {
-    font-size: 32px;
-  }
   .stop-list {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 8px;
   }
   .stop-button {
@@ -1605,12 +1661,12 @@ dialog li p {
     height: 43px;
   }
   .stop-button strong {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.3;
     margin-bottom: 4px;
   }
   .stop-button small {
-    font-size: 9px;
+    font-size: 11px;
   }
   .stop-arrow {
     display: none;
@@ -1624,7 +1680,7 @@ dialog li p {
   .story-body h2 {
     font-size: 29px;
   }
-  .story-body > p:not(.eyebrow):not(.sample-note) {
+  .story-body > p:not(.eyebrow):not(.sample-note):not(.listened-badge) {
     font-size: 13px;
   }
   .player {
@@ -1648,10 +1704,6 @@ dialog li p {
   }
   .between-stops {
     padding: 12px 10px 10px;
-  }
-  .sound-orbit {
-    height: 115px;
-    margin-bottom: 5px;
   }
   .between-stops p {
     font-size: 12px;
@@ -1720,16 +1772,10 @@ dialog li p {
   .stop-button img {
     width: 29px;
   }
-  .stop-button strong {
-    font-size: 9px;
-  }
 }
 @media (max-width: 760px) and (max-height: 720px) {
   .explorer-panel {
     padding: 10px 6%;
-  }
-  .panel-heading p:last-child {
-    display: none;
   }
   .map-section {
     height: 150px;

@@ -26,14 +26,17 @@ The build recreates `dist/` and copies only the website into it, removing stale 
 1. Allow the browser's location prompt. Denial blocks both live and simulated exploration.
 2. Choose **Explore in person** or **Simulate a walk**.
 3. Tap **Start exploring** to unlock audio. This extra gesture matters on iPhones.
-4. Walk near a landmark. A short original synthesized arrival sound introduces its sample narration. Each story starts automatically once per session; the play button can replay it.
+4. Walk near a landmark. A short original synthesized arrival sound introduces its sample narration. Each story starts automatically once per session; the play button can replay it. Tap a map marker or place card to play a story directly. Your chosen story takes priority until you choose **Follow nearby stories** (or **Follow simulated walk**). Selecting a story pauses simulated movement.
 5. The map and distance indicators remain active between stops. No routes or turn-by-turn directions are provided.
 6. Locking the screen or leaving the page pauses audio, GPS watching, and simulation. Return and tap **Resume exploring**; a fresh location request checks access again. Tap the story's play button to resume an interrupted narration.
-7. **End walk** clears the session location and visited stops. A reload also starts fresh.
+7. Finish narrations to collect **Listened** badges on the map and place list. The completion count gives you an optional goal of hearing all 56 stories. Opening a card, arriving, canceling a download, or pausing does not complete a story. Progress survives simulation jumps and mode switches within the same walk.
+8. **End walk** clears the session location, completed stories, and bonus progress. Reloading or revoking location access also starts fresh.
 
 Starting opens the map and stories immediately while audio unlocks. Only a story being played or reached is downloaded; other recordings do not delay startup. Slow audio shows waiting feedback and a cancel button, then offers retry after a 15-second download timeout. Transcripts remain available. Switching stories, moving out of an automatic arrival zone, pausing, or ending the walk prevents a late download from starting unexpectedly. Recordings stay in memory for replay. Map failures offer **Retry map** while stories remain usable.
 
 The 50:48 simulation uses outdoor listening points at all 56 stops. It follows fixed test positions and includes a time slider and jump buttons. It is a presentation tool, not a recommended walking route. Location consent is still required, but real coordinates are not used to move its marker.
+
+Simulation controls sit at the top of the story panel, with the time slider and movement button always exposed and the full jump list under **Jump to a place**. The selected story and audio player appear before search and the place list. Location status stays in the toolbar. The **Follow a hidden thread** section below the list hints at a smaller challenge: finish Styx, Penrose Library, and Memorial Building in that order to reveal an original bonus message. Finishing another story restarts the sequence; replays can complete clues without increasing the unique-story count. The bonus stays unlocked until the walk ends. All progress exists only in memory.
 
 Search the place list by name, or filter by Academics, Housing, Athletics, Arts & culture, and Campus life. Search ignores case and accents and combines with the selected category. The result count updates immediately; **Reset filters** restores the full list. These controls narrow the list while nearby automatic stories, map selection, and simulation jumps remain available. Search and category choices stay in memory and clear when the walk ends or access is revoked.
 

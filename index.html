@@ -29,7 +29,7 @@
       >
       <span class="header-location">WHITMAN COLLEGE <span>WALLA WALLA, WA</span></span>
       <button class="text-button" id="how-button">
-        How it works <span aria-hidden="true">↗</span>
+        How it works
       </button>
     </header>
 
@@ -42,8 +42,8 @@
             </p>
             <h1 id="welcome-title">Every place<br />has a story.<br /><em>Walk into one.</em></h1>
             <p class="intro">
-              Meet Whitman through the stories and sounds around you. A little curiosity. A pair of
-              headphones. Your own pace.
+              Meet Whitman through the stories and sounds around you. Explore at your own pace,
+              or see how many campus stories you can collect in one walk.
             </p>
             <div class="start-panel">
               <button class="primary-button" id="consent-button">
@@ -108,7 +108,7 @@
               />
               <figcaption>
                 <span class="place-number">02</span> Outdoor Courts
-                <span aria-hidden="true">↗</span>
+                <span aria-hidden="true">♫</span>
               </figcaption>
             </figure>
             <div class="visual-note">
@@ -118,19 +118,20 @@
         </div>
         <div class="welcome-bottom">
           <span>A STUDENT PROJECT, MADE FOR EXPLORING.</span
-          ><span>Listen. Look around. Stay curious. <span aria-hidden="true">↗</span></span>
+          ><span>Listen. Look around. Stay curious.</span>
         </div>
       </section>
 
       <section id="explorer" hidden aria-label="Campus explorer">
         <div class="explorer-toolbar">
-          <div>
-            <span class="status-dot"></span><strong id="mode-label">Live campus walk</strong
-            ><span id="gps-status">Finding your place…</span>
+          <div class="walk-status">
+            <div class="walk-status-line">
+              <span class="status-dot" aria-hidden="true"></span><strong id="mode-label">Live campus walk</strong
+              ><span id="gps-status">Finding your place…</span>
+            </div>
+            <p id="nearby-message">A story starts when you enter a landmark’s listening area.</p>
           </div>
-          <button id="end-button" class="text-button">
-            End walk <span aria-hidden="true">↗</span>
-          </button>
+          <button id="end-button" class="text-button">End walk</button>
         </div>
         <div class="explorer-layout">
           <div class="map-section">
@@ -165,36 +166,25 @@
                 Resume exploring <span aria-hidden="true">→</span>
               </button>
             </div>
-            <div class="panel-heading">
-              <p class="eyebrow" id="nearby-eyebrow">LISTEN TO WHAT’S NEARBY</p>
-              <h2 id="nearby-title">A little closer.</h2>
-              <p id="nearby-message">
-                Keep exploring. A story starts when you enter a landmark’s listening area.
-              </p>
+            <div id="simulation-panel" class="simulation-panel" hidden>
+              <div>
+                <span class="eyebrow">SIMULATED WALK</span>
+                <span id="simulation-time">0:00 / 50:48</span>
+              </div>
+              <p id="simulation-label">Approaching Ankeny Field</p>
+              <input id="simulation-seek" type="range" min="0" max="3048" value="0" step="1" aria-label="Simulated walk position" />
+              <button id="simulation-toggle" class="simulation-toggle">Pause movement</button>
+              <details id="simulation-jumps">
+                <summary>Jump to a place <span aria-hidden="true">+</span></summary>
+                <div class="simulation-buttons" id="simulation-buttons"></div>
+              </details>
+              <small>This dot is simulated. Your real location is not used.</small>
             </div>
-            <div class="place-filters" role="group" aria-label="Find a place">
-              <label class="place-search-field" for="place-search">
-                Search places
-                <input id="place-search" type="search" placeholder="Try Maxey or Penrose" maxlength="100" autocomplete="off" spellcheck="false" aria-controls="stop-list" />
-              </label>
-              <label for="place-category">
-                Category
-                <select id="place-category" aria-controls="stop-list">
-                  <option value="all">All categories</option>
-                </select>
-              </label>
-              <button id="reset-place-filters" class="filter-reset" type="button" disabled>Reset filters</button>
-              <p id="place-results" class="place-results" role="status" aria-live="polite" aria-atomic="true"></p>
-              <p class="filter-note">Filters narrow this list; nearby stories still play.</p>
-            </div>
-            <p id="no-place-results" class="no-place-results" hidden>No places match. Try another name or category.</p>
-            <div id="stop-list" class="stop-list"></div>
             <article id="story-card" class="story-card" hidden>
-              <img id="story-image" src="assets/styx.jpg" alt="" width="400" height="275" />
               <div class="story-body">
                 <p class="eyebrow" id="story-category"></p>
                 <h2 id="story-title"></h2>
-                <p id="story-description"></p>
+                <p id="story-listened" class="listened-badge" hidden>✓ Listened</p>
                 <div class="player">
                   <button id="play-button" class="play-button" aria-label="Play story">▶</button>
                   <div class="player-center">
@@ -222,6 +212,11 @@
                     ♫
                   </button>
                 </div>
+                <div id="manual-playback" class="manual-playback" hidden>
+                  <p>You chose this story. Nearby stories will wait.</p>
+                  <button id="follow-walk" class="text-button">Follow nearby stories</button>
+                </div>
+                <p id="story-description"></p>
                 <details id="transcript">
                   <summary>Read the story <span aria-hidden="true">+</span></summary>
                   <p id="story-transcript"></p>
@@ -231,41 +226,55 @@
                 </details>
                 <p class="sample-note">A first listen · Sample narration & sound design</p>
               </div>
+              <img id="story-image" src="assets/styx.jpg" alt="" width="400" height="275" />
             </article>
             <div class="between-stops" id="between-stops">
-              <div class="sound-orbit" aria-hidden="true"><span></span><span></span><i>✳</i></div>
-              <strong>There’s a story around the corner.</strong>
-              <p>Look up. Take your time.<br />We’ll let you know when you’re close.</p>
+              <strong>Choose a place to start listening.</strong>
+              <p>Tap a map marker or a place below. Nearby stories also play automatically.</p>
             </div>
-            <div id="simulation-panel" class="simulation-panel" hidden>
-              <div>
-                <span class="eyebrow">SIMULATED WALK</span
-                ><span id="simulation-time">0:00 / 50:48</span>
+            <section class="collection" aria-labelledby="collection-title">
+              <div class="collection-heading">
+                <h2 id="collection-title">Find your next story</h2>
+                <p id="listening-progress" role="status" aria-live="polite" aria-atomic="true">0 of 56 stories completed</p>
               </div>
-              <p id="simulation-label">Approaching Ankeny Field</p>
-              <input
-                id="simulation-seek"
-                type="range"
-                min="0"
-                max="3048"
-                value="0"
-                step="1"
-                aria-label="Simulated walk position"
-              />
-              <div class="simulation-buttons" id="simulation-buttons">
-                <button id="simulation-toggle">Pause walk</button>
+              <p class="collection-note">Finish a story to collect it. Your collection lasts for this walk.</p>
+              <p id="collection-complete" class="collection-complete" hidden>You’ve completed every campus story. Thanks for listening!</p>
+              <div class="place-filters" role="group" aria-label="Find a place">
+                <label class="place-search-field" for="place-search">
+                  Search places
+                  <input id="place-search" type="search" placeholder="Try Maxey or Penrose" maxlength="100" autocomplete="off" spellcheck="false" aria-controls="stop-list" />
+                </label>
+                <label for="place-category">
+                  Category
+                  <select id="place-category" aria-controls="stop-list">
+                    <option value="all">All categories</option>
+                  </select>
+                </label>
+                <button id="reset-place-filters" class="filter-reset" type="button" disabled>Reset filters</button>
+                <p id="place-results" class="place-results" role="status" aria-live="polite" aria-atomic="true"></p>
+                <p class="filter-note">Filters narrow this list. Choose a place to listen.</p>
               </div>
-              <small>This dot is simulated. Your real location is not used.</small>
-            </div>
+              <p id="no-place-results" class="no-place-results" hidden>No places match. Try another name or category.</p>
+              <div id="stop-list" class="stop-list"></div>
+            </section>
+            <details id="trail-details" class="trail-details">
+              <summary>Follow a hidden thread <span aria-hidden="true">+</span></summary>
+              <p>Begin with the sculpture beside Ankeny Field. Next, find the library. Finish at Memorial Building. Complete those three stories in that order to uncover a small surprise. Another finished story starts the thread over.</p>
+              <p id="trail-status" role="status" aria-live="polite" aria-atomic="true">0 of 3 clues completed in order</p>
+              <div id="bonus-reveal" hidden>
+                <h3>You found the hidden thread.</h3>
+                <p>Art, ideas, and the places we share. You connected three stories by taking time to listen. Carry that curiosity into the rest of campus: the next connection is yours to make.</p>
+              </div>
+            </details>
             <div class="session-actions">
-              <button id="switch-mode" class="text-button">Try simulated walking ↗</button
-              ><span>Nothing saved. Just explored.</span>
+              <button id="switch-mode" class="text-button">Try simulated walking</button
+              ><span>Progress stays in this walk. End it to start fresh.</span>
             </div>
           </aside>
         </div>
         <div class="explorer-footer">
           <span>WHITMAN COLLEGE · WALLA WALLA</span
-          ><button id="about-button" class="text-button">About this project ↗</button>
+          ><button id="about-button" class="text-button">About this project</button>
         </div>
       </section>
     </main>
@@ -287,7 +296,8 @@
           <strong>Tap, then wander.</strong>
           <p>
             Tap Start exploring to enable sound. Near a landmark, an arrival sound and short story
-            play automatically.
+            play automatically. You can also tap any map marker or place card to listen. Choose
+            Follow nearby stories when you’re ready to return to automatic arrivals.
           </p>
         </li>
         <li>
@@ -298,6 +308,7 @@
           </p>
         </li>
       </ol>
+      <p class="dialog-small">Explore freely or collect all 56 stories. A finished narration earns a Listened badge; opening a card does not. Your collection clears when you end the walk, reload, or revoke location access. Look for the hidden thread beneath the place list for a smaller challenge.</p>
       <p class="dialog-small">
         We use location only in memory during this session. No accounts, analytics, cookies, or
         saved preferences. Your browser may remember its permission choice and cache site files. Map
