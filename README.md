@@ -19,7 +19,7 @@ npm test
 npm run build
 ```
 
-The build recreates `dist/` and copies only the website into it, removing stale output from earlier builds. Tests, development scripts, and local files are excluded. This is plain HTML, CSS, and JavaScript, with a vendored copy of Leaflet 1.9.4 for the map.
+The build recreates `dist/` and copies only the website into it, removing stale output from earlier builds. It versions script/style URLs and the local JavaScript module graph for each release, and gives recordings content-based URL versions. Reloading the updated page therefore requests the current narration even when an older recording is cached. An already open walk keeps its loaded version until reloaded. Tests, development scripts, and local files are excluded. This is plain HTML, CSS, and JavaScript, with a vendored copy of Leaflet 1.9.4 for the map.
 
 ## Visitor experience
 
