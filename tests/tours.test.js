@@ -23,7 +23,7 @@ test('collection progress counts only its completed stories and finds the first 
   const tour = findTour('first-visit');
   const completed = new Set(['jewett', 'styx', 'memorial']);
   const summary = tourSummary(tour, landmarks, completed);
-  assert.equal(summary.minutes, 3);
+  assert.equal(summary.minutes, 4);
   assert.equal(summary.completed, 2);
   assert.equal(summary.next.id, 'penrose');
   for (const id of tour.stopIds) completed.add(id);

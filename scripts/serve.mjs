@@ -12,6 +12,7 @@ const types = {
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
   '.wav': 'audio/wav',
+  '.mp3': 'audio/mpeg',
   '.txt': 'text/plain; charset=utf-8',
 };
 http

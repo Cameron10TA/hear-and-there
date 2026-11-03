@@ -261,7 +261,7 @@ test('collections scope and order the list, reuse completion, and keep progress 
   assert.equal(get('place-search').value, '');
   assert.equal(get('place-results').textContent, '6 of 6 places');
   assert.deepEqual(get('stop-list').children.filter((node) => !node.hidden).map((node) => node.id), tours[0].stopIds.map((id) => `stop-${id}`));
-  assert.match(get('tour-duration').textContent, /6 stops · About 3 min/);
+  assert.match(get('tour-duration').textContent, /6 stops · About 4 min/);
   assert.equal(playback.mock.callCount(), 0, 'choosing a collection alone never starts audio');
   await get('tour-next').fire('click');
   await flush();

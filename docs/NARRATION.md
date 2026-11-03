@@ -1,9 +1,17 @@
 # Narration production
 
-All 56 campus stories use Kokoro v1.0's American English `af_heart` (Heart)
-voice at speed **0.97**, matching the Styx sample approved on November 3, 2026.
-The approved Styx WAV itself is used for that stop. Transcripts remain in
-`src/landmarks.js`. Arrival chimes are separate synthesized sounds.
+All 56 campus stories use team-supplied ElevenLabs recordings (mono 44.1 kHz MP3,
+added November 3, 2026). Each stop's transcript in `src/landmarks.js` matches what
+its recording says. The earlier recordings used Kokoro v1.0's American English
+`af_heart` (Heart) voice at speed **0.97**; the settings below apply if a story is
+regenerated with Kokoro. Arrival chimes are separate synthesized sounds.
+
+## Replacing a story with a supplied recording
+
+Save it as `assets/audio/<stop id>.mp3` (mono, 44.1 kHz) and point the stop's
+`audio` field at it. Rewrite the transcript to match the recording word for word,
+and check that the recording does not tell visitors to go inside. Then follow the
+duration-label and simulation-hold steps below.
 
 Recordings are generated locally, before building the website. Visitors only
 download the selected WAV; they need no model, Python packages, voice account,
