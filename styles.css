@@ -548,6 +548,9 @@ figure {
   font-family: var(--sans);
 }
 .explorer-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1200;
   padding: 12px 4%;
   border-bottom: 1px solid var(--line);
   display: flex;
@@ -555,6 +558,29 @@ figure {
   justify-content: space-between;
   gap: 12px;
   background: #fff;
+}
+.back-home-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.back-home-button span:first-child {
+  font-size: 19px;
+  line-height: 1;
+}
+.back-home-button:hover {
+  background: #f3f5f6;
+  border-color: var(--blue);
 }
 .walk-status {
   min-width: 0;
@@ -1713,7 +1739,19 @@ dialog li p {
     font-size: 14px;
   }
   .explorer-toolbar {
-    padding: 8px 5%;
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    padding: 7px 12px;
+    gap: 8px;
+  }
+  .back-home-button {
+    flex: 0 0 auto;
+    gap: 6px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+  .walk-status {
+    min-width: 0;
   }
   .walk-status-line {
     flex-wrap: wrap;

@@ -163,6 +163,7 @@ async function setup(t, { failedStop, prepareGate, unlockGate, withMap = false, 
 for (const ending of ['end', 'revoke']) {
   test(`${ending} clears mode, mute and consent before the next walk`, async (t) => {
     const { get, permission } = await setup(t);
+    assert.equal(get('end-button').getAttribute('aria-label'), 'Back to home and end walk');
     await get('consent-button').fire('click');
     await get('start-button').fire('click');
     await get('switch-mode').fire('click');
