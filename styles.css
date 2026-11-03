@@ -199,11 +199,7 @@ button:active {
   align-items: center;
   margin: 0 0 22px;
 }
-.tiny-sun {
-  font-size: 24px;
-  color: #af8000;
-  line-height: 1;
-}
+.tiny-sun { display: inline-block; flex: 0 0 24px; width: 24px; height: 24px; color: #af8000; background: currentColor; clip-path: polygon(50% 0%, 58% 35%, 85% 15%, 65% 42%, 100% 50%, 65% 58%, 85% 85%, 58% 65%, 50% 100%, 42% 65%, 15% 85%, 35% 58%, 0% 50%, 35% 42%, 15% 15%, 42% 35%); }
 h1 {
   font-family: var(--serif);
   font-size: clamp(48px, 5.4vw, 78px);
@@ -512,11 +508,7 @@ figure {
   gap: 11px;
   transform: rotate(-8deg);
 }
-.visual-note > span:first-child {
-  font-size: 46px;
-  color: #b58a00;
-  line-height: 1;
-}
+.visual-note > .visual-burst { display: inline-block; flex: 0 0 42px; width: 42px; height: 42px; background: #b58a00; clip-path: polygon(50% 0%, 58% 35%, 85% 15%, 65% 42%, 100% 50%, 65% 58%, 85% 85%, 58% 65%, 50% 100%, 42% 65%, 15% 85%, 35% 58%, 0% 50%, 35% 42%, 15% 15%, 42% 35%); }
 .visual-note > span:last-child {
   font-size: 17px;
   font-style: italic;
@@ -1461,6 +1453,16 @@ dialog li p {
   border-top: 1px solid var(--line);
   padding-top: 15px;
 }
+.project-intro { font: 14px/1.75 var(--serif); color: var(--ink); }
+.project-story { margin: 22px 0; border-bottom: 1px solid var(--line); }
+.project-story details { border-top: 1px solid var(--line); }
+.project-story summary { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; font-size: 12px; font-weight: 700; list-style: none; }
+.project-story summary::-webkit-details-marker { display: none; }
+.project-story summary span { color: var(--gold); font-size: 20px; transition: transform .2s ease; }
+.project-story details[open] summary span { transform: rotate(45deg); }
+.project-story p, .project-story blockquote { margin: 0 0 18px; font-size: 12px; line-height: 1.75; color: var(--muted); }
+.project-story blockquote { padding: 13px 16px; border-left: 3px solid var(--gold); background: #fff; color: var(--ink); }
+.play-button svg { display: block; width: 18px; height: 18px; margin: auto; }
 .dialog-repo {
   font-size: 11px;
   line-height: 1.5;
@@ -1553,8 +1555,10 @@ dialog li p {
     top: 413px;
     left: -2%;
   }
-  .visual-note > span:first-child {
-    font-size: 32px;
+  .visual-note > .visual-burst {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
   }
   .visual-note > span:last-child {
     font-size: 14px;
@@ -1619,7 +1623,9 @@ dialog li p {
     margin-bottom: 18px;
   }
   .tiny-sun {
-    font-size: 21px;
+    flex-basis: 21px;
+    width: 21px;
+    height: 21px;
   }
   h1 {
     font-size: clamp(49px, 12vw, 68px);
@@ -1718,8 +1724,10 @@ dialog li p {
     left: 1%;
     top: 341px;
   }
-  .visual-note > span:first-child {
-    font-size: 31px;
+  .visual-note > .visual-burst {
+    width: 31px;
+    height: 31px;
+    flex-basis: 31px;
   }
   .visual-note > span:last-child {
     font-size: 15px;

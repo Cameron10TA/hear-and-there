@@ -678,7 +678,14 @@ function renderAudio() {
   $('tour-next').disabled = state.paused || !tour || !tourSummary(tour, landmarks, progress.completed).next;
   $('manual-playback').hidden = !state.manualStory;
   const playing = audio.playing || audio.pending;
-  $('play-button').textContent = state.audioLoading ? '×' : playing ? 'Ⅱ' : state.audioError ? '↻' : '▶';
+  const playbackIcon = state.audioLoading ? 'cancel' : state.audioError ? 'retry' : playing ? 'pause' : 'play';
+  const playbackIcons = {
+    play: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.8v12.4L18 12 8 5.8Z" fill="currentColor" /></svg>',
+    pause: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor" /></svg>',
+    cancel: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" /></svg>',
+    retry: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 7v5h-5M20 12a8 8 0 1 0 2 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>',
+  };
+  $('play-button').innerHTML = playbackIcons[playbackIcon];
   $('play-button').setAttribute(
     'aria-label',
     state.audioLoading
@@ -1129,18 +1136,15 @@ $('end-button').addEventListener('click', () => {
   window.scrollTo({ top: 0 });
   $('consent-button').focus({ preventScroll: true });
 });
-for (const id of ['how-button', 'about-button'])
-  $(id).addEventListener('click', () => $('about-dialog').showModal());
-$('close-dialog').addEventListener('click', () => $('about-dialog').close());
-$('about-dialog').addEventListener('click', (event) => {
-  if (event.target === $('about-dialog')) {
-    const rect = event.target.getBoundingClientRect();
-    if (
-      event.clientX < rect.left ||
-      event.clientX > rect.right ||
-      event.clientY < rect.top ||
-      event.clientY > rect.bottom
-    )
-      event.target.close();
-  }
-});
+$('how-button').addEventListener('click', () => $('how-dialog').showModal());
+$('about-button').addEventListener('click', () => $('about-dialog').showModal());
+for (const [dialogId, closeId] of [['how-dialog', 'close-how-dialog'], ['about-dialog', 'close-about-dialog']]) {
+  const dialog = $(dialogId);
+  $(closeId).addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (event) => {
+    if (event.target !== dialog) return;
+    const rect = dialog.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)
+      dialog.close();
+  });
+}

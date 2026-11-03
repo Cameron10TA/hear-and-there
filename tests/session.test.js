@@ -34,6 +34,8 @@ class Element {
   }
   focus() { document.activeElement = this; }
   scrollIntoView() {}
+  showModal() { this.open = true; }
+  close() { this.open = false; }
   async fire(type, extra = {}) {
     await this.listeners.get(type)?.({ target: this, ...extra });
   }
@@ -228,6 +230,24 @@ test('a missing recording does not block another story on arrival or manual play
   assert.equal(get('audio-status').textContent, 'You’ve arrived…');
 });
 
+test('How it works and About this project open distinct, relevant dialogs', async (t) => {
+  const { get } = await setup(t);
+  await get('how-button').fire('click');
+  assert.equal(get('how-dialog').open, true);
+  assert.equal(get('about-dialog').open, undefined);
+  await get('close-how-dialog').fire('click');
+  assert.equal(get('how-dialog').open, false);
+  await get('about-button').fire('click');
+  assert.equal(get('about-dialog').open, true);
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const start = html.indexOf('<dialog id="about-dialog"');
+  const about = html.slice(start, html.indexOf('</dialog>', start));
+  assert.match(about, /incoming students and their families/);
+  assert.match(about, /What we noticed/);
+  assert.match(about, /question we set out to answer/);
+  assert.doesNotMatch(about, /Locking the screen or switching away pauses/);
+});
+
 const flush = () => new Promise((resolve) => setImmediate(resolve));
 
 test('collections scope and order the list, reuse completion, and keep progress across modes', async (t) => {
@@ -401,6 +421,8 @@ test('a place card starts narration, keeps the manual choice through GPS changes
   await flush();
   assert.equal(get('story-title').textContent, 'Reid Campus Center');
   assert.equal(get('play-button').getAttribute('aria-label'), 'Pause story');
+  assert.match(get('play-button').innerHTML, /<svg/);
+  assert.match(get('play-button').innerHTML, /M7 5h4v14H7zM13 5h4v14h-4z/);
   assert.equal(playback.mock.callCount(), 1);
   move(landmarks.find((stop) => stop.id === 'penrose').listeningPosition);
   await get('follow-walk').fire('click');
