@@ -1,4 +1,4 @@
-// Recorded samples and synthesized arrival sounds share one audio context.
+// Story recordings and synthesized arrival sounds share one audio context.
 // Unlock this context inside a tap handler, especially on iOS Safari.
 export class StoryAudio {
   constructor(onChange, onComplete = () => {}) {
