@@ -1622,7 +1622,11 @@ dialog li p {
     letter-spacing: 1.4px;
     margin-bottom: 18px;
   }
-  .tiny-sun { flex-basis: 21px; width: 21px; height: 21px; }
+  .tiny-sun {
+    flex-basis: 21px;
+    width: 21px;
+    height: 21px;
+  }
   h1 {
     font-size: clamp(49px, 12vw, 68px);
     letter-spacing: -2.7px;
