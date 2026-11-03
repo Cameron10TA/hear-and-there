@@ -20,7 +20,7 @@ For quiet testing, choose **QA: off campus** before enabling location, then star
 | Scenario            | Steps and expected result                                                                                                                                                                                                                           |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Consent gate        | Before enabling location, exploration is hidden. Choose **QA: deny location**, then **Enable location**. The explanation and retry button appear; simulation remains blocked. Grant mock location and retry to continue.                            |
-| All stops | The yellow simulation panel appears first. Pause movement, expand **Jump to a place**, and use each **Go to** button. Check the title, image, transcript, duration, and playback. Jump buttons cover all 56 stops. The slider ends at 50:48. |
+| All stops | The yellow simulation panel appears first. Pause movement, expand **Jump to a place**, and use each **Go to** button. Check the title, image, transcript, duration, and playback. Jump buttons cover all 56 stops. The slider ends at 50:49. |
 | Map and card selection | At overview zooms, click or keyboard-activate a numbered group to zoom in without starting audio. Individual pins and place cards play their matching narration. Enter/Space work after filtering and re-adding a pin; accessible names include the place name. Manual choices pause simulated movement and keep their story through GPS updates; **Follow nearby stories** / **Follow simulated walk** returns to arrivals. |
 | Themed collections | Choose each collection: First time at Whitman (6 stops), Art around campus (7), Student life (7). Check narration estimate, suggested order, ordered list/pin numbers, and Listen next. Selecting a collection alone must not play audio or download recordings. Finish stories: collection progress updates, including shared stories when switching themes. Complete a theme: its own success state appears before the 56-story campus goal. |
 | Shared map/list filters | Change category or Not listened to yet above the map, then in the sidebar: both controls stay synchronized and filter both map/list. Combine search and a collection. A completed current story leaves the unlistened list but keeps its player and map pin. Zero matches offer reset guidance; Reset filters keeps the current collection. Selecting another collection clears visibility filters. End/revoke/reload clears everything. |
@@ -28,7 +28,7 @@ For quiet testing, choose **QA: off campus** before enabling location, then star
 | Hidden thread | Finish Styx, Penrose Library, and Memorial Building in order. The bonus opens beneath the list. Finishing another story before the final clue resets the thread; replays can satisfy clues. The unlocked bonus remains for this walk only. |
 | Search and categories | Search **Penrose**: two results. Choose **Academics**: only Penrose Library. Choose **Housing**: zero results and a helpful message. Reset restores all 56 places and focuses search. Search **hua wen** to find the accented Chinese House name. Check keyboard focus on search, category, reset, and results. |
 | Search while listening | Start a story, then enter a query with no matches. The current card and playback stay available. While following automatic arrivals, a new outdoor arrival can still play even if the list excludes it. A manually chosen story keeps priority until you return to following. End/revoke: search and category clear. |
-| Simulation end      | Move the slider to 50:48. The movement button says **Restart walk**. Jump back to Penrose: it says **Continue movement**. Continue from that stop, or seek to the end and restart at 0:00. |
+| Simulation end      | Move the slider to 50:49. The movement button says **Restart walk**. Jump back to Penrose: it says **Continue movement**. Continue from that stop, or seek to the end and restart at 0:00. |
 | End and restart     | Switch modes and mute, then **End walk**. Fresh consent is required, **Explore in person** is selected, and mute is cleared. A new walk starts in live mode unless you choose simulation.                                                           |
 | Permission revoked  | During either mode, choose **QA: deny location**. The walk stops and the gate returns. Grant and retry; the next session has fresh defaults.                                                                                                        |
 | Hidden page         | During playback, choose **QA: hide page**, then **QA: show page**. The walk stays paused and play is disabled until **Resume exploring**. Existing narration requires its own play/resume tap.                                                      |
@@ -51,7 +51,7 @@ Physical Safari behavior, real permission prompts, screen locking, calls/headpho
 
 ## Footprints and slow connections — current checklist
 
-- Check all 56 stop cards, photos, transcripts, and simulation jumps. New building coverage follows the 54-building official campus-map inventory. The complete demo is 50:48; every hold accommodates the recording. Open **LOCAL QA ONLY · mocked GPS** to reveal the collapsible test controls.
+- Check all 56 stop cards, photos, transcripts, and simulation jumps. New building coverage follows the 54-building official campus-map inventory. The complete demo is 50:49; every hold accommodates the recording. Open **LOCAL QA ONLY · mocked GPS** to reveal the collapsible test controls.
 - The map shows a circle at Styx and outdoor listening areas extending to nearby paths at the courts/buildings. The physical court footprint retains its cutout; the listening area includes the paths around it. Automated geometry tests cover every edge and corner, a 6 m perimeter, buffered entry/exit behavior, and neighboring zones.
 - Before starting a fresh fixture session, choose **QA: off campus**, **QA: hold audio downloads**, and **QA: fail map tiles**. Start must open the explorer immediately. Select a story and tap Play: the transcript stays available, with slow feedback after four seconds. A download times out after fifteen seconds and offers retry.
 - Cancel or switch stories while loading; **QA: release audio downloads** must not start the abandoned story. Repeat with hide/show, End walk, and permission revocation. Mute before releasing downloads when testing quietly.
@@ -111,3 +111,20 @@ Arrow Down changes the category. Desktop (1265 px) had no horizontal overflow;
 320 × 568 and 390 × 844 iframe layouts were visually checked for controls, result
 cards, long names, and focus outlines. No console errors/warnings appeared in the
 checked flow. This verifies browser layout and handlers, not physical iPhone behavior.
+
+## Neural narration — November 3, 2026
+
+All 74 automated tests pass with 56 replacement Heart recordings at 24 kHz.
+Checks cover PCM format, audible signal levels without clipped peaks, duration
+labels, and at least three seconds of spare listening time at every stop.
+Cleveland's hold increases by one second; subsequent frames shift together,
+giving a 50:49 simulation. Transcripts, geography, and transition durations are
+unchanged. Styx uses the exact approved sample.
+
+The in-app browser decoded all 56 files through the real `StoryAudio.prepare`
+loader. The real fixture at a 648 × 634 desktop viewport, with fictional GPS,
+showed Styx playing at 0:31 and Cleveland at 0:34, plus pause/resume, mute,
+pause on simulated page hide, and explicit resume after returning. These are
+decode and playback-handler checks, not a human pronunciation review of every
+story or a physical iPhone lock-screen test. The clean production build contains
+the replacement WAVs and excludes generation tools, models, and the local audit.

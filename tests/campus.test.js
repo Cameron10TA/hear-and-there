@@ -97,11 +97,18 @@ test('every WAV is finite mono PCM narration, compact and long enough for its tr
       if (kind === 'data') data = wav.subarray(at + 8, at + 8 + size);
       at += 8 + size + size % 2;
     }
-    assert.deepEqual([format, channels, sampleRate, bits], [1, 1, 22050, 16], stop.id);
-    assert.equal(byteRate, 44100);
+    assert.deepEqual([format, channels, sampleRate, bits], [1, 1, 24000, 16], stop.id);
+    assert.equal(byteRate, 48000);
     const seconds = data.length / byteRate;
     assert.ok(seconds > 12 && seconds < 70, `${stop.id} compact speech`);
-    assert.ok(data.some((byte) => byte !== 0), `${stop.id} is not silent`);
+    let peak = 0, sumSquares = 0;
+    for (let at = 0; at < data.length; at += 2) {
+      const sample = data.readInt16LE(at) / 32768;
+      peak = Math.max(peak, Math.abs(sample));
+      sumSquares += sample * sample;
+    }
+    assert.ok(peak > 0.05 && peak <= 0.921, `${stop.id} audible without clipped peaks`);
+    assert.ok(Math.sqrt(sumSquares / (data.length / 2)) > 0.005, `${stop.id} audible average level`);
     const words = stop.transcript.trim().split(/\s+/).length;
     assert.ok(words / seconds > 1 && words / seconds < 4.5, `${stop.id} duration matches spoken text length`);
     const label = Number(stop.durationLabel.match(/\d+/)[0]);

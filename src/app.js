@@ -692,7 +692,7 @@ function renderAudio() {
             : 'Play story'
   );
   $('play-button').disabled = state.paused;
-  let status = 'Sample narration';
+  let status = 'Story narration';
   if (state.paused) status = 'Walk paused';
   else if (state.audioError) status = state.audioError;
   else if (state.audioLoading)
