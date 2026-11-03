@@ -61,12 +61,15 @@ test('the demo begins out of range and enters each landmark only once', () => {
   );
   assert.deepEqual([...arrivals].sort(), landmarks.map((stop) => stop.id).sort());
 });
-test('every stop has a playable local WAV, photograph, source, and transcript', async () => {
+test('every stop has a playable local recording, photograph, source, and transcript', async () => {
   for (const stop of landmarks) {
-    const wav = await readFile(stop.audio);
-    assert.equal(wav.toString('ascii', 0, 4), 'RIFF');
-    assert.equal(wav.toString('ascii', 8, 12), 'WAVE');
-    assert.ok(wav.length > 100000);
+    const audio = await readFile(stop.audio);
+    if (stop.audio.endsWith('.mp3')) assert.equal(audio.toString('ascii', 0, 3), 'ID3');
+    else {
+      assert.equal(audio.toString('ascii', 0, 4), 'RIFF');
+      assert.equal(audio.toString('ascii', 8, 12), 'WAVE');
+    }
+    assert.ok(audio.length > 100000);
     assert.ok((await stat(stop.image)).size > 1000);
     assert.ok(stop.transcript.length > 100);
     assert.ok(stop.source.startsWith('https://'));

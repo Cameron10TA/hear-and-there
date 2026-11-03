@@ -82,33 +82,60 @@ test('physical and listening polygons are simple and retain footprint coverage',
   }
 });
 
-test('every WAV is finite mono PCM narration, compact and long enough for its transcript', async () => {
+// Duration of a mono 44.1 kHz MPEG-1 Layer III file, walking every frame header.
+function mp3Seconds(mp3, id) {
+  let at = 0;
+  if (mp3.toString('ascii', 0, 3) === 'ID3') {
+    at = 10 + ((mp3[6] << 21) | (mp3[7] << 14) | (mp3[8] << 7) | mp3[9]);
+  }
+  const bitrates = [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320];
+  let frames = 0;
+  while (at + 4 <= mp3.length && mp3[at] === 0xff && (mp3[at + 1] & 0xfe) === 0xfa) {
+    const kbps = bitrates[mp3[at + 2] >> 4];
+    assert.ok(kbps, `${id} valid bitrate`);
+    assert.equal((mp3[at + 2] >> 2) & 3, 0, `${id} is 44.1 kHz`);
+    assert.equal(mp3[at + 3] >> 6, 3, `${id} is mono`);
+    const size = Math.floor((144000 * kbps) / 44100) + ((mp3[at + 2] >> 1) & 1);
+    assert.ok(at + size <= mp3.length, `${id} complete frames`);
+    at += size;
+    frames++;
+  }
+  if (mp3.toString('ascii', at, at + 3) === 'TAG') at += 128;
+  assert.equal(at, mp3.length, `${id} contains only MP3 frames`);
+  return (frames * 1152) / 44100;
+}
+
+function wavSeconds(wav, id) {
+  let format, channels, sampleRate, byteRate, bits, data;
+  assert.equal(wav.readUInt32LE(4) + 8, wav.length, `${id} complete RIFF`);
+  for (let at = 12; at + 8 <= wav.length;) {
+    const kind = wav.toString('ascii', at, at + 4), size = wav.readUInt32LE(at + 4);
+    assert.ok(at + 8 + size <= wav.length, `${id} complete chunks`);
+    if (kind === 'fmt ') {
+      format = wav.readUInt16LE(at + 8); channels = wav.readUInt16LE(at + 10);
+      sampleRate = wav.readUInt32LE(at + 12); byteRate = wav.readUInt32LE(at + 16); bits = wav.readUInt16LE(at + 22);
+    }
+    if (kind === 'data') data = wav.subarray(at + 8, at + 8 + size);
+    at += 8 + size + size % 2;
+  }
+  assert.deepEqual([format, channels, sampleRate, bits], [1, 1, 24000, 16], id);
+  assert.equal(byteRate, 48000);
+  let peak = 0, sumSquares = 0;
+  for (let at = 0; at < data.length; at += 2) {
+    const sample = data.readInt16LE(at) / 32768;
+    peak = Math.max(peak, Math.abs(sample));
+    sumSquares += sample * sample;
+  }
+  assert.ok(peak > 0.05 && peak <= 0.921, `${id} audible without clipped peaks`);
+  assert.ok(Math.sqrt(sumSquares / (data.length / 2)) > 0.005, `${id} audible average level`);
+  return data.length / byteRate;
+}
+
+test('every recording is finite mono narration, compact and long enough for its transcript', async () => {
   for (const stop of landmarks) {
-    const wav = await readFile(new URL(`../${stop.audio}`, import.meta.url));
-    let format, channels, sampleRate, byteRate, bits, data;
-    assert.equal(wav.readUInt32LE(4) + 8, wav.length, `${stop.id} complete RIFF`);
-    for (let at = 12; at + 8 <= wav.length;) {
-      const kind = wav.toString('ascii', at, at + 4), size = wav.readUInt32LE(at + 4);
-      assert.ok(at + 8 + size <= wav.length, `${stop.id} complete chunks`);
-      if (kind === 'fmt ') {
-        format = wav.readUInt16LE(at + 8); channels = wav.readUInt16LE(at + 10);
-        sampleRate = wav.readUInt32LE(at + 12); byteRate = wav.readUInt32LE(at + 16); bits = wav.readUInt16LE(at + 22);
-      }
-      if (kind === 'data') data = wav.subarray(at + 8, at + 8 + size);
-      at += 8 + size + size % 2;
-    }
-    assert.deepEqual([format, channels, sampleRate, bits], [1, 1, 24000, 16], stop.id);
-    assert.equal(byteRate, 48000);
-    const seconds = data.length / byteRate;
+    const file = await readFile(new URL(`../${stop.audio}`, import.meta.url));
+    const seconds = stop.audio.endsWith('.mp3') ? mp3Seconds(file, stop.id) : wavSeconds(file, stop.id);
     assert.ok(seconds > 12 && seconds < 70, `${stop.id} compact speech`);
-    let peak = 0, sumSquares = 0;
-    for (let at = 0; at < data.length; at += 2) {
-      const sample = data.readInt16LE(at) / 32768;
-      peak = Math.max(peak, Math.abs(sample));
-      sumSquares += sample * sample;
-    }
-    assert.ok(peak > 0.05 && peak <= 0.921, `${stop.id} audible without clipped peaks`);
-    assert.ok(Math.sqrt(sumSquares / (data.length / 2)) > 0.005, `${stop.id} audible average level`);
     const words = stop.transcript.trim().split(/\s+/).length;
     assert.ok(words / seconds > 1 && words / seconds < 4.5, `${stop.id} duration matches spoken text length`);
     const label = Number(stop.durationLabel.match(/\d+/)[0]);

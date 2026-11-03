@@ -17,9 +17,9 @@ export const landmarks = [
     "exitRadius": 48,
     "image": "assets/styx.jpg",
     "imageAlt": "Styx, the horse sculpture, beside Ankeny Field in autumn.",
-    "audio": "assets/audio/styx.wav",
+    "audio": "assets/audio/styx.mp3",
     "ambience": "chime",
-    "durationLabel": "About 30 seconds",
+    "durationLabel": "About 35 seconds",
     "description": "A bronze horse. A field full of stories. Meet one of Whitman’s most recognizable neighbors.",
     "transcript": "Welcome to Styx, on the edge of Ankeny Field. Look closely at this horse. What seems to be weathered driftwood is actually bronze. Artist Deborah Butterfield created Styx in 2002, using wood gathered from the Snake and Columbia rivers as the starting point for the casting. The sculpture was made at the Walla Walla Foundry. Take a moment to notice the spaces between its branches, and the way the field becomes part of the sculpture. Sometimes, getting to know a campus starts with standing still.",
     "source": "https://www.whitman.edu/documents/global/Campus-Tours/Whitman-Sculpture-Tour.pdf",
@@ -105,9 +105,9 @@ export const landmarks = [
     },
     "image": "assets/tennis.jpg",
     "imageAlt": "Blue and green outdoor tennis courts surrounded by trees at Whitman College.",
-    "audio": "assets/audio/tennis.wav",
+    "audio": "assets/audio/tennis.mp3",
     "ambience": "rally",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "The bounce of a ball. The pause before a serve. A different kind of campus conversation.",
     "transcript": "You’re near Whitman’s outdoor tennis courts, between Memorial Building and Maxey Hall. This is one of the places where campus has its own rhythm. When a game is underway, listen for the bounce of a ball, the sound of a racket, and the little pauses in between. These courts are part of Whitman’s athletic life, with priority for team practices, tennis classes, and students. Whether the courts are busy or quiet today, take a breath and notice the sounds around you.",
     "source": "https://www.whitman.edu/campus-map?plc=x37212",
@@ -156,13 +156,13 @@ export const landmarks = [
     },
     image: 'assets/penrose-library.png',
     imageAlt: 'Penrose Library at Whitman College, beside Ankeny Field.',
-    audio: 'assets/audio/penrose.wav',
+    audio: 'assets/audio/penrose.mp3',
     ambience: 'chime',
-    durationLabel: 'About 30 seconds',
+    durationLabel: 'About 40 seconds',
     description:
       'Four floors of books, archives, study spaces, and windows looking out toward Ankeny Field.',
     transcript:
-      'Welcome to Penrose Library, just west of Ankeny Field. A library can be a collection of answers, but it is also a place to learn how to ask better questions. Penrose brings together books, journals, digital collections, and the Whitman College and Northwest Archives, where materials preserve stories from the college and the region. Across four floors, you can find quiet corners, shared tables, and views back toward the field. Pause here for a moment. What question would you bring inside?',
+      'This is Penrose Library, built in 1957 and named for Stephen Penrose, who was Whitman’s president from 1894 to 1934. He and his wife Mary asked that any memorial to them take the form of a library. When the building first opened, classes were cancelled so students could help carry the books over. Additions came in 1974 and 1999, and the Allen Reading Room on the main floor is a favorite study spot. The library also houses the Whitman College and Northwest Archives, where the story of this campus is kept.',
     source: 'https://library.whitman.edu/about_the_library/',
     coordinateNote:
       'Physical footprint from Whitman’s campus map; outdoor listening outline fitted to nearby OSM footpaths. Field-test the paths.',
@@ -323,9 +323,9 @@ export const landmarks = [
     },
     "image": "assets/cleveland-commons.jpg",
     "imageAlt": "Cleveland Commons, Whitman College’s campus dining hall.",
-    "audio": "assets/audio/cleveland.wav",
+    "audio": "assets/audio/cleveland.mp3",
     "ambience": "chime",
-    "durationLabel": "About 35 seconds",
+    "durationLabel": "About 40 seconds",
     "description": "A busy dining hall, a daily changing menu, and a gathering place named for a longtime dean.",
     "transcript": "You’re near Cleveland Commons, a place where the campus day often meets around food. The 500-seat dining hall serves the Whitman community and welcomes the public. Its marketplace-style stations change with the day, from pizza and noodles to soup, salads, and coffee. The building is named for Chuck Cleveland, a longtime dean of students, and was designed with sustainability in mind, including solar panels and reclaimed wood from fallen campus trees. Take a breath before heading on. What sounds tell you that people have gathered here?",
     "source": "https://www.whitman.edu/campus-map?plc=x46558",
@@ -475,11 +475,11 @@ export const landmarks = [
     },
     "image": "assets/memorial.jpg",
     "imageAlt": "Memorial Building and its clock tower at Whitman College.",
-    "audio": "assets/audio/memorial.wav",
+    "audio": "assets/audio/memorial.mp3",
     "ambience": "chime",
-    "durationLabel": "About 30 seconds",
+    "durationLabel": "About 60 seconds",
     "description": "A clock tower, red brick, and more than a century of campus life.",
-    "transcript": "You’re near Memorial Building, the oldest building on Whitman’s campus. Built in 1899, it has watched generations of students cross the grounds around it. Look up toward the clock tower, which rises 111 feet above the ground. Today, the building houses college administrative offices. From any side, notice how the roofline changes as you move, and how the tower helps you find your bearings. Pause for a moment outside. What sounds mark the passing of time on campus today?",
+    "transcript": "Built in 1899, Memorial Building is the oldest and tallest building on campus, and its tower is the image most people associate with Whitman. It memorializes Marcus and Narcissa Whitman, the missionaries for whom the college is named, and it was added to the National Register of Historic Places in 1974. Today, it houses much of the college’s administration, including the President’s Office, the Admission Office, and other offices that students visit for registration and financial questions. Its steps and lawn face the central quad, so it also serves as a natural meeting point and a favorite backdrop for graduation photos. Walking in, you feel the age of the campus: high ceilings, wooden details, and a quiet that contrasts with the busier student buildings nearby. If you only photograph one building on a visit, this is the one.",
     "source": "https://www.whitman.edu/alumni/be-connected/whitman-traditions/memorial-building",
     "coordinateSource": "https://www.whitman.edu/campus-map?plc=x37192",
     "coordinateNote": "Physical footprint from Whitman’s campus map; outdoor listening outline fitted to nearby OSM footpaths, plus 8 m entry and 14 m exit margins. Field-test the paths."
@@ -579,11 +579,11 @@ export const landmarks = [
     },
     "image": "assets/reid-campus-center.png",
     "imageAlt": "Reid Campus Center at Whitman College.",
-    "audio": "assets/audio/reid.wav",
+    "audio": "assets/audio/reid.mp3",
     "ambience": "chime",
-    "durationLabel": "About 30 seconds",
+    "durationLabel": "About 35 seconds",
     "description": "Student voices, everyday errands, and a place to come together.",
-    "transcript": "Welcome to Reid Campus Center, a gathering place for Whitman’s campus community. The building brings together many parts of student life, including student government, the campus post office, and KWCW, the college radio station. It is a place where an everyday errand can turn into a conversation, or a conversation can become a new idea. As you pause outside, notice the paths leading toward the building and the people moving between them. What makes a place feel like a meeting point?",
+    "transcript": "Welcome to the Reid Campus Center, the heart of student life. It’s where you’ll find the bookstore, the Reid Market, the post office, the Young Ballroom, and the offices for student activities, the Outdoor Program, and career and community engagement. It’s named for Pete Reid, who served Whitman as treasurer and assistant to the president from 1948 to 2009, longer than any other staff member. Grab a snack, check your mailbox, or just find a seat. Something is always happening here.",
     "source": "https://www.whitman.edu/campus-map?plc=x37205",
     "coordinateSource": "https://www.whitman.edu/campus-map?plc=x37205",
     "coordinateNote": "Physical footprint from Whitman’s campus map; outdoor listening outline fitted to nearby OSM footpaths, plus 8 m entry and 14 m exit margins. Field-test the paths."
@@ -599,7 +599,7 @@ export const landmarks = [
     ],
     "image": "assets/jewett-hall.jpg",
     "imageAlt": "Exterior of Jewett Hall at Whitman College.",
-    "audio": "assets/audio/jewett.wav",
+    "audio": "assets/audio/jewett.mp3",
     "ambience": "chime",
     "durationLabel": "About 25 seconds",
     "description": "A first-year residence hall near Ankeny Field, with Jewett Café just steps away.",
@@ -707,7 +707,7 @@ export const landmarks = [
     ],
     "image": "assets/lyman-house.jpg",
     "imageAlt": "Exterior of Lyman House at Whitman College.",
-    "audio": "assets/audio/lyman.wav",
+    "audio": "assets/audio/lyman.mp3",
     "ambience": "chime",
     "durationLabel": "About 25 seconds",
     "description": "A first-year community with a shared café connection to neighboring Jewett Hall.",
@@ -775,9 +775,9 @@ export const landmarks = [
     ],
     "image": "assets/anderson-hall.jpg",
     "imageAlt": "Exterior of Anderson Hall at Whitman College.",
-    "audio": "assets/audio/anderson.wav",
+    "audio": "assets/audio/anderson.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "A traditional first-year residence hall close to Stanton Field and Cleveland Commons.",
     "transcript": "Welcome to Anderson Hall, a traditional first-year residence hall near Stanton Field. Cleveland Commons is just a short walk away, and the field gives this part of campus a wide-open feel. From the public path, notice how the lawn and nearby gathering places make room for both quiet pauses and campus activity. This is a home for students, so let’s keep the story outside and give residents their privacy.",
     "source": "https://www.whitman.edu/life-at-whitman/residence-life/residence-halls",
@@ -876,9 +876,9 @@ export const landmarks = [
     "coordinates": [46.0685, -118.3299],
     "image": "assets/stanton-hall.jpg",
     "imageAlt": "Stanton Hall with a volleyball court on the lawn in front.",
-    "audio": "assets/audio/stanton.wav",
+    "audio": "assets/audio/stanton.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "A modern hall for mostly sophomores, with a broad lawn and Cleveland Commons nearby.",
     "transcript": "You’re near Stanton Hall, a modern Whitman residence hall built for mostly sophomore students. Its broad lawn, volleyball court, and outdoor gathering spaces open toward Cleveland Commons, just across the way. The building is designed around shared places as well as room to find a quieter moment. From this exterior path, take in the green space and the movement between home and the rest of campus. Please leave the residence spaces to the people who live here.",
     "source": "https://www.whitman.edu/life-at-whitman/residence-life/residence-halls",
@@ -939,7 +939,7 @@ export const landmarks = [
     "coordinates": [46.0698, -118.329],
     "image": "assets/douglas-hall.jpg",
     "imageAlt": "Exterior of Douglas Hall at Whitman College.",
-    "audio": "assets/audio/douglas.wav",
+    "audio": "assets/audio/douglas.mp3",
     "ambience": "chime",
     "durationLabel": "About 30 seconds",
     "description": "A residence hall north of Cleveland Commons, with suites arranged around a central courtyard.",
@@ -1064,9 +1064,9 @@ export const landmarks = [
     },
     "image": "assets/baker-center.jpg",
     "imageAlt": "Exterior of Baker Center at Whitman College.",
-    "audio": "assets/audio/baker-center.wav",
+    "audio": "assets/audio/baker-center.mp3",
     "ambience": "chime",
-    "durationLabel": "About 20 seconds",
+    "durationLabel": "About 25 seconds",
     "description": "Built in 1904 for Mabel Baker Anderson and professor Louis F. Anderson, Baker Center began as a family home. Today it houses Alumni Relations and Annual Giving.",
     "transcript": "You’re near Baker Center. Built in 1904 for Mabel Baker Anderson and professor Louis F. Anderson, Baker Center began as a family home. Today it houses Alumni Relations and Annual Giving. From the path outside, notice the scale of this former house. How does a small building connect the people here today with generations who have moved on?",
     "source": "https://www.whitman.edu/campus-map?plc=x37162",
@@ -1164,7 +1164,7 @@ export const landmarks = [
     },
     "image": "assets/baker-ferguson.jpg",
     "imageAlt": "Exterior of Baker Ferguson Fitness Center at Whitman College.",
-    "audio": "assets/audio/baker-ferguson.wav",
+    "audio": "assets/audio/baker-ferguson.mp3",
     "ambience": "chime",
     "durationLabel": "About 25 seconds",
     "description": "Baker Ferguson Fitness Center brings weight training and cardio equipment together with the Paul and Louise Harvey Pool. The pool is home to Whitman’s swimming teams. The center takes its name from Baker Ferguson, a member of the Class of 1939.",
@@ -1232,7 +1232,7 @@ export const landmarks = [
     },
     "image": "assets/beta-theta-pi.jpg",
     "imageAlt": "Exterior of Beta Theta Pi at Whitman College.",
-    "audio": "assets/audio/beta-theta-pi.wav",
+    "audio": "assets/audio/beta-theta-pi.mp3",
     "ambience": "chime",
     "durationLabel": "About 25 seconds",
     "description": "Whitman’s Gamma Zeta chapter of Beta Theta Pi was founded in 1916. The fraternity’s history is one thread in the changing story of student communities at Whitman.",
@@ -1296,9 +1296,9 @@ export const landmarks = [
     },
     "image": "assets/bike-shop.png",
     "imageAlt": "Exterior of Bike Shop at Whitman College.",
-    "audio": "assets/audio/bike-shop.wav",
+    "audio": "assets/audio/bike-shop.mp3",
     "ambience": "chime",
-    "durationLabel": "About 20 seconds",
+    "durationLabel": "About 25 seconds",
     "description": "The Outdoor Program Bike Shop provides bicycle maintenance and repairs, rentals, and cycling supplies. The college locates it in the alley behind the French House and Environmental House, near Merriam Street.",
     "transcript": "You’re near Bike Shop. The Outdoor Program Bike Shop provides bicycle maintenance and repairs, rentals, and cycling supplies. The college locates it in the alley behind the French House and Environmental House, near Merriam Street. From the outdoor approach, think about the sounds of a working bicycle: a freewheel clicking, a chain turning, and tires rolling away.",
     "source": "https://www.whitman.edu/campus-map?plc=x40839",
@@ -1396,9 +1396,9 @@ export const landmarks = [
     },
     "image": "assets/boyer-house.jpg",
     "imageAlt": "Exterior of Boyer House at Whitman College.",
-    "audio": "assets/audio/boyer-house.wav",
+    "audio": "assets/audio/boyer-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 20 seconds",
+    "durationLabel": "About 25 seconds",
     "description": "Boyer House is home to Whitman’s Office of Communications. The work associated with this building helps the college share what happens across its classrooms, grounds, and communities.",
     "transcript": "You’re near Boyer House. Boyer House is home to Whitman’s Office of Communications. The work associated with this building helps the college share what happens across its classrooms, grounds, and communities. Pause on the sidewalk and look back toward campus. If you could carry one detail from this walk into a story, which sight or sound would you choose?",
     "source": "https://www.whitman.edu/campus-map?plc=x37166",
@@ -1504,9 +1504,9 @@ export const landmarks = [
     },
     "image": "assets/bratton-tennis.jpg",
     "imageAlt": "Exterior of Bratton Tennis Center at Whitman College.",
-    "audio": "assets/audio/bratton-tennis.wav",
+    "audio": "assets/audio/bratton-tennis.mp3",
     "ambience": "chime",
-    "durationLabel": "About 20 seconds",
+    "durationLabel": "About 25 seconds",
     "description": "Bratton Tennis Center is named for former Whitman president Walter A. Bratton. Its four indoor courts are home to Whitman’s men’s and women’s varsity tennis teams.",
     "transcript": "You’re near Bratton Tennis Center. Bratton Tennis Center is named for former Whitman president Walter A. Bratton. Its four indoor courts are home to Whitman’s men’s and women’s varsity tennis teams. Stay on the outdoor approach and imagine how the bounce of a ball changes inside a large enclosed space. What other sounds change when they move indoors?",
     "source": "https://www.whitman.edu/campus-map?plc=x37168",
@@ -1592,9 +1592,9 @@ export const landmarks = [
     },
     "image": "assets/chinese-house.jpg",
     "imageAlt": "Exterior of Chinese Language and Culture House (Huá Wén Yuàn) at Whitman College.",
-    "audio": "assets/audio/chinese-house.wav",
+    "audio": "assets/audio/chinese-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "The Chinese Language and Culture House, also called Hua Wen Yuan, belongs to Whitman’s Interest House Community. It collaborates with the Chinese Department, bringing language and cultural learning into a residential setting.",
     "transcript": "You’re near Chinese Language and Culture House (Huá Wén Yuàn). The Chinese Language and Culture House, also called Hua Wen Yuan, belongs to Whitman’s Interest House Community. It collaborates with the Chinese Department, bringing language and cultural learning into a residential setting. From outside, consider how a greeting or a shared conversation can turn learning into a daily habit. Please respect the residents’ private spaces.",
     "source": "https://www.whitman.edu/campus-map?plc=x37160",
@@ -1688,9 +1688,9 @@ export const landmarks = [
     },
     "image": "assets/climbing-center.jpg",
     "imageAlt": "Exterior of Climbing Center at Whitman College.",
-    "audio": "assets/audio/climbing-center.wav",
+    "audio": "assets/audio/climbing-center.mp3",
     "ambience": "chime",
-    "durationLabel": "About 20 seconds",
+    "durationLabel": "About 25 seconds",
     "description": "Whitman’s Climbing Center is on the south side of Sherwood Athletic Center. It includes a tall climbing wall and a bouldering area, supporting learning and practice at different skill levels.",
     "transcript": "You’re near Climbing Center. Whitman’s Climbing Center is on the south side of Sherwood Athletic Center. It includes a tall climbing wall and a bouldering area, supporting learning and practice at different skill levels. Pause outside and think about a climber planning the next move. Sometimes progress starts with stopping, looking carefully, and choosing one small step.",
     "source": "https://www.whitman.edu/campus-map?plc=x52177",
@@ -1772,7 +1772,7 @@ export const landmarks = [
     },
     "image": "assets/college-house.jpg",
     "imageAlt": "Exterior of College House at Whitman College.",
-    "audio": "assets/audio/college-house.wav",
+    "audio": "assets/audio/college-house.mp3",
     "ambience": "chime",
     "durationLabel": "About 25 seconds",
     "description": "College House offers apartment options for sophomores, juniors, and seniors. Its furnished living spaces are part of the range of housing choices on Whitman’s campus.",
@@ -1836,7 +1836,7 @@ export const landmarks = [
     },
     "image": "assets/community-service-house.png",
     "imageAlt": "Exterior of Community Service House at Whitman College.",
-    "audio": "assets/audio/community-service-house.wav",
+    "audio": "assets/audio/community-service-house.mp3",
     "ambience": "chime",
     "durationLabel": "About 25 seconds",
     "description": "The Community Service House is part of Whitman’s Interest House Community. Its residents work to encourage community service among Whitman students.",
@@ -1928,11 +1928,11 @@ export const landmarks = [
     },
     "image": "assets/cordiner.jpg",
     "imageAlt": "Exterior of Cordiner Hall at Whitman College.",
-    "audio": "assets/audio/cordiner.wav",
+    "audio": "assets/audio/cordiner.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Cordiner Hall is a large performance venue used for campus gatherings, including Convocation, and for community concerts and events. It is named for Ralph J. Cordiner, a member of the Class of 1922.",
-    "transcript": "You’re near Cordiner Hall. Cordiner Hall is a large performance venue used for campus gatherings, including Convocation, and for community concerts and events. It is named for Ralph J. Cordiner, a member of the Class of 1922. Standing outside, imagine the change from a quiet empty hall to a room full of people listening together. What makes a shared occasion feel memorable?",
+    "transcript": "This is Cordiner Hall, Whitman’s main auditorium and the largest event space on campus, with room for 1,350 people. It hosts college ceremonies, speeches, concerts, and theatrical performances. If you’re visiting, check the events calendar, because there’s often a performance by students, faculty, or touring artists. The hall sits in the middle of campus along Park Street, so it’s easy to stop by and see what’s coming up.",
     "source": "https://www.whitman.edu/campus-map?plc=x37171",
     "coordinateSource": "https://www.whitman.edu/campus-map?plc=x37171",
     "coordinateNote": "Official Whitman footprint; outdoor listening area based on adjacent OSM paths. Source ways and field checks in docs/SOURCES.md. Field-test access and GPS boundaries."
@@ -2004,9 +2004,9 @@ export const landmarks = [
     },
     "image": "assets/dance-studio.jpg",
     "imageAlt": "Exterior of Dance Studio at Whitman College.",
-    "audio": "assets/audio/dance-studio.wav",
+    "audio": "assets/audio/dance-studio.mp3",
     "ambience": "chime",
-    "durationLabel": "About 20 seconds",
+    "durationLabel": "About 25 seconds",
     "description": "Whitman’s Dance Studio serves as both a classroom and a performance space for the Dance program. In a place like this, practice and presentation share the same floor.",
     "transcript": "You’re near Dance Studio. Whitman’s Dance Studio serves as both a classroom and a performance space for the Dance program. In a place like this, practice and presentation share the same floor. Remain on the outdoor sidewalk and notice the rhythm of your own steps. Movement can communicate through a pause, a change of direction, or the simple act of standing still.",
     "source": "https://www.whitman.edu/campus-map?plc=x37172",
@@ -2080,7 +2080,7 @@ export const landmarks = [
     },
     "image": "assets/german-house.jpg",
     "imageAlt": "Exterior of Das Deutsche Haus at Whitman College.",
-    "audio": "assets/audio/german-house.wav",
+    "audio": "assets/audio/german-house.mp3",
     "ambience": "chime",
     "durationLabel": "About 25 seconds",
     "description": "Das Deutsche Haus, the German House, is part of Whitman’s Interest House Community. It hosts German language and culture activities and works with the German Studies Department.",
@@ -2152,9 +2152,9 @@ export const landmarks = [
     },
     "image": "assets/environmental-house.jpg",
     "imageAlt": "Exterior of Environmental House at Whitman College.",
-    "audio": "assets/audio/environmental-house.wav",
+    "audio": "assets/audio/environmental-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "The Environmental House, often called the Outhouse, focuses on environmental and ecological issues. Part of the Interest House Community, it works with Environmental Studies and helps lead campus recycling efforts.",
     "transcript": "You’re near Environmental House. The Environmental House, often called the Outhouse, focuses on environmental and ecological issues. Part of the Interest House Community, it works with Environmental Studies and helps lead campus recycling efforts. Pause outside and notice the material world around you: a tree, a path, a building, and the things people carry. Which everyday choices connect this small place to a much larger environment?",
     "source": "https://www.whitman.edu/campus-map?plc=x37175",
@@ -2268,9 +2268,9 @@ export const landmarks = [
     },
     "image": "assets/facilities.jpg",
     "imageAlt": "Exterior of Facilities Services at Whitman College.",
-    "audio": "assets/audio/facilities.wav",
+    "audio": "assets/audio/facilities.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Facilities Services is located at the north end of campus. Its responsibilities range from grounds care and cleaning to heating systems, painting, repairs, and vehicle maintenance.",
     "transcript": "You’re near Facilities Services. Facilities Services is located at the north end of campus. Its responsibilities range from grounds care and cleaning to heating systems, painting, repairs, and vehicle maintenance. Listen from the surrounding sidewalk rather than entering work areas. The campus depends on many kinds of skilled work, often easiest to notice when you stop and pay attention to what is being maintained.",
     "source": "https://www.whitman.edu/campus-map?plc=x37203",
@@ -2336,9 +2336,9 @@ export const landmarks = [
     },
     "image": "assets/fine-arts-house.jpg",
     "imageAlt": "Exterior of Fine Arts House at Whitman College.",
-    "audio": "assets/audio/fine-arts-house.wav",
+    "audio": "assets/audio/fine-arts-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "The Fine Arts House belongs to Whitman’s Interest House Community and works with the Art Department. Its residents promote activities involving studio art, theater, and music.",
     "transcript": "You’re near Fine Arts House. The Fine Arts House belongs to Whitman’s Interest House Community and works with the Art Department. Its residents promote activities involving studio art, theater, and music. Standing outside, consider how creativity can grow through ordinary shared time as well as formal classes. What would you make if you had a little space, a little company, and an unhurried afternoon?",
     "source": "https://www.whitman.edu/campus-map?plc=x37176",
@@ -2456,9 +2456,9 @@ export const landmarks = [
     },
     "image": "assets/fouts.jpg",
     "imageAlt": "Exterior of Fouts Center for Visual Arts at Whitman College.",
-    "audio": "assets/audio/fouts.wav",
+    "audio": "assets/audio/fouts.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "The Fouts Center for Visual Arts houses Whitman’s Art Department. Its teaching spaces support work in media including ceramics, drawing, photography, painting, sculpture, printmaking, and digital arts.",
     "transcript": "You’re near Fouts Center for Visual Arts. The Fouts Center for Visual Arts houses Whitman’s Art Department. Its teaching spaces support work in media including ceramics, drawing, photography, painting, sculpture, printmaking, and digital arts. From the outdoor path, look for changes in light, texture, and shape. Which material might you choose to capture this moment, and what would that material let you show?",
     "source": "https://www.whitman.edu/campus-map?plc=x37177",
@@ -2564,9 +2564,9 @@ export const landmarks = [
     },
     "image": "assets/glover-alston.jpg",
     "imageAlt": "Exterior of Glover Alston Intercultural Center at Whitman College.",
-    "audio": "assets/audio/glover-alston.wav",
+    "audio": "assets/audio/glover-alston.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "The Glover Alston Intercultural Center supports intercultural awareness and student success. Its programs and individual guidance help students navigate barriers and find resources and community.",
     "transcript": "You’re near Glover Alston Intercultural Center. The Glover Alston Intercultural Center supports intercultural awareness and student success. Its programs and individual guidance help students navigate barriers and find resources and community. Pause on the sidewalk outside and think about what makes a place welcoming. Sometimes belonging begins with a conversation, a familiar face, or knowing there is someone who can help.",
     "source": "https://www.whitman.edu/campus-map?plc=x37179",
@@ -2744,11 +2744,11 @@ export const landmarks = [
     },
     "image": "assets/hall-of-music.jpg",
     "imageAlt": "Exterior of Hall of Music at Whitman College.",
-    "audio": "assets/audio/hall-of-music.wav",
+    "audio": "assets/audio/hall-of-music.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "The Hall of Music is home to Whitman’s Music Department and Catharine Chism Recital Hall. It brings together rehearsal spaces, teaching studios, practice rooms, and music technology facilities.",
-    "transcript": "You’re near Hall of Music. The Hall of Music is home to Whitman’s Music Department and Catharine Chism Recital Hall. It brings together rehearsal spaces, teaching studios, practice rooms, and music technology facilities. From outside, imagine separate lines of practice coming together in an ensemble. Listen to the sounds around you now. Which one would you choose as the beginning of a piece of music?",
+    "transcript": "This is the Hall of Music, home to the music department. It features the 300-seat Chism Recital Hall, where students and faculty give concerts throughout the year. Inside, there’s a listening center, an electronic music studio, 14 teaching studios, and 25 practice rooms. If you walk by with a window open, you might hear a piano, a cello, or a choir rehearsing. Music at Whitman is open to every student, not just majors.",
     "source": "https://www.whitman.edu/campus-map?plc=x37180",
     "coordinateSource": "https://www.whitman.edu/campus-map?plc=x37180",
     "coordinateNote": "Official Whitman footprint; outdoor listening area based on adjacent OSM paths. Source ways and field checks in docs/SOURCES.md. Field-test access and GPS boundaries."
@@ -2944,11 +2944,11 @@ export const landmarks = [
     },
     "image": "assets/hall-of-science.jpg",
     "imageAlt": "Exterior of Hall of Science at Whitman College.",
-    "audio": "assets/audio/hall-of-science.wav",
+    "audio": "assets/audio/hall-of-science.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 40 seconds",
     "description": "The Hall of Science brings together science departments, teaching and research spaces, and the STEM Hub. It also includes Clise Planetarium, a rooftop observatory, and a greenhouse.",
-    "transcript": "You’re near Hall of Science. The Hall of Science brings together science departments, teaching and research spaces, and the STEM Hub. It also includes Clise Planetarium, a rooftop observatory, and a greenhouse. Stay on the path outside and notice the range of questions suggested by this one building, from growing things to distant stars. What nearby detail might become the start of an investigation?",
+    "transcript": "You’re standing at the Hall of Science, home to astronomy, biology, chemistry, geology, and physics. Inside, you’ll find a rooftop astronomy observation lab, a greenhouse, and the Clise Planetarium. Brattain Auditorium is named for Walter Brattain, a Whitman graduate who went on to win the Nobel Prize in Physics. The building also houses the STEM Hub, a place where students get support for science, technology, engineering, and math. It’s right on Ankeny Field, so you’ll often see students heading to lab with the whole campus in view.",
     "source": "https://www.whitman.edu/campus-map?plc=x37181",
     "coordinateSource": "https://www.whitman.edu/campus-map?plc=x37181",
     "coordinateNote": "Official Whitman footprint; outdoor listening area based on adjacent OSM paths. Source ways and field checks in docs/SOURCES.md. Field-test access and GPS boundaries."
@@ -3044,11 +3044,11 @@ export const landmarks = [
     },
     "image": "assets/harper-joy.jpg",
     "imageAlt": "Exterior of Harper Joy Theatre at Whitman College.",
-    "audio": "assets/audio/harper-joy.wav",
+    "audio": "assets/audio/harper-joy.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 35 seconds",
     "description": "Harper Joy Theatre is home to Whitman’s Theater and Dance Department. Its performance spaces include the Alexander Stage and the Freimann Studio Theatre, with workshops and studios supporting the work behind a production.",
-    "transcript": "You’re near Harper Joy Theatre. Harper Joy Theatre is home to Whitman’s Theater and Dance Department. Its performance spaces include the Alexander Stage and the Freimann Studio Theatre, with workshops and studios supporting the work behind a production. Pause outside and imagine how many different hands help bring a story to a stage. A performance begins long before an audience takes its seats.",
+    "transcript": "Harper Joy Theatre is where Whitman’s Theatre Department comes to life. It has two performance spaces, the 310-seat Alexander Stage and the more intimate Freimann Studio Theatre. Behind the scenes, there’s an acting studio, a scene shop, a costume shop, and a design classroom with a computer lab. Students build sets, sew costumes, and run lights, so every show is a campus-wide effort. Keep an eye out for posters, because performances happen throughout the year.",
     "source": "https://www.whitman.edu/campus-map?plc=x37182",
     "coordinateSource": "https://www.whitman.edu/campus-map?plc=x37182",
     "coordinateNote": "Official Whitman footprint; outdoor listening area based on adjacent OSM paths. Source ways and field checks in docs/SOURCES.md. Field-test access and GPS boundaries."
@@ -3180,9 +3180,9 @@ export const landmarks = [
     },
     "image": "assets/harvey.jpg",
     "imageAlt": "Exterior of Harvey Hall at Whitman College.",
-    "audio": "assets/audio/harvey.wav",
+    "audio": "assets/audio/harvey.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Harvey Hall is one of the three buildings in Nancy Serrurier Village, offering apartment-style housing for juniors and seniors. It is named for Peter Harvey, Class of 1984, who served as Whitman’s longest-serving chief financial officer.",
     "transcript": "You’re near Harvey Hall. Harvey Hall is one of the three buildings in Nancy Serrurier Village, offering apartment-style housing for juniors and seniors. It is named for Peter Harvey, Class of 1984, who served as Whitman’s longest-serving chief financial officer. From the sidewalk outside, notice how a new residential building becomes part of an older campus. Please leave the living areas to residents.",
     "source": "https://www.whitman.edu/campus-map?plc=x65515",
@@ -3292,11 +3292,11 @@ export const landmarks = [
     },
     "image": "assets/hunter.jpg",
     "imageAlt": "Exterior of Hunter Conservatory at Whitman College.",
-    "audio": "assets/audio/hunter.wav",
+    "audio": "assets/audio/hunter.mp3",
     "ambience": "chime",
     "durationLabel": "About 25 seconds",
     "description": "Hunter Conservatory houses Film and Media Studies and Kimball Theatre, a recital and lecture space. A stained glass skylight above its multi-story atrium is one of the building’s distinctive interior features.",
-    "transcript": "You’re near Hunter Conservatory. Hunter Conservatory houses Film and Media Studies and Kimball Theatre, a recital and lecture space. A stained glass skylight above its multi-story atrium is one of the building’s distinctive interior features. From the path outside, consider how a single building can hold films, readings, performances, and conversation across time. Which kind of story would you most like to hear here?",
+    "transcript": "Hunter Conservatory is home to Whitman’s Film and Media Studies department. Inside is the 75-seat Kimball Theatre, a cozy screening room where students watch films, study how stories are told on screen, and share their own work. It’s a quiet, classic spot on campus, and a good place to pause if you’re curious about how Whitman’s students make and study movies.",
     "source": "https://www.whitman.edu/campus-map?plc=x37183",
     "coordinateSource": "https://www.whitman.edu/campus-map?plc=x37183",
     "coordinateNote": "Official Whitman footprint; outdoor listening area based on adjacent OSM paths. Source ways and field checks in docs/SOURCES.md. Field-test access and GPS boundaries."
@@ -3356,9 +3356,9 @@ export const landmarks = [
     },
     "image": "assets/spanish-house.png",
     "imageAlt": "Exterior of La Casa Hispana at Whitman College.",
-    "audio": "assets/audio/spanish-house.wav",
+    "audio": "assets/audio/spanish-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "La Casa Hispana, the Spanish House, belongs to Whitman’s Interest House Community. It works with the Hispanic Studies Department, connecting residential life with language and cultural learning.",
     "transcript": "You’re near La Casa Hispana. La Casa Hispana, the Spanish House, belongs to Whitman’s Interest House Community. It works with the Hispanic Studies Department, connecting residential life with language and cultural learning. Stay outside on the approach and imagine the everyday exchanges that help a language become familiar. A home can be a place to practice, listen, and learn from one another. Respect the residents’ private spaces.",
     "source": "https://www.whitman.edu/campus-map?plc=x37185",
@@ -3428,9 +3428,9 @@ export const landmarks = [
     },
     "image": "assets/french-house.png",
     "imageAlt": "Exterior of La Maison at Whitman College.",
-    "audio": "assets/audio/french-house.wav",
+    "audio": "assets/audio/french-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 20 seconds",
+    "durationLabel": "About 25 seconds",
     "description": "La Maison, the French House, is part of Whitman’s Interest House Community. It works with the French and Francophone Studies Department and a faculty adviser.",
     "transcript": "You’re near La Maison. La Maison, the French House, is part of Whitman’s Interest House Community. It works with the French and Francophone Studies Department and a faculty adviser. Pause on the outdoor path and think about the difference between studying words and using them in a shared daily life. What small conversation would you like to be able to have in another language?",
     "source": "https://www.whitman.edu/campus-map?plc=x37186",
@@ -3520,9 +3520,9 @@ export const landmarks = [
     },
     "image": "assets/lavender-house.jpg",
     "imageAlt": "Exterior of Lavender House at Whitman College.",
-    "audio": "assets/audio/lavender-house.wav",
+    "audio": "assets/audio/lavender-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Lavender House is part of Whitman’s Interest House Community. Its programs support learning and community building around LGBTQIA2S+ identities and experiences across campus.",
     "transcript": "You’re near Lavender House. Lavender House is part of Whitman’s Interest House Community. Its programs support learning and community building around LGBTQIA2S+ identities and experiences across campus. From the sidewalk outside, consider the importance of having room to be yourself and people who understand you. This is also a residence. Keep the listening stop outside and respect the privacy of those who call it home.",
     "source": "https://www.whitman.edu/campus-map?plc=x63639",
@@ -3656,11 +3656,11 @@ export const landmarks = [
     },
     "image": "assets/maxey.jpg",
     "imageAlt": "Exterior of Maxey Hall at Whitman College.",
-    "audio": "assets/audio/maxey.wav",
+    "audio": "assets/audio/maxey.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 35 seconds",
     "description": "Maxey Hall houses social science departments, Deshler Auditorium, and the Maxey Museum. The museum’s collections connect natural history and anthropology with opportunities for students to study and interpret the past.",
-    "transcript": "You’re near Maxey Hall. Maxey Hall houses social science departments, Deshler Auditorium, and the Maxey Museum. The museum’s collections connect natural history and anthropology with opportunities for students to study and interpret the past. Pause on the surrounding path. A familiar object can become evidence when someone asks a new question about it. What might a future visitor learn from the ordinary things around this campus?",
+    "transcript": "Maxey Hall is home to the Division of Social Sciences. The building stands where Billings Hall once stood, one of the college’s earliest masonry buildings, and it’s named for Chester Collins Maxey, a Whitman president. Inside is the Maxey Museum, a natural history and anthropology museum, along with a 350-seat auditorium used for lectures and events. It sits right beside the pond, Lakum Duckum, so on a nice day you might see classes happening outdoors or students studying on the nearby benches.",
     "source": "https://www.whitman.edu/campus-map?plc=x37191",
     "coordinateSource": "https://www.whitman.edu/campus-map?plc=x37191",
     "coordinateNote": "Official Whitman footprint; outdoor listening area based on adjacent OSM paths. Source ways and field checks in docs/SOURCES.md. Field-test access and GPS boundaries."
@@ -3728,9 +3728,9 @@ export const landmarks = [
     },
     "image": "assets/multicultural-house.png",
     "imageAlt": "Exterior of Multicultural House at Whitman College.",
-    "audio": "assets/audio/multicultural-house.wav",
+    "audio": "assets/audio/multicultural-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "The Multicultural House belongs to Whitman’s Interest House Community and is affiliated with the Glover Alston Intercultural Center. Its residents promote cultural awareness and celebrate different cultures.",
     "transcript": "You’re near Multicultural House. The Multicultural House belongs to Whitman’s Interest House Community and is affiliated with the Glover Alston Intercultural Center. Its residents promote cultural awareness and celebrate different cultures. Listen from the sidewalk outside. Think about a tradition, a story, or a shared meal that has helped you understand someone else’s experience. Leave the private living spaces to residents.",
     "source": "https://www.whitman.edu/campus-map?plc=x37190",
@@ -3864,11 +3864,11 @@ export const landmarks = [
     },
     "image": "assets/olin.jpg",
     "imageAlt": "Exterior of Olin Hall at Whitman College.",
-    "audio": "assets/audio/olin.wav",
+    "audio": "assets/audio/olin.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 35 seconds",
     "description": "Olin Hall brings together humanities departments, student academic support, computing and math spaces, and an auditorium. It also contains the Donald H. Sheehan Art Gallery.",
-    "transcript": "You’re near Olin Hall. Olin Hall brings together humanities departments, student academic support, computing and math spaces, and an auditorium. It also contains the Donald H. Sheehan Art Gallery. From the path outside, think about how different kinds of questions can share a building. A poem, a proof, a conversation, and a work of art can each offer a different way of seeing the world.",
+    "transcript": "This is Olin Hall, where most mathematics, computer science, and humanities classes take place. It was built with support from the F. W. Olin Foundation. Inside is Olin Auditorium, plus the Sheehan Art Gallery, which shows exhibitions throughout the year. The Art History Department and the Center for Writing and Speaking are also here, so it’s a busy crossroads for students from every field. If you like seeing student and visiting artists’ work, step inside and see what’s on display.",
     "source": "https://www.whitman.edu/campus-map?plc=x37194",
     "coordinateSource": "https://www.whitman.edu/campus-map?plc=x37194",
     "coordinateNote": "Official Whitman footprint; outdoor listening area based on adjacent OSM paths. Source ways and field checks in docs/SOURCES.md. Field-test access and GPS boundaries."
@@ -3940,9 +3940,9 @@ export const landmarks = [
     },
     "image": "assets/penrose-house.jpg",
     "imageAlt": "Exterior of Penrose House at Whitman College.",
-    "audio": "assets/audio/penrose-house.wav",
+    "audio": "assets/audio/penrose-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Penrose House is home to Whitman’s Office of Admission and is a starting place for campus tours. Built in 1921, it originally served as the college president’s residence and is named for Stephen B. L. Penrose.",
     "transcript": "You’re near Penrose House. Penrose House is home to Whitman’s Office of Admission and is a starting place for campus tours. Built in 1921, it originally served as the college president’s residence and is named for Stephen B. L. Penrose. Pause on the sidewalk outside. Think back to your own first impression of campus, and the detail that made an unfamiliar place begin to feel recognizable.",
     "source": "https://www.whitman.edu/campus-map?plc=x37198",
@@ -4028,9 +4028,9 @@ export const landmarks = [
     },
     "image": "assets/phi-delta-theta.jpg",
     "imageAlt": "Exterior of Phi Delta Theta at Whitman College.",
-    "audio": "assets/audio/phi-delta-theta.wav",
+    "audio": "assets/audio/phi-delta-theta.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Whitman’s Washington Beta chapter of Phi Delta Theta was founded in 1915. Its chapter house includes spaces for dining, study, and recreation.",
     "transcript": "You’re near Phi Delta Theta. Whitman’s Washington Beta chapter of Phi Delta Theta was founded in 1915. Its chapter house includes spaces for dining, study, and recreation. Listen from the sidewalk outside and consider how shared spaces can shape a student community across generations. The building is also a home, so keep this visit outside and leave its private areas to residents.",
     "source": "https://www.whitman.edu/campus-map?plc=x37200",
@@ -4176,9 +4176,9 @@ export const landmarks = [
     },
     "image": "assets/prentiss.png",
     "imageAlt": "Exterior of Prentiss Hall at Whitman College.",
-    "audio": "assets/audio/prentiss.wav",
+    "audio": "assets/audio/prentiss.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Prentiss Hall stands between Boyer Avenue and Cleveland Commons. It is a residence for women-identifying and gender nonbinary students and is also home to Whitman’s four sororities.",
     "transcript": "You’re near Prentiss Hall. Prentiss Hall stands between Boyer Avenue and Cleveland Commons. It is a residence for women-identifying and gender nonbinary students and is also home to Whitman’s four sororities. From the outdoor approach, notice the routes between housing, dining, and the rest of campus. Daily life often takes shape along these short, repeated journeys. Please respect the privacy of the people who live here.",
     "source": "https://www.whitman.edu/campus-map?plc=x37204",
@@ -4332,9 +4332,9 @@ export const landmarks = [
     },
     "image": "assets/robart.jpg",
     "imageAlt": "Exterior of Robart Hall at Whitman College.",
-    "audio": "assets/audio/robart.wav",
+    "audio": "assets/audio/robart.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Robart Hall is one of three buildings in Nancy Serrurier Village, offering apartment-style housing for juniors and seniors. It is named for James Robart, a member of the Class of 1969, a federal judge, and an emeritus trustee.",
     "transcript": "You’re near Robart Hall. Robart Hall is one of three buildings in Nancy Serrurier Village, offering apartment-style housing for juniors and seniors. It is named for James Robart, a member of the Class of 1969, a federal judge, and an emeritus trustee. Pause on the sidewalk outside and notice the spaces between neighboring buildings. Those spaces help connect individual homes with a wider campus community.",
     "source": "https://www.whitman.edu/campus-map?plc=x65516",
@@ -4428,9 +4428,9 @@ export const landmarks = [
     },
     "image": "assets/sherwood-athletic.jpg",
     "imageAlt": "Exterior of Sherwood Athletic Center at Whitman College.",
-    "audio": "assets/audio/sherwood-athletic.wav",
+    "audio": "assets/audio/sherwood-athletic.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Sherwood Athletic Center houses Whitman’s main gym, where varsity basketball and volleyball games take place. It also brings together other recreation and athletic spaces, including the Climbing Center on its south side.",
     "transcript": "You’re near Sherwood Athletic Center. Sherwood Athletic Center houses Whitman’s main gym, where varsity basketball and volleyball games take place. It also brings together other recreation and athletic spaces, including the Climbing Center on its south side. Standing on the path outside, imagine a gym shifting from quiet practice to a crowded game. What changes when people gather to watch and cheer together?",
     "source": "https://www.whitman.edu/campus-map?plc=x37206",
@@ -4496,7 +4496,7 @@ export const landmarks = [
     },
     "image": "assets/sherwood-house.jpg",
     "imageAlt": "Exterior of Sherwood House at Whitman College.",
-    "audio": "assets/audio/sherwood-house.wav",
+    "audio": "assets/audio/sherwood-house.mp3",
     "ambience": "chime",
     "durationLabel": "About 25 seconds",
     "description": "Sherwood House was built in 1922 and has served as the Whitman College president’s residence since 1995. It is part of the college’s history, as well as a private home.",
@@ -4564,9 +4564,9 @@ export const landmarks = [
     },
     "image": "assets/sigma-chi.jpg",
     "imageAlt": "Exterior of Sigma Chi at Whitman College.",
-    "audio": "assets/audio/sigma-chi.wav",
+    "audio": "assets/audio/sigma-chi.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Whitman’s Gamma Epsilon chapter of Sigma Chi was founded in 1923. The chapter house is part of the college’s fraternity community and the residential landscape north of the central campus.",
     "transcript": "You’re near Sigma Chi. Whitman’s Gamma Epsilon chapter of Sigma Chi was founded in 1923. The chapter house is part of the college’s fraternity community and the residential landscape north of the central campus. From the sidewalk outside, consider the many different communities that can exist within one college. This listening stop stays outside; please respect the residents and their private spaces.",
     "source": "https://www.whitman.edu/campus-map?plc=x37208",
@@ -4632,9 +4632,9 @@ export const landmarks = [
     },
     "image": "assets/spirituality-house.jpg",
     "imageAlt": "Exterior of Spirituality House at Whitman College.",
-    "audio": "assets/audio/spirituality-house.wav",
+    "audio": "assets/audio/spirituality-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Spirituality House belongs to Whitman’s Interest House Community and works with the Office of Religious and Spiritual Life. Residents explore religious, cultural, spiritual, moral, and philosophical traditions in relationship with others.",
     "transcript": "You’re near Spirituality House. Spirituality House belongs to Whitman’s Interest House Community and works with the Office of Religious and Spiritual Life. Residents explore religious, cultural, spiritual, moral, and philosophical traditions in relationship with others. Pause outside and notice a moment of quiet between the sounds of campus. What question or practice helps you reflect? Leave the private living areas to residents.",
     "source": "https://www.whitman.edu/campus-map?plc=x63638",
@@ -4808,9 +4808,9 @@ export const landmarks = [
     },
     "image": "assets/stegner.jpg",
     "imageAlt": "Exterior of Stegner Hall at Whitman College.",
-    "audio": "assets/audio/stegner.wav",
+    "audio": "assets/audio/stegner.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Stegner Hall is part of Nancy Serrurier Village, providing apartment-style housing for juniors and seniors. It is named for John Stegner, Class of 1977, and educator Laurie Elgee Stegner, Class of 1980.",
     "transcript": "You’re near Stegner Hall. Stegner Hall is part of Nancy Serrurier Village, providing apartment-style housing for juniors and seniors. It is named for John Stegner, Class of 1977, and educator Laurie Elgee Stegner, Class of 1980. From the sidewalk outside, think about how names on buildings connect people with a place. The daily stories of the students living here add another chapter.",
     "source": "https://www.whitman.edu/campus-map?plc=x65517",
@@ -4876,9 +4876,9 @@ export const landmarks = [
     },
     "image": "assets/tau-kappa-epsilon.jpg",
     "imageAlt": "Exterior of Tau Kappa Epsilon at Whitman College.",
-    "audio": "assets/audio/tau-kappa-epsilon.wav",
+    "audio": "assets/audio/tau-kappa-epsilon.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Whitman’s Alpha Theta chapter of Tau Kappa Epsilon was founded in 1930. Its house is part of the fraternity community along the northern side of central campus.",
     "transcript": "You’re near Tau Kappa Epsilon. Whitman’s Alpha Theta chapter of Tau Kappa Epsilon was founded in 1930. Its house is part of the fraternity community along the northern side of central campus. Stay on the sidewalk outside and notice how the campus changes as you move between open grounds and residential buildings. Each house holds a smaller community within the larger college. Please respect its private spaces.",
     "source": "https://www.whitman.edu/campus-map?plc=x37209",
@@ -4952,9 +4952,9 @@ export const landmarks = [
     },
     "image": "assets/tekisuijuku.jpg",
     "imageAlt": "Exterior of Tekisuijuku at Whitman College.",
-    "audio": "assets/audio/tekisuijuku.wav",
+    "audio": "assets/audio/tekisuijuku.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Tekisuijuku is a residential interest house for students interested in speaking Japanese and learning about Japanese culture. It is part of Whitman’s Interest House Community.",
     "transcript": "You’re near Tekisuijuku. Tekisuijuku is a residential interest house for students interested in speaking Japanese and learning about Japanese culture. It is part of Whitman’s Interest House Community. From the sidewalk outside, consider how daily conversation can make learning part of a home. A language carries stories and ways of noticing the world, as well as words. Please leave the private living areas to residents.",
     "source": "https://www.whitman.edu/campus-map?plc=x37210",
@@ -5064,9 +5064,9 @@ export const landmarks = [
     },
     "image": "assets/third-space.png",
     "imageAlt": "Exterior of Third Space Center at Whitman College.",
-    "audio": "assets/audio/third-space.wav",
+    "audio": "assets/audio/third-space.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "The Third Space Center supports communities of color at Whitman. Students, staff, faculty, and the Confederated Tribes of the Umatilla Indian Reservation collaborated in its design, and its programs encourage understanding of race and racism.",
     "transcript": "You’re near Third Space Center. The Third Space Center supports communities of color at Whitman. Students, staff, faculty, and the Confederated Tribes of the Umatilla Indian Reservation collaborated in its design, and its programs encourage understanding of race and racism. Pause outside and consider what it means to help shape a place around the needs and experiences of the people who use it.",
     "source": "https://www.whitman.edu/campus-map?plc=x63633",
@@ -5128,9 +5128,9 @@ export const landmarks = [
     },
     "image": "assets/wellness-house.jpg",
     "imageAlt": "Exterior of Wellness House at Whitman College.",
-    "audio": "assets/audio/wellness-house.wav",
+    "audio": "assets/audio/wellness-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 25 seconds",
+    "durationLabel": "About 30 seconds",
     "description": "Wellness House is part of Whitman’s Interest House Community. This residential setting is one of the smaller places where students build a shared daily life within the larger college.",
     "transcript": "You’re near Wellness House. Wellness House is part of Whitman’s Interest House Community. This residential setting is one of the smaller places where students build a shared daily life within the larger college. From the sidewalk outside, take a breath and notice your pace. What ordinary routine helps you feel grounded? Keep this listening stop outside and respect the privacy of the people living here.",
     "source": "https://www.whitman.edu/campus-map?plc=x37178",
@@ -5216,7 +5216,7 @@ export const landmarks = [
     },
     "image": "assets/welty.png",
     "imageAlt": "Exterior of Welty Health & Counseling Center at Whitman College.",
-    "audio": "assets/audio/welty.wav",
+    "audio": "assets/audio/welty.mp3",
     "ambience": "chime",
     "durationLabel": "About 25 seconds",
     "description": "Welty Health and Counseling Center supports students’ physical, mental, and emotional well-being through coordinated care. It is one of the places where the work of learning is supported by the work of looking after people.",
@@ -5280,9 +5280,9 @@ export const landmarks = [
     },
     "image": "assets/writing-house.png",
     "imageAlt": "Exterior of Writing House at Whitman College.",
-    "audio": "assets/audio/writing-house.wav",
+    "audio": "assets/audio/writing-house.mp3",
     "ambience": "chime",
-    "durationLabel": "About 20 seconds",
+    "durationLabel": "About 25 seconds",
     "description": "Writing House belongs to Whitman’s Interest House Community and works with an adviser from the English Department. It offers a shared residential setting where students can develop their writing.",
     "transcript": "You’re near Writing House. Writing House belongs to Whitman’s Interest House Community and works with an adviser from the English Department. It offers a shared residential setting where students can develop their writing. Stay on the sidewalk outside and choose one detail from your walk. How would you describe it in a single sentence? Leave the private living areas to residents.",
     "source": "https://www.whitman.edu/campus-map?plc=x37156",
@@ -5348,7 +5348,7 @@ export const landmarks = [
     },
     "image": "assets/technology-services.jpg",
     "imageAlt": "Exterior of Whitman College Technology Services Building at Whitman College.",
-    "audio": "assets/audio/technology-services.wav",
+    "audio": "assets/audio/technology-services.mp3",
     "ambience": "chime",
     "durationLabel": "About 30 seconds",
     "description": "The Whitman College Technology Services Building houses Technology Services along with offices for Security, Environmental Health and Safety, and Conferences, Events and Scheduling. These services support many parts of campus life.",
@@ -5422,7 +5422,7 @@ export const simulation = [
       46.0708577,
       -118.3286126
     ],
-    "seconds": 112
+    "seconds": 113
   },
   {
     "label": "Outside Baker Center",
@@ -5430,7 +5430,7 @@ export const simulation = [
       46.0703429,
       -118.3286867
     ],
-    "seconds": 124,
+    "seconds": 125,
     "stopId": "baker-center"
   },
   {
@@ -5439,7 +5439,7 @@ export const simulation = [
       46.0703429,
       -118.3286867
     ],
-    "seconds": 160
+    "seconds": 161
   },
   {
     "label": "Outside Fine Arts House",
@@ -5447,7 +5447,7 @@ export const simulation = [
       46.0702817,
       -118.3279195
     ],
-    "seconds": 172,
+    "seconds": 173,
     "stopId": "fine-arts-house"
   },
   {
@@ -5456,7 +5456,7 @@ export const simulation = [
       46.0702817,
       -118.3279195
     ],
-    "seconds": 208
+    "seconds": 209
   },
   {
     "label": "Between listening stops",
@@ -5464,7 +5464,7 @@ export const simulation = [
       46.0704407,
       -118.3277833
     ],
-    "seconds": 213.389
+    "seconds": 214.389
   },
   {
     "label": "Outside La Casa Hispana",
@@ -5472,7 +5472,7 @@ export const simulation = [
       46.0704662,
       -118.3274584
     ],
-    "seconds": 220,
+    "seconds": 221,
     "stopId": "spanish-house"
   },
   {
@@ -5481,7 +5481,7 @@ export const simulation = [
       46.0704662,
       -118.3274584
     ],
-    "seconds": 256
+    "seconds": 257
   },
   {
     "label": "Outside La Maison",
@@ -5489,7 +5489,7 @@ export const simulation = [
       46.0704689,
       -118.3272203
     ],
-    "seconds": 268,
+    "seconds": 269,
     "stopId": "french-house"
   },
   {
@@ -5498,7 +5498,7 @@ export const simulation = [
       46.0704689,
       -118.3272203
     ],
-    "seconds": 304
+    "seconds": 305
   },
   {
     "label": "Between listening stops",
@@ -5506,7 +5506,7 @@ export const simulation = [
       46.0704676,
       -118.3268889
     ],
-    "seconds": 310.961
+    "seconds": 311.961
   },
   {
     "label": "Outside Environmental House",
@@ -5514,7 +5514,7 @@ export const simulation = [
       46.0703048,
       -118.3268392
     ],
-    "seconds": 316,
+    "seconds": 317,
     "stopId": "environmental-house"
   },
   {
@@ -5523,7 +5523,7 @@ export const simulation = [
       46.0703048,
       -118.3268392
     ],
-    "seconds": 352
+    "seconds": 353
   },
   {
     "label": "Outside Bike Shop",
@@ -5531,7 +5531,7 @@ export const simulation = [
       46.0700784,
       -118.3272822
     ],
-    "seconds": 364,
+    "seconds": 365,
     "stopId": "bike-shop"
   },
   {
@@ -5540,7 +5540,7 @@ export const simulation = [
       46.0700784,
       -118.3272822
     ],
-    "seconds": 400
+    "seconds": 401
   },
   {
     "label": "Between listening stops",
@@ -5548,7 +5548,7 @@ export const simulation = [
       46.0699011,
       -118.3269667
     ],
-    "seconds": 407.907
+    "seconds": 408.907
   },
   {
     "label": "Outside Chinese Language and Culture House (Huá Wén Yuàn)",
@@ -5556,7 +5556,7 @@ export const simulation = [
       46.069786,
       -118.3268376
     ],
-    "seconds": 412,
+    "seconds": 413,
     "stopId": "chinese-house"
   },
   {
@@ -5565,7 +5565,7 @@ export const simulation = [
       46.069786,
       -118.3268376
     ],
-    "seconds": 448
+    "seconds": 449
   },
   {
     "label": "Outside Wellness House",
@@ -5573,7 +5573,7 @@ export const simulation = [
       46.069505,
       -118.3268751
     ],
-    "seconds": 460,
+    "seconds": 461,
     "stopId": "wellness-house"
   },
   {
@@ -5582,7 +5582,7 @@ export const simulation = [
       46.069505,
       -118.3268751
     ],
-    "seconds": 496
+    "seconds": 497
   },
   {
     "label": "Outside Lavender House",
@@ -5590,7 +5590,7 @@ export const simulation = [
       46.0691613,
       -118.3268108
     ],
-    "seconds": 508,
+    "seconds": 509,
     "stopId": "lavender-house"
   },
   {
@@ -5599,7 +5599,7 @@ export const simulation = [
       46.0691613,
       -118.3268108
     ],
-    "seconds": 544
+    "seconds": 545
   },
   {
     "label": "Between listening stops",
@@ -5607,7 +5607,7 @@ export const simulation = [
       46.0692536,
       -118.3269667
     ],
-    "seconds": 546.421
+    "seconds": 547.421
   },
   {
     "label": "Between listening stops",
@@ -5615,7 +5615,7 @@ export const simulation = [
       46.0693075,
       -118.3271222
     ],
-    "seconds": 548.476
+    "seconds": 549.476
   },
   {
     "label": "Between listening stops",
@@ -5623,7 +5623,7 @@ export const simulation = [
       46.0693075,
       -118.3271611
     ],
-    "seconds": 548.935
+    "seconds": 549.935
   },
   {
     "label": "Between listening stops",
@@ -5631,7 +5631,7 @@ export const simulation = [
       46.0693075,
       -118.3272
     ],
-    "seconds": 549.395
+    "seconds": 550.395
   },
   {
     "label": "Between listening stops",
@@ -5639,7 +5639,7 @@ export const simulation = [
       46.0693345,
       -118.3272
     ],
-    "seconds": 549.854
+    "seconds": 550.854
   },
   {
     "label": "Between listening stops",
@@ -5647,7 +5647,7 @@ export const simulation = [
       46.0693615,
       -118.3274333
     ],
-    "seconds": 552.649
+    "seconds": 553.649
   },
   {
     "label": "Between listening stops",
@@ -5655,7 +5655,7 @@ export const simulation = [
       46.0695234,
       -118.3274333
     ],
-    "seconds": 555.406
+    "seconds": 556.406
   },
   {
     "label": "Outside Spirituality House",
@@ -5663,7 +5663,7 @@ export const simulation = [
       46.0695047,
       -118.3273909
     ],
-    "seconds": 556,
+    "seconds": 557,
     "stopId": "spirituality-house"
   },
   {
@@ -5672,7 +5672,7 @@ export const simulation = [
       46.0695047,
       -118.3273909
     ],
-    "seconds": 592
+    "seconds": 593
   },
   {
     "label": "Between listening stops",
@@ -5680,7 +5680,7 @@ export const simulation = [
       46.0695234,
       -118.3277833
     ],
-    "seconds": 602.974
+    "seconds": 603.974
   },
   {
     "label": "Outside Community Service House",
@@ -5688,7 +5688,7 @@ export const simulation = [
       46.0695045,
       -118.3277586
     ],
-    "seconds": 604,
+    "seconds": 605,
     "stopId": "community-service-house"
   },
   {
@@ -5697,7 +5697,7 @@ export const simulation = [
       46.0695045,
       -118.3277586
     ],
-    "seconds": 640
+    "seconds": 641
   },
   {
     "label": "Outside Multicultural House",
@@ -5705,7 +5705,7 @@ export const simulation = [
       46.0693749,
       -118.3281928
     ],
-    "seconds": 652,
+    "seconds": 653,
     "stopId": "multicultural-house"
   },
   {
@@ -5714,7 +5714,7 @@ export const simulation = [
       46.0693749,
       -118.3281928
     ],
-    "seconds": 688
+    "seconds": 689
   },
   {
     "label": "Outside Das Deutsche Haus",
@@ -5722,7 +5722,7 @@ export const simulation = [
       46.0698843,
       -118.3279187
     ],
-    "seconds": 700,
+    "seconds": 701,
     "stopId": "german-house"
   },
   {
@@ -5731,7 +5731,7 @@ export const simulation = [
       46.0698843,
       -118.3279187
     ],
-    "seconds": 736
+    "seconds": 737
   },
   {
     "label": "Between listening stops",
@@ -5739,7 +5739,7 @@ export const simulation = [
       46.0698741,
       -118.3281333
     ],
-    "seconds": 737.772
+    "seconds": 738.772
   },
   {
     "label": "Between listening stops",
@@ -5747,7 +5747,7 @@ export const simulation = [
       46.0698741,
       -118.3281722
     ],
-    "seconds": 738.093
+    "seconds": 739.093
   },
   {
     "label": "Between listening stops",
@@ -5755,7 +5755,7 @@ export const simulation = [
       46.0698741,
       -118.3282111
     ],
-    "seconds": 738.413
+    "seconds": 739.413
   },
   {
     "label": "Between listening stops",
@@ -5763,7 +5763,7 @@ export const simulation = [
       46.0698741,
       -118.32825
     ],
-    "seconds": 738.733
+    "seconds": 739.733
   },
   {
     "label": "Between listening stops",
@@ -5771,7 +5771,7 @@ export const simulation = [
       46.0698741,
       -118.3282889
     ],
-    "seconds": 739.054
+    "seconds": 740.054
   },
   {
     "label": "Between listening stops",
@@ -5779,7 +5779,7 @@ export const simulation = [
       46.0698741,
       -118.3283278
     ],
-    "seconds": 739.374
+    "seconds": 740.374
   },
   {
     "label": "Between listening stops",
@@ -5787,7 +5787,7 @@ export const simulation = [
       46.0698741,
       -118.3283667
     ],
-    "seconds": 739.694
+    "seconds": 740.694
   },
   {
     "label": "Between listening stops",
@@ -5795,7 +5795,7 @@ export const simulation = [
       46.0698741,
       -118.3284056
     ],
-    "seconds": 740.015
+    "seconds": 741.015
   },
   {
     "label": "Between listening stops",
@@ -5803,7 +5803,7 @@ export const simulation = [
       46.0698741,
       -118.3284445
     ],
-    "seconds": 740.335
+    "seconds": 741.335
   },
   {
     "label": "Between listening stops",
@@ -5811,7 +5811,7 @@ export const simulation = [
       46.0698741,
       -118.3284833
     ],
-    "seconds": 740.655
+    "seconds": 741.655
   },
   {
     "label": "Between listening stops",
@@ -5819,7 +5819,7 @@ export const simulation = [
       46.0698741,
       -118.3285222
     ],
-    "seconds": 740.976
+    "seconds": 741.976
   },
   {
     "label": "Between listening stops",
@@ -5827,7 +5827,7 @@ export const simulation = [
       46.0699281,
       -118.3288722
     ],
-    "seconds": 743.929
+    "seconds": 744.929
   },
   {
     "label": "Between listening stops",
@@ -5835,7 +5835,7 @@ export const simulation = [
       46.069955,
       -118.3288722
     ],
-    "seconds": 744.249
+    "seconds": 745.249
   },
   {
     "label": "Between listening stops",
@@ -5843,7 +5843,7 @@ export const simulation = [
       46.069955,
       -118.3291444
     ],
-    "seconds": 746.492
+    "seconds": 747.492
   },
   {
     "label": "Outside Douglas Hall",
@@ -5851,7 +5851,7 @@ export const simulation = [
       46.0698311,
       -118.3291847
     ],
-    "seconds": 748,
+    "seconds": 749,
     "stopId": "douglas"
   },
   {
@@ -5860,7 +5860,7 @@ export const simulation = [
       46.0698311,
       -118.3291847
     ],
-    "seconds": 784
+    "seconds": 785
   },
   {
     "label": "Between listening stops",
@@ -5868,7 +5868,7 @@ export const simulation = [
       46.0691996,
       -118.3293
     ],
-    "seconds": 791.642
+    "seconds": 792.642
   },
   {
     "label": "Between listening stops",
@@ -5876,7 +5876,7 @@ export const simulation = [
       46.0692266,
       -118.3294944
     ],
-    "seconds": 793.293
+    "seconds": 794.293
   },
   {
     "label": "Outside Prentiss Hall",
@@ -5884,7 +5884,7 @@ export const simulation = [
       46.0694259,
       -118.3296464
     ],
-    "seconds": 796,
+    "seconds": 797,
     "stopId": "prentiss"
   },
   {
@@ -5893,7 +5893,7 @@ export const simulation = [
       46.0694259,
       -118.3296464
     ],
-    "seconds": 832
+    "seconds": 833
   },
   {
     "label": "Outside Anderson Hall",
@@ -5901,7 +5901,7 @@ export const simulation = [
       46.0690033,
       -118.3296454
     ],
-    "seconds": 844,
+    "seconds": 845,
     "stopId": "anderson"
   },
   {
@@ -5910,7 +5910,7 @@ export const simulation = [
       46.0690033,
       -118.3296454
     ],
-    "seconds": 880
+    "seconds": 881
   },
   {
     "label": "Between listening stops",
@@ -5918,7 +5918,7 @@ export const simulation = [
       46.0690377,
       -118.3299611
     ],
-    "seconds": 883.287
+    "seconds": 884.287
   },
   {
     "label": "Between listening stops",
@@ -5926,7 +5926,7 @@ export const simulation = [
       46.0690377,
       -118.3300778
     ],
-    "seconds": 884.487
+    "seconds": 885.487
   },
   {
     "label": "Outside Stanton Hall",
@@ -5934,7 +5934,7 @@ export const simulation = [
       46.0685363,
       -118.3301833
     ],
-    "seconds": 892,
+    "seconds": 893,
     "stopId": "stanton"
   },
   {
@@ -5943,7 +5943,7 @@ export const simulation = [
       46.0685363,
       -118.3301833
     ],
-    "seconds": 928
+    "seconds": 929
   },
   {
     "label": "Between listening stops",
@@ -5951,7 +5951,7 @@ export const simulation = [
       46.0689838,
       -118.3303111
     ],
-    "seconds": 933.455
+    "seconds": 934.455
   },
   {
     "label": "Between listening stops",
@@ -5959,7 +5959,7 @@ export const simulation = [
       46.0692805,
       -118.3303111
     ],
-    "seconds": 937.005
+    "seconds": 938.005
   },
   {
     "label": "Between listening stops",
@@ -5967,7 +5967,7 @@ export const simulation = [
       46.0692805,
       -118.3307
     ],
-    "seconds": 940.231
+    "seconds": 941.231
   },
   {
     "label": "Outside Hall of Music",
@@ -5975,7 +5975,7 @@ export const simulation = [
       46.0692224,
       -118.3307395
     ],
-    "seconds": 941,
+    "seconds": 942,
     "stopId": "hall-of-music"
   },
   {
@@ -5984,7 +5984,7 @@ export const simulation = [
       46.0692224,
       -118.3307395
     ],
-    "seconds": 977
+    "seconds": 978
   },
   {
     "label": "Between listening stops",
@@ -5992,7 +5992,7 @@ export const simulation = [
       46.069955,
       -118.3307778
     ],
-    "seconds": 986.897
+    "seconds": 987.897
   },
   {
     "label": "Outside Hunter Conservatory",
@@ -6000,7 +6000,7 @@ export const simulation = [
       46.0699979,
       -118.3305619
     ],
-    "seconds": 989,
+    "seconds": 990,
     "stopId": "hunter"
   },
   {
@@ -6009,7 +6009,7 @@ export const simulation = [
       46.0699979,
       -118.3305619
     ],
-    "seconds": 1025
+    "seconds": 1026
   },
   {
     "label": "Outside Climbing Center",
@@ -6017,7 +6017,7 @@ export const simulation = [
       46.0704054,
       -118.3304371
     ],
-    "seconds": 1037,
+    "seconds": 1038,
     "stopId": "climbing-center"
   },
   {
@@ -6026,7 +6026,7 @@ export const simulation = [
       46.0704054,
       -118.3304371
     ],
-    "seconds": 1073
+    "seconds": 1074
   },
   {
     "label": "Outside Memorial Building",
@@ -6034,7 +6034,7 @@ export const simulation = [
       46.0709279,
       -118.3300362
     ],
-    "seconds": 1085,
+    "seconds": 1086,
     "stopId": "memorial"
   },
   {
@@ -6043,7 +6043,7 @@ export const simulation = [
       46.0709279,
       -118.3300362
     ],
-    "seconds": 1127
+    "seconds": 1151
   },
   {
     "label": "Between listening stops",
@@ -6051,7 +6051,7 @@ export const simulation = [
       46.071304,
       -118.3294944
     ],
-    "seconds": 1138.621
+    "seconds": 1162.621
   },
   {
     "label": "Outside Penrose Library",
@@ -6059,7 +6059,7 @@ export const simulation = [
       46.0712926,
       -118.3294756
     ],
-    "seconds": 1139,
+    "seconds": 1163,
     "stopId": "penrose"
   },
   {
@@ -6068,7 +6068,7 @@ export const simulation = [
       46.0712926,
       -118.3294756
     ],
-    "seconds": 1175
+    "seconds": 1207
   },
   {
     "label": "Between listening stops",
@@ -6076,7 +6076,7 @@ export const simulation = [
       46.0712501,
       -118.3296111
     ],
-    "seconds": 1176.297
+    "seconds": 1208.297
   },
   {
     "label": "Between listening stops",
@@ -6084,7 +6084,7 @@ export const simulation = [
       46.0712501,
       -118.33
     ],
-    "seconds": 1179.689
+    "seconds": 1211.689
   },
   {
     "label": "Outside Harper Joy Theatre",
@@ -6092,7 +6092,7 @@ export const simulation = [
       46.0717951,
       -118.3302921
     ],
-    "seconds": 1187,
+    "seconds": 1219,
     "stopId": "harper-joy"
   },
   {
@@ -6101,7 +6101,7 @@ export const simulation = [
       46.0717951,
       -118.3302921
     ],
-    "seconds": 1223
+    "seconds": 1256
   },
   {
     "label": "Between listening stops",
@@ -6109,7 +6109,7 @@ export const simulation = [
       46.0721674,
       -118.3305833
     ],
-    "seconds": 1228.466
+    "seconds": 1261.466
   },
   {
     "label": "Outside Hall of Science",
@@ -6117,7 +6117,7 @@ export const simulation = [
       46.0726469,
       -118.330349
     ],
-    "seconds": 1235,
+    "seconds": 1268,
     "stopId": "hall-of-science"
   },
   {
@@ -6126,7 +6126,7 @@ export const simulation = [
       46.0726469,
       -118.330349
     ],
-    "seconds": 1271
+    "seconds": 1310
   },
   {
     "label": "Between listening stops",
@@ -6134,7 +6134,7 @@ export const simulation = [
       46.0727339,
       -118.3297667
     ],
-    "seconds": 1275.737
+    "seconds": 1314.737
   },
   {
     "label": "Between listening stops",
@@ -6142,7 +6142,7 @@ export const simulation = [
       46.072626,
       -118.3292222
     ],
-    "seconds": 1280.24
+    "seconds": 1319.24
   },
   {
     "label": "Outside Olin Hall",
@@ -6150,7 +6150,7 @@ export const simulation = [
       46.0725507,
       -118.3282524
     ],
-    "seconds": 1288,
+    "seconds": 1327,
     "stopId": "olin"
   },
   {
@@ -6159,7 +6159,7 @@ export const simulation = [
       46.0725507,
       -118.3282524
     ],
-    "seconds": 1324
+    "seconds": 1364
   },
   {
     "label": "Between listening stops",
@@ -6167,7 +6167,7 @@ export const simulation = [
       46.072653,
       -118.32755
     ],
-    "seconds": 1329.873
+    "seconds": 1369.873
   },
   {
     "label": "Between listening stops",
@@ -6175,7 +6175,7 @@ export const simulation = [
       46.0731117,
       -118.3275889
     ],
-    "seconds": 1335.292
+    "seconds": 1375.292
   },
   {
     "label": "Outside Beta Theta Pi",
@@ -6183,7 +6183,7 @@ export const simulation = [
       46.0731712,
       -118.3282811
     ],
-    "seconds": 1341,
+    "seconds": 1381,
     "stopId": "beta-theta-pi"
   },
   {
@@ -6192,7 +6192,7 @@ export const simulation = [
       46.0731712,
       -118.3282811
     ],
-    "seconds": 1377
+    "seconds": 1417
   },
   {
     "label": "Between listening stops",
@@ -6200,7 +6200,7 @@ export const simulation = [
       46.0732196,
       -118.3279778
     ],
-    "seconds": 1379.7
+    "seconds": 1419.7
   },
   {
     "label": "Outside Tau Kappa Epsilon",
@@ -6208,7 +6208,7 @@ export const simulation = [
       46.0733085,
       -118.3269137
     ],
-    "seconds": 1389,
+    "seconds": 1429,
     "stopId": "tau-kappa-epsilon"
   },
   {
@@ -6217,7 +6217,7 @@ export const simulation = [
       46.0733085,
       -118.3269137
     ],
-    "seconds": 1425
+    "seconds": 1465
   },
   {
     "label": "Outside Sigma Chi",
@@ -6225,7 +6225,7 @@ export const simulation = [
       46.0736646,
       -118.3265032
     ],
-    "seconds": 1437,
+    "seconds": 1477,
     "stopId": "sigma-chi"
   },
   {
@@ -6234,7 +6234,7 @@ export const simulation = [
       46.0736646,
       -118.3265032
     ],
-    "seconds": 1473
+    "seconds": 1513
   },
   {
     "label": "Outside Phi Delta Theta",
@@ -6242,7 +6242,7 @@ export const simulation = [
       46.0741289,
       -118.3265546
     ],
-    "seconds": 1485,
+    "seconds": 1525,
     "stopId": "phi-delta-theta"
   },
   {
@@ -6251,7 +6251,7 @@ export const simulation = [
       46.0741289,
       -118.3265546
     ],
-    "seconds": 1521
+    "seconds": 1561
   },
   {
     "label": "Between listening stops",
@@ -6259,7 +6259,7 @@ export const simulation = [
       46.0737052,
       -118.3261111
     ],
-    "seconds": 1526.959
+    "seconds": 1566.959
   },
   {
     "label": "Between listening stops",
@@ -6267,7 +6267,7 @@ export const simulation = [
       46.0735163,
       -118.3261111
     ],
-    "seconds": 1529.109
+    "seconds": 1569.109
   },
   {
     "label": "Between listening stops",
@@ -6275,7 +6275,7 @@ export const simulation = [
       46.0734894,
       -118.3261111
     ],
-    "seconds": 1529.416
+    "seconds": 1569.416
   },
   {
     "label": "Between listening stops",
@@ -6283,7 +6283,7 @@ export const simulation = [
       46.0734624,
       -118.3261111
     ],
-    "seconds": 1529.723
+    "seconds": 1569.723
   },
   {
     "label": "Between listening stops",
@@ -6291,7 +6291,7 @@ export const simulation = [
       46.0734354,
       -118.3261111
     ],
-    "seconds": 1530.03
+    "seconds": 1570.03
   },
   {
     "label": "Between listening stops",
@@ -6299,7 +6299,7 @@ export const simulation = [
       46.0731926,
       -118.3263056
     ],
-    "seconds": 1533.191
+    "seconds": 1573.191
   },
   {
     "label": "Between listening stops",
@@ -6307,7 +6307,7 @@ export const simulation = [
       46.0730037,
       -118.3273556
     ],
-    "seconds": 1541.756
+    "seconds": 1581.756
   },
   {
     "label": "Between listening stops",
@@ -6315,7 +6315,7 @@ export const simulation = [
       46.072707,
       -118.3272778
     ],
-    "seconds": 1545.189
+    "seconds": 1585.189
   },
   {
     "label": "Between listening stops",
@@ -6323,7 +6323,7 @@ export const simulation = [
       46.0727609,
       -118.3269278
     ],
-    "seconds": 1548.02
+    "seconds": 1588.02
   },
   {
     "label": "Outside Jewett Hall",
@@ -6331,7 +6331,7 @@ export const simulation = [
       46.0728285,
       -118.3268509
     ],
-    "seconds": 1549,
+    "seconds": 1589,
     "stopId": "jewett"
   },
   {
@@ -6340,7 +6340,7 @@ export const simulation = [
       46.0728285,
       -118.3268509
     ],
-    "seconds": 1585
+    "seconds": 1625
   },
   {
     "label": "Outside Lyman House",
@@ -6348,7 +6348,7 @@ export const simulation = [
       46.0723041,
       -118.326654
     ],
-    "seconds": 1597,
+    "seconds": 1637,
     "stopId": "lyman"
   },
   {
@@ -6357,7 +6357,7 @@ export const simulation = [
       46.0723041,
       -118.326654
     ],
-    "seconds": 1633
+    "seconds": 1673
   },
   {
     "label": "Outside Maxey Hall",
@@ -6365,7 +6365,7 @@ export const simulation = [
       46.0715497,
       -118.3271904
     ],
-    "seconds": 1645,
+    "seconds": 1685,
     "stopId": "maxey"
   },
   {
@@ -6374,7 +6374,7 @@ export const simulation = [
       46.0715497,
       -118.3271904
     ],
-    "seconds": 1681
+    "seconds": 1726
   },
   {
     "label": "Between listening stops",
@@ -6382,7 +6382,7 @@ export const simulation = [
       46.0714929,
       -118.3266556
     ],
-    "seconds": 1685.32
+    "seconds": 1730.32
   },
   {
     "label": "Outside Penrose House",
@@ -6390,7 +6390,7 @@ export const simulation = [
       46.0708556,
       -118.3263703
     ],
-    "seconds": 1693,
+    "seconds": 1738,
     "stopId": "penrose-house"
   },
   {
@@ -6399,7 +6399,7 @@ export const simulation = [
       46.0708556,
       -118.3263703
     ],
-    "seconds": 1729
+    "seconds": 1774
   },
   {
     "label": "Outside Welty Health & Counseling Center",
@@ -6407,7 +6407,7 @@ export const simulation = [
       46.0704769,
       -118.32619
     ],
-    "seconds": 1741,
+    "seconds": 1786,
     "stopId": "welty"
   },
   {
@@ -6416,7 +6416,7 @@ export const simulation = [
       46.0704769,
       -118.32619
     ],
-    "seconds": 1777
+    "seconds": 1822
   },
   {
     "label": "Between listening stops",
@@ -6424,7 +6424,7 @@ export const simulation = [
       46.0705756,
       -118.3257611
     ],
-    "seconds": 1780.558
+    "seconds": 1825.558
   },
   {
     "label": "Between listening stops",
@@ -6432,7 +6432,7 @@ export const simulation = [
       46.0706295,
       -118.3257222
     ],
-    "seconds": 1781.242
+    "seconds": 1826.242
   },
   {
     "label": "Between listening stops",
@@ -6440,7 +6440,7 @@ export const simulation = [
       46.0714659,
       -118.3257611
     ],
-    "seconds": 1790.739
+    "seconds": 1835.739
   },
   {
     "label": "Outside Tekisuijuku",
@@ -6448,7 +6448,7 @@ export const simulation = [
       46.0715475,
       -118.3258698
     ],
-    "seconds": 1792,
+    "seconds": 1837,
     "stopId": "tekisuijuku"
   },
   {
@@ -6457,7 +6457,7 @@ export const simulation = [
       46.0715475,
       -118.3258698
     ],
-    "seconds": 1828
+    "seconds": 1873
   },
   {
     "label": "Between listening stops",
@@ -6465,7 +6465,7 @@ export const simulation = [
       46.0706565,
       -118.3257222
     ],
-    "seconds": 1837.993
+    "seconds": 1882.993
   },
   {
     "label": "Between listening stops",
@@ -6473,7 +6473,7 @@ export const simulation = [
       46.0702518,
       -118.3258389
     ],
-    "seconds": 1842.592
+    "seconds": 1887.592
   },
   {
     "label": "Between listening stops",
@@ -6481,7 +6481,7 @@ export const simulation = [
       46.069955,
       -118.3260334
     ],
-    "seconds": 1846.224
+    "seconds": 1891.224
   },
   {
     "label": "Between listening stops",
@@ -6489,7 +6489,7 @@ export const simulation = [
       46.0690917,
       -118.3266945
     ],
-    "seconds": 1857.117
+    "seconds": 1902.117
   },
   {
     "label": "Between listening stops",
@@ -6497,7 +6497,7 @@ export const simulation = [
       46.0690107,
       -118.3268889
     ],
-    "seconds": 1858.87
+    "seconds": 1903.87
   },
   {
     "label": "Outside Writing House",
@@ -6505,7 +6505,7 @@ export const simulation = [
       46.0688378,
       -118.3279106
     ],
-    "seconds": 1867,
+    "seconds": 1912,
     "stopId": "writing-house"
   },
   {
@@ -6514,7 +6514,7 @@ export const simulation = [
       46.0688378,
       -118.3279106
     ],
-    "seconds": 1903
+    "seconds": 1948
   },
   {
     "label": "Outside Cleveland Commons",
@@ -6522,7 +6522,7 @@ export const simulation = [
       46.0683301,
       -118.3285186
     ],
-    "seconds": 1915,
+    "seconds": 1960,
     "stopId": "cleveland"
   },
   {
@@ -6531,7 +6531,7 @@ export const simulation = [
       46.0683301,
       -118.3285186
     ],
-    "seconds": 1953
+    "seconds": 2002
   },
   {
     "label": "Between listening stops",
@@ -6539,7 +6539,7 @@ export const simulation = [
       46.0679585,
       -118.3293778
     ],
-    "seconds": 1960.814
+    "seconds": 2009.814
   },
   {
     "label": "Between listening stops",
@@ -6547,7 +6547,7 @@ export const simulation = [
       46.0679316,
       -118.3295722
     ],
-    "seconds": 1962.344
+    "seconds": 2011.344
   },
   {
     "label": "Between listening stops",
@@ -6555,7 +6555,7 @@ export const simulation = [
       46.0679316,
       -118.3296111
     ],
-    "seconds": 1962.644
+    "seconds": 2011.644
   },
   {
     "label": "Between listening stops",
@@ -6563,7 +6563,7 @@ export const simulation = [
       46.0679316,
       -118.32965
     ],
-    "seconds": 1962.944
+    "seconds": 2011.944
   },
   {
     "label": "Between listening stops",
@@ -6571,7 +6571,7 @@ export const simulation = [
       46.0679316,
       -118.3296889
     ],
-    "seconds": 1963.245
+    "seconds": 2012.245
   },
   {
     "label": "Between listening stops",
@@ -6579,7 +6579,7 @@ export const simulation = [
       46.0679316,
       -118.3297278
     ],
-    "seconds": 1963.545
+    "seconds": 2012.545
   },
   {
     "label": "Between listening stops",
@@ -6587,7 +6587,7 @@ export const simulation = [
       46.0679316,
       -118.3297667
     ],
-    "seconds": 1963.845
+    "seconds": 2012.845
   },
   {
     "label": "Between listening stops",
@@ -6595,7 +6595,7 @@ export const simulation = [
       46.0680934,
       -118.3309333
     ],
-    "seconds": 1973.027
+    "seconds": 2022.027
   },
   {
     "label": "Outside Fouts Center for Visual Arts",
@@ -6603,7 +6603,7 @@ export const simulation = [
       46.0687409,
       -118.3318271
     ],
-    "seconds": 1983,
+    "seconds": 2032,
     "stopId": "fouts"
   },
   {
@@ -6612,7 +6612,7 @@ export const simulation = [
       46.0687409,
       -118.3318271
     ],
-    "seconds": 2019
+    "seconds": 2068
   },
   {
     "label": "Between listening stops",
@@ -6620,7 +6620,7 @@ export const simulation = [
       46.0689838,
       -118.3322555
     ],
-    "seconds": 2025.749
+    "seconds": 2074.749
   },
   {
     "label": "Outside Third Space Center",
@@ -6628,7 +6628,7 @@ export const simulation = [
       46.0692374,
       -118.3324827
     ],
-    "seconds": 2031,
+    "seconds": 2080,
     "stopId": "third-space"
   },
   {
@@ -6637,7 +6637,7 @@ export const simulation = [
       46.0692374,
       -118.3324827
     ],
-    "seconds": 2067
+    "seconds": 2116
   },
   {
     "label": "Between listening stops",
@@ -6645,7 +6645,7 @@ export const simulation = [
       46.0689568,
       -118.3327611
     ],
-    "seconds": 2078.121
+    "seconds": 2127.121
   },
   {
     "label": "Outside Robart Hall",
@@ -6653,7 +6653,7 @@ export const simulation = [
       46.0689619,
       -118.3327992
     ],
-    "seconds": 2079,
+    "seconds": 2128,
     "stopId": "robart"
   },
   {
@@ -6662,7 +6662,7 @@ export const simulation = [
       46.0689619,
       -118.3327992
     ],
-    "seconds": 2115
+    "seconds": 2164
   },
   {
     "label": "Between listening stops",
@@ -6670,7 +6670,7 @@ export const simulation = [
       46.0688758,
       -118.3331111
     ],
-    "seconds": 2118.93
+    "seconds": 2167.93
   },
   {
     "label": "Between listening stops",
@@ -6678,7 +6678,7 @@ export const simulation = [
       46.0688219,
       -118.3334611
     ],
-    "seconds": 2123.128
+    "seconds": 2172.128
   },
   {
     "label": "Between listening stops",
@@ -6686,7 +6686,7 @@ export const simulation = [
       46.0688219,
       -118.3335
     ],
-    "seconds": 2123.583
+    "seconds": 2172.583
   },
   {
     "label": "Outside Stegner Hall",
@@ -6694,7 +6694,7 @@ export const simulation = [
       46.0688604,
       -118.3337865
     ],
-    "seconds": 2127,
+    "seconds": 2176,
     "stopId": "stegner"
   },
   {
@@ -6703,7 +6703,7 @@ export const simulation = [
       46.0688604,
       -118.3337865
     ],
-    "seconds": 2163
+    "seconds": 2212
   },
   {
     "label": "Between listening stops",
@@ -6711,7 +6711,7 @@ export const simulation = [
       46.0696043,
       -118.3342
     ],
-    "seconds": 2174.043
+    "seconds": 2223.043
   },
   {
     "label": "Outside Glover Alston Intercultural Center",
@@ -6719,7 +6719,7 @@ export const simulation = [
       46.0696721,
       -118.334219
     ],
-    "seconds": 2175,
+    "seconds": 2224,
     "stopId": "glover-alston"
   },
   {
@@ -6728,7 +6728,7 @@ export const simulation = [
       46.0696721,
       -118.334219
     ],
-    "seconds": 2211
+    "seconds": 2260
   },
   {
     "label": "Between listening stops",
@@ -6736,7 +6736,7 @@ export const simulation = [
       46.0696583,
       -118.3346666
     ],
-    "seconds": 2221.2
+    "seconds": 2270.2
   },
   {
     "label": "Outside Dance Studio",
@@ -6744,7 +6744,7 @@ export const simulation = [
       46.0696089,
       -118.3346321
     ],
-    "seconds": 2223,
+    "seconds": 2272,
     "stopId": "dance-studio"
   },
   {
@@ -6753,7 +6753,7 @@ export const simulation = [
       46.0696089,
       -118.3346321
     ],
-    "seconds": 2259
+    "seconds": 2308
   },
   {
     "label": "Between listening stops",
@@ -6761,7 +6761,7 @@ export const simulation = [
       46.0696583,
       -118.3346666
     ],
-    "seconds": 2259.756
+    "seconds": 2308.756
   },
   {
     "label": "Between listening stops",
@@ -6769,7 +6769,7 @@ export const simulation = [
       46.0697932,
       -118.3341222
     ],
-    "seconds": 2265.282
+    "seconds": 2314.282
   },
   {
     "label": "Outside Boyer House",
@@ -6777,7 +6777,7 @@ export const simulation = [
       46.0697761,
       -118.3335245
     ],
-    "seconds": 2271,
+    "seconds": 2320,
     "stopId": "boyer-house"
   },
   {
@@ -6786,7 +6786,7 @@ export const simulation = [
       46.0697761,
       -118.3335245
     ],
-    "seconds": 2307
+    "seconds": 2356
   },
   {
     "label": "Between listening stops",
@@ -6794,7 +6794,7 @@ export const simulation = [
       46.0698741,
       -118.3329944
     ],
-    "seconds": 2317.319
+    "seconds": 2366.319
   },
   {
     "label": "Between listening stops",
@@ -6802,7 +6802,7 @@ export const simulation = [
       46.0698741,
       -118.3329166
     ],
-    "seconds": 2318.782
+    "seconds": 2367.782
   },
   {
     "label": "Outside Harvey Hall",
@@ -6810,7 +6810,7 @@ export const simulation = [
       46.0698667,
       -118.3329121
     ],
-    "seconds": 2319,
+    "seconds": 2368,
     "stopId": "harvey"
   },
   {
@@ -6819,7 +6819,7 @@ export const simulation = [
       46.0698667,
       -118.3329121
     ],
-    "seconds": 2355
+    "seconds": 2404
   },
   {
     "label": "Outside Bratton Tennis Center",
@@ -6827,7 +6827,7 @@ export const simulation = [
       46.0703584,
       -118.3327525
     ],
-    "seconds": 2367,
+    "seconds": 2416,
     "stopId": "bratton-tennis"
   },
   {
@@ -6836,7 +6836,7 @@ export const simulation = [
       46.0703584,
       -118.3327525
     ],
-    "seconds": 2403
+    "seconds": 2452
   },
   {
     "label": "Between listening stops",
@@ -6844,7 +6844,7 @@ export const simulation = [
       46.0707914,
       -118.3324889
     ],
-    "seconds": 2409.851
+    "seconds": 2458.851
   },
   {
     "label": "Outside Cordiner Hall",
@@ -6852,7 +6852,7 @@ export const simulation = [
       46.0708928,
       -118.3320011
     ],
-    "seconds": 2415,
+    "seconds": 2464,
     "stopId": "cordiner"
   },
   {
@@ -6861,7 +6861,7 @@ export const simulation = [
       46.0708928,
       -118.3320011
     ],
-    "seconds": 2451
+    "seconds": 2500
   },
   {
     "label": "Outside Sherwood Athletic Center",
@@ -6869,7 +6869,7 @@ export const simulation = [
       46.0711514,
       -118.3313223
     ],
-    "seconds": 2463,
+    "seconds": 2512,
     "stopId": "sherwood-athletic"
   },
   {
@@ -6878,7 +6878,7 @@ export const simulation = [
       46.0711514,
       -118.3313223
     ],
-    "seconds": 2499
+    "seconds": 2548
   },
   {
     "label": "Between listening stops",
@@ -6886,7 +6886,7 @@ export const simulation = [
       46.0712231,
       -118.3315167
     ],
-    "seconds": 2500.702
+    "seconds": 2549.702
   },
   {
     "label": "Between listening stops",
@@ -6894,7 +6894,7 @@ export const simulation = [
       46.0710072,
       -118.3332278
     ],
-    "seconds": 2514.153
+    "seconds": 2563.153
   },
   {
     "label": "Between listening stops",
@@ -6902,7 +6902,7 @@ export const simulation = [
       46.0710072,
       -118.3332666
     ],
-    "seconds": 2514.454
+    "seconds": 2563.454
   },
   {
     "label": "Between listening stops",
@@ -6910,7 +6910,7 @@ export const simulation = [
       46.0710072,
       -118.3333055
     ],
-    "seconds": 2514.754
+    "seconds": 2563.754
   },
   {
     "label": "Between listening stops",
@@ -6918,7 +6918,7 @@ export const simulation = [
       46.0710072,
       -118.3333444
     ],
-    "seconds": 2515.055
+    "seconds": 2564.055
   },
   {
     "label": "Between listening stops",
@@ -6926,7 +6926,7 @@ export const simulation = [
       46.0710072,
       -118.3333833
     ],
-    "seconds": 2515.356
+    "seconds": 2564.356
   },
   {
     "label": "Between listening stops",
@@ -6934,7 +6934,7 @@ export const simulation = [
       46.0710072,
       -118.3334222
     ],
-    "seconds": 2515.657
+    "seconds": 2564.657
   },
   {
     "label": "Between listening stops",
@@ -6942,7 +6942,7 @@ export const simulation = [
       46.0710072,
       -118.3334611
     ],
-    "seconds": 2515.957
+    "seconds": 2564.957
   },
   {
     "label": "Between listening stops",
@@ -6950,7 +6950,7 @@ export const simulation = [
       46.0710072,
       -118.3335
     ],
-    "seconds": 2516.258
+    "seconds": 2565.258
   },
   {
     "label": "Between listening stops",
@@ -6958,7 +6958,7 @@ export const simulation = [
       46.0710072,
       -118.3335389
     ],
-    "seconds": 2516.559
+    "seconds": 2565.559
   },
   {
     "label": "Between listening stops",
@@ -6966,7 +6966,7 @@ export const simulation = [
       46.0710072,
       -118.3335778
     ],
-    "seconds": 2516.86
+    "seconds": 2565.86
   },
   {
     "label": "Between listening stops",
@@ -6974,7 +6974,7 @@ export const simulation = [
       46.0710072,
       -118.3336166
     ],
-    "seconds": 2517.16
+    "seconds": 2566.16
   },
   {
     "label": "Between listening stops",
@@ -6982,7 +6982,7 @@ export const simulation = [
       46.0710072,
       -118.3336555
     ],
-    "seconds": 2517.461
+    "seconds": 2566.461
   },
   {
     "label": "Between listening stops",
@@ -6990,7 +6990,7 @@ export const simulation = [
       46.0710072,
       -118.3336944
     ],
-    "seconds": 2517.762
+    "seconds": 2566.762
   },
   {
     "label": "Between listening stops",
@@ -6998,7 +6998,7 @@ export const simulation = [
       46.0710072,
       -118.3337333
     ],
-    "seconds": 2518.063
+    "seconds": 2567.063
   },
   {
     "label": "Between listening stops",
@@ -7006,7 +7006,7 @@ export const simulation = [
       46.0710072,
       -118.3337722
     ],
-    "seconds": 2518.363
+    "seconds": 2567.363
   },
   {
     "label": "Between listening stops",
@@ -7014,7 +7014,7 @@ export const simulation = [
       46.0710072,
       -118.3338111
     ],
-    "seconds": 2518.664
+    "seconds": 2567.664
   },
   {
     "label": "Between listening stops",
@@ -7022,7 +7022,7 @@ export const simulation = [
       46.0710072,
       -118.33385
     ],
-    "seconds": 2518.965
+    "seconds": 2567.965
   },
   {
     "label": "Between listening stops",
@@ -7030,7 +7030,7 @@ export const simulation = [
       46.0710072,
       -118.3338889
     ],
-    "seconds": 2519.266
+    "seconds": 2568.266
   },
   {
     "label": "Between listening stops",
@@ -7038,7 +7038,7 @@ export const simulation = [
       46.0710072,
       -118.3339278
     ],
-    "seconds": 2519.567
+    "seconds": 2568.567
   },
   {
     "label": "Between listening stops",
@@ -7046,7 +7046,7 @@ export const simulation = [
       46.0709533,
       -118.3340444
     ],
-    "seconds": 2520.651
+    "seconds": 2569.651
   },
   {
     "label": "Between listening stops",
@@ -7054,7 +7054,7 @@ export const simulation = [
       46.0707644,
       -118.3342389
     ],
-    "seconds": 2523.238
+    "seconds": 2572.238
   },
   {
     "label": "Between listening stops",
@@ -7062,7 +7062,7 @@ export const simulation = [
       46.0695773,
       -118.3350944
     ],
-    "seconds": 2538.034
+    "seconds": 2587.034
   },
   {
     "label": "Between listening stops",
@@ -7070,7 +7070,7 @@ export const simulation = [
       46.0694964,
       -118.3350555
     ],
-    "seconds": 2538.985
+    "seconds": 2587.985
   },
   {
     "label": "Between listening stops",
@@ -7078,7 +7078,7 @@ export const simulation = [
       46.0693075,
       -118.3345889
     ],
-    "seconds": 2543.163
+    "seconds": 2592.163
   },
   {
     "label": "Between listening stops",
@@ -7086,7 +7086,7 @@ export const simulation = [
       46.0693075,
       -118.33455
     ],
-    "seconds": 2543.464
+    "seconds": 2592.464
   },
   {
     "label": "Between listening stops",
@@ -7094,7 +7094,7 @@ export const simulation = [
       46.0693075,
       -118.3345111
     ],
-    "seconds": 2543.765
+    "seconds": 2592.765
   },
   {
     "label": "Between listening stops",
@@ -7102,7 +7102,7 @@ export const simulation = [
       46.0693075,
       -118.3344722
     ],
-    "seconds": 2544.065
+    "seconds": 2593.065
   },
   {
     "label": "Between listening stops",
@@ -7110,7 +7110,7 @@ export const simulation = [
       46.0693615,
       -118.3337722
     ],
-    "seconds": 2549.512
+    "seconds": 2598.512
   },
   {
     "label": "Between listening stops",
@@ -7118,7 +7118,7 @@ export const simulation = [
       46.0693885,
       -118.3330333
     ],
-    "seconds": 2555.235
+    "seconds": 2604.235
   },
   {
     "label": "Between listening stops",
@@ -7126,7 +7126,7 @@ export const simulation = [
       46.069955,
       -118.3318667
     ],
-    "seconds": 2566.249
+    "seconds": 2615.249
   },
   {
     "label": "Outside Reid Campus Center",
@@ -7134,7 +7134,7 @@ export const simulation = [
       46.0700777,
       -118.3312783
     ],
-    "seconds": 2571,
+    "seconds": 2620,
     "stopId": "reid"
   },
   {
@@ -7143,7 +7143,7 @@ export const simulation = [
       46.0700777,
       -118.3312783
     ],
-    "seconds": 2610
+    "seconds": 2659
   },
   {
     "label": "Between listening stops",
@@ -7151,7 +7151,7 @@ export const simulation = [
       46.0697392,
       -118.3326833
     ],
-    "seconds": 2621.52
+    "seconds": 2670.52
   },
   {
     "label": "Between listening stops",
@@ -7159,7 +7159,7 @@ export const simulation = [
       46.0694154,
       -118.3329555
     ],
-    "seconds": 2625.705
+    "seconds": 2674.705
   },
   {
     "label": "Between listening stops",
@@ -7167,7 +7167,7 @@ export const simulation = [
       46.0694154,
       -118.3329944
     ],
-    "seconds": 2626.006
+    "seconds": 2675.006
   },
   {
     "label": "Between listening stops",
@@ -7175,7 +7175,7 @@ export const simulation = [
       46.0694154,
       -118.3330333
     ],
-    "seconds": 2626.307
+    "seconds": 2675.307
   },
   {
     "label": "Between listening stops",
@@ -7183,7 +7183,7 @@ export const simulation = [
       46.0694154,
       -118.3330722
     ],
-    "seconds": 2626.608
+    "seconds": 2675.608
   },
   {
     "label": "Between listening stops",
@@ -7191,7 +7191,7 @@ export const simulation = [
       46.0694154,
       -118.3331111
     ],
-    "seconds": 2626.909
+    "seconds": 2675.909
   },
   {
     "label": "Between listening stops",
@@ -7199,7 +7199,7 @@ export const simulation = [
       46.0694154,
       -118.33315
     ],
-    "seconds": 2627.211
+    "seconds": 2676.211
   },
   {
     "label": "Between listening stops",
@@ -7207,7 +7207,7 @@ export const simulation = [
       46.0694154,
       -118.3331889
     ],
-    "seconds": 2627.512
+    "seconds": 2676.512
   },
   {
     "label": "Between listening stops",
@@ -7215,7 +7215,7 @@ export const simulation = [
       46.0694154,
       -118.3332278
     ],
-    "seconds": 2627.813
+    "seconds": 2676.813
   },
   {
     "label": "Between listening stops",
@@ -7223,7 +7223,7 @@ export const simulation = [
       46.0694154,
       -118.3332666
     ],
-    "seconds": 2628.114
+    "seconds": 2677.114
   },
   {
     "label": "Between listening stops",
@@ -7231,7 +7231,7 @@ export const simulation = [
       46.0694154,
       -118.3333055
     ],
-    "seconds": 2628.415
+    "seconds": 2677.415
   },
   {
     "label": "Between listening stops",
@@ -7239,7 +7239,7 @@ export const simulation = [
       46.0694154,
       -118.3333444
     ],
-    "seconds": 2628.717
+    "seconds": 2677.717
   },
   {
     "label": "Between listening stops",
@@ -7247,7 +7247,7 @@ export const simulation = [
       46.0693075,
       -118.3344722
     ],
-    "seconds": 2637.534
+    "seconds": 2686.534
   },
   {
     "label": "Between listening stops",
@@ -7255,7 +7255,7 @@ export const simulation = [
       46.0693075,
       -118.3345111
     ],
-    "seconds": 2637.836
+    "seconds": 2686.836
   },
   {
     "label": "Between listening stops",
@@ -7263,7 +7263,7 @@ export const simulation = [
       46.0693075,
       -118.33455
     ],
-    "seconds": 2638.137
+    "seconds": 2687.137
   },
   {
     "label": "Between listening stops",
@@ -7271,7 +7271,7 @@ export const simulation = [
       46.0693075,
       -118.3345889
     ],
-    "seconds": 2638.438
+    "seconds": 2687.438
   },
   {
     "label": "Between listening stops",
@@ -7279,7 +7279,7 @@ export const simulation = [
       46.0694964,
       -118.3350555
     ],
-    "seconds": 2642.623
+    "seconds": 2691.623
   },
   {
     "label": "Between listening stops",
@@ -7287,7 +7287,7 @@ export const simulation = [
       46.0695773,
       -118.3350944
     ],
-    "seconds": 2643.575
+    "seconds": 2692.575
   },
   {
     "label": "Between listening stops",
@@ -7295,7 +7295,7 @@ export const simulation = [
       46.0709803,
       -118.3340833
     ],
-    "seconds": 2661.087
+    "seconds": 2710.087
   },
   {
     "label": "Outside College House",
@@ -7303,7 +7303,7 @@ export const simulation = [
       46.0713493,
       -118.3335357
     ],
-    "seconds": 2667,
+    "seconds": 2716,
     "stopId": "college-house"
   },
   {
@@ -7312,7 +7312,7 @@ export const simulation = [
       46.0713493,
       -118.3335357
     ],
-    "seconds": 2703
+    "seconds": 2752
   },
   {
     "label": "Outside Baker Ferguson Fitness Center",
@@ -7320,7 +7320,7 @@ export const simulation = [
       46.0720684,
       -118.3326536
     ],
-    "seconds": 2715,
+    "seconds": 2764,
     "stopId": "baker-ferguson"
   },
   {
@@ -7329,7 +7329,7 @@ export const simulation = [
       46.0720684,
       -118.3326536
     ],
-    "seconds": 2751
+    "seconds": 2800
   },
   {
     "label": "Outside Facilities Services",
@@ -7337,7 +7337,7 @@ export const simulation = [
       46.074488,
       -118.3303872
     ],
-    "seconds": 2784,
+    "seconds": 2833,
     "stopId": "facilities"
   },
   {
@@ -7346,7 +7346,7 @@ export const simulation = [
       46.074488,
       -118.3303872
     ],
-    "seconds": 2820
+    "seconds": 2869
   },
   {
     "label": "Outside Sherwood House",
@@ -7354,7 +7354,7 @@ export const simulation = [
       46.0751582,
       -118.3233318
     ],
-    "seconds": 2875,
+    "seconds": 2924,
     "stopId": "sherwood-house"
   },
   {
@@ -7363,7 +7363,7 @@ export const simulation = [
       46.0751582,
       -118.3233318
     ],
-    "seconds": 2911
+    "seconds": 2960
   },
   {
     "label": "Between listening stops",
@@ -7371,7 +7371,7 @@ export const simulation = [
       46.0734354,
       -118.3299222
     ],
-    "seconds": 2965.534
+    "seconds": 3014.534
   },
   {
     "label": "Between listening stops",
@@ -7379,7 +7379,7 @@ export const simulation = [
       46.0714659,
       -118.3317889
     ],
-    "seconds": 2991.843
+    "seconds": 3040.843
   },
   {
     "label": "Outside Whitman College Technology Services Building",
@@ -7387,7 +7387,7 @@ export const simulation = [
       46.0708353,
       -118.3336671
     ],
-    "seconds": 3008,
+    "seconds": 3057,
     "stopId": "technology-services"
   },
   {
@@ -7396,6 +7396,6 @@ export const simulation = [
       46.0708353,
       -118.3336671
     ],
-    "seconds": 3049
+    "seconds": 3098
   }
 ];
