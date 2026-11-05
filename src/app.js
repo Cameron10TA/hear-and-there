@@ -52,6 +52,7 @@ const state = {
   audioWaitTimer: null,
   unlocking: null,
   positionError: '',
+  seeking: false,
 };
 const progress = new ListeningProgress();
 const audio = new StoryAudio(renderAudio, completeStory);
@@ -118,6 +119,7 @@ function resetSession() {
   cancelStoryRequest();
   state.running = false;
   state.paused = false;
+  state.seeking = false;
   selectMode('live');
   state.activeId = null;
   state.selectedId = null;
@@ -657,6 +659,7 @@ function listenToStop(stop) {
 function selectStop(stop) {
   if (!state.running || !state.consent) return;
   if (state.selectedId !== stop.id) {
+    state.seeking = false;
     cancelStoryRequest();
     audio.stop();
     audio.stopId = stop.id;
@@ -721,11 +724,15 @@ function renderAudio() {
   if ($('audio-status').textContent !== status) $('audio-status').textContent = status;
   $('elapsed-time').textContent = time(audio.elapsed);
   $('total-time').textContent = time(audio.duration);
-  const percent = audio.duration ? Math.min(100, (audio.elapsed / audio.duration) * 100) : 0;
-  $('audio-progress').style.width = `${percent}%`;
-  document
-    .querySelector('.progress-track')
-    .setAttribute('aria-valuenow', String(Math.round(percent)));
+  const seek = $('audio-seek');
+  seek.max = String(audio.duration);
+  seek.disabled = !audio.duration || state.paused || state.audioLoading;
+  if (!state.seeking) seek.value = String(audio.elapsed);
+  const percent = audio.duration
+    ? Math.min(100, ((state.seeking ? Number(seek.value) : audio.elapsed) / audio.duration) * 100)
+    : 0;
+  seek.style.background = `linear-gradient(to right, var(--blue) ${percent}%, #dce1e7 ${percent}%)`;
+  seek.setAttribute('aria-valuetext', `${time(Number(seek.value))} of ${time(audio.duration)}`);
   $('mute-button').setAttribute('aria-pressed', String(audio.muted));
   $('mute-button').setAttribute('aria-label', audio.muted ? 'Unmute audio' : 'Mute audio');
 }
@@ -1060,6 +1067,19 @@ $('play-button').addEventListener('click', async () => {
   showMode();
   state.unlocking = audio.unlock();
   await loadAndPlayStory(stop, false, state.unlocking);
+});
+$('audio-seek').addEventListener('input', (event) => {
+  state.seeking = true;
+  const seek = event.currentTarget;
+  const percent = audio.duration ? (Number(seek.value) / audio.duration) * 100 : 0;
+  $('elapsed-time').textContent = time(Number(seek.value));
+  seek.style.background = `linear-gradient(to right, var(--blue) ${percent}%, #dce1e7 ${percent}%)`;
+  seek.setAttribute('aria-valuetext', `${time(Number(seek.value))} of ${time(audio.duration)}`);
+});
+$('audio-seek').addEventListener('change', (event) => {
+  audio.seek(Number(event.currentTarget.value));
+  state.seeking = false;
+  renderAudio();
 });
 $('mute-button').addEventListener('click', () => audio.setMuted(!audio.muted));
 

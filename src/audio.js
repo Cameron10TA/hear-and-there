@@ -96,6 +96,31 @@ export class StoryAudio {
       : this.offset;
   }
 
+  seek(seconds) {
+    if (!this.duration || !Number.isFinite(seconds)) return;
+    const target = Math.max(0, Math.min(this.duration, seconds));
+    const resume = this.playing;
+    this.pause();
+    this.offset = target;
+    if (resume && target < this.duration && !document.hidden && this.context?.state === 'running') {
+      const token = this.generation;
+      this.source = this.context.createBufferSource();
+      this.source.buffer = this.buffers.get(this.stopId);
+      this.source.connect(this.gain);
+      this.startedAt = this.context.currentTime;
+      this.playing = true;
+      this.source.onended = () => {
+        if (token !== this.generation) return;
+        this.playing = false;
+        this.offset = this.duration;
+        this.source = null;
+        this.onChange();
+      };
+      this.source.start(0, this.offset);
+    }
+    this.onChange();
+  }
+
   pause() {
     if (this.playing) this.offset = this.elapsed;
     this.playing = false;
