@@ -68,7 +68,7 @@ Object.defineProperty(navigator, 'permissions', {
 });
 const bar = document.createElement('details');
 bar.style.cssText =
-  'position:relative;z-index:2000;padding:8px;background:#ffe4e4;display:flex;gap:6px;flex-wrap:wrap;font:11px Arial';
+  'position:fixed;bottom:0;right:0;z-index:2000;max-height:45vh;max-width:100%;overflow:auto;padding:4px;background:#ffe4e4;font:11px Arial';
 bar.setAttribute('aria-label', 'LOCAL TEST CONTROLS');
 const label = document.createElement('summary');
 label.textContent = 'LOCAL QA ONLY · mocked GPS';

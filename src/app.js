@@ -14,13 +14,8 @@ import { tours, findTour, tourSummary } from './tours.js';
 import { groupMapStops } from './map-pins.js';
 
 const $ = (id) => document.getElementById(id);
-// Move the same controls between layouts, preserving playback and event handlers.
-const phoneLayout = window.matchMedia('(max-width: 760px)');
-function positionPlayer() {
-  $(phoneLayout.matches ? 'map-player' : 'story-player-slot').append($('story-player'));
-}
-phoneLayout.addEventListener?.('change', positionPlayer);
-positionPlayer();
+// Keep one player on the map; panels never create another playback session.
+$('map-player-controls').append($('story-player'));
 $('stop-count').textContent = String(landmarks.length);
 const state = {
   consent: false,
@@ -116,6 +111,7 @@ function stopWatching() {
 }
 
 function resetSession() {
+  closeWalkPanels();
   cancelStoryRequest();
   state.running = false;
   state.paused = false;
@@ -261,7 +257,7 @@ function createMap() {
     tileFailures = 0;
     clearTimeout(tileTimer);
     tileTimer = setTimeout(() => {
-      $('map-error-message').textContent = 'The map is taking longer to load. You can still explore the stories below.';
+      $('map-error-message').textContent = 'The map is taking longer to load. Use Explore more to find stories.';
       $('map-error').hidden = false;
     }, 8000);
   });
@@ -484,6 +480,8 @@ function completeStory(id) {
 }
 
 function filterPlaces() {
+  $('explore-more').textContent = state.placeQuery || state.placeCategory !== 'all' || state.unlistenedOnly || state.tourId
+    ? 'Explore more · filtered' : 'Explore more';
   const tour = findTour(state.tourId);
   const scope = tour ? tourSummary(tour, landmarks).stops : landmarks;
   const ordered = [...scope, ...landmarks.filter((stop) => !scope.includes(stop))];
@@ -650,10 +648,8 @@ function listenToStop(stop) {
   audio.pause();
   showMode();
   void loadAndPlayStory(stop, false, state.unlocking);
-  $(phoneLayout.matches ? 'map-player' : 'story-card').scrollIntoView({
-    behavior: reducedMotion() ? 'instant' : 'smooth',
-    block: 'nearest',
-  });
+  closeWalkPanels();
+  $('play-button').focus({ preventScroll: true });
 }
 
 function selectStop(stop) {
@@ -664,7 +660,6 @@ function selectStop(stop) {
     audio.stop();
     audio.stopId = stop.id;
     state.audioError = '';
-    $('transcript').open = false;
   }
   state.selectedId = stop.id;
   $('story-image').src = stop.image;
@@ -672,6 +667,7 @@ function selectStop(stop) {
   $('story-category').textContent = stop.category;
   $('story-title').textContent = stop.name;
   $('map-player-title').textContent = stop.name;
+  $('transcript-title').textContent = stop.name;
   $('story-description').textContent = stop.description;
   $('story-transcript').textContent = stop.transcript;
   $('story-source').href = stop.source;
@@ -685,7 +681,8 @@ function selectStop(stop) {
 }
 
 function renderAudio() {
-  $('map-player').hidden = !state.selectedId;
+  $('map-player').hidden = !state.selectedId || state.paused;
+  $('map-intro').hidden = Boolean(state.selectedId) || state.paused;
   const tour = findTour(state.tourId);
   $('tour-next').disabled = state.paused || !tour || !tourSummary(tour, landmarks, progress.completed).next;
   $('manual-playback').hidden = !state.manualStory;
@@ -944,6 +941,7 @@ function tick() {
 
 function pauseSession() {
   if (!state.running) return;
+  closeWalkPanels();
   cancelStoryRequest();
   state.paused = true;
   stopWatching();
@@ -1167,9 +1165,29 @@ $('end-button').addEventListener('click', () => {
 });
 $('how-button').addEventListener('click', () => $('how-dialog').showModal());
 $('about-button').addEventListener('click', () => $('about-dialog').showModal());
-for (const [dialogId, closeId] of [['how-dialog', 'close-how-dialog'], ['about-dialog', 'close-about-dialog']]) {
+function closeWalkPanels() {
+  for (const id of ['extras-dialog', 'transcript-dialog', 'how-dialog', 'about-dialog']) {
+    if ($(id).open) $(id).close();
+  }
+}
+$('explore-more').addEventListener('click', () => {
+  if (state.running && state.consent) $('extras-dialog').showModal();
+});
+function readStory() {
+  if (!state.running || !state.consent || !state.selectedId) return;
+  closeWalkPanels();
+  $('transcript-dialog').showModal();
+}
+$('read-story').addEventListener('click', readStory);
+$('read-story-details').addEventListener('click', readStory);
+for (const [dialogId, closeId] of [['how-dialog', 'close-how-dialog'], ['about-dialog', 'close-about-dialog'], ['extras-dialog', 'close-extras'], ['transcript-dialog', 'close-transcript']]) {
   const dialog = $(dialogId);
   $(closeId).addEventListener('click', () => dialog.close());
+  if (dialogId === 'transcript-dialog') {
+    dialog.addEventListener('close', () => {
+      $('read-story').focus({ preventScroll: true });
+    });
+  }
   dialog.addEventListener('click', (event) => {
     if (event.target !== dialog) return;
     const rect = dialog.getBoundingClientRect();

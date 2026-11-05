@@ -124,8 +124,8 @@
 
       <section id="explorer" hidden aria-label="Campus explorer">
         <div class="explorer-toolbar">
-          <button id="end-button" class="back-home-button" aria-label="Back to home and end walk">
-            <span aria-hidden="true">←</span><span>Back to home</span>
+          <button id="explore-more" class="back-home-button" aria-haspopup="dialog" aria-controls="extras-dialog">
+            Explore more
           </button>
           <div class="walk-status">
             <div class="walk-status-line">
@@ -134,6 +134,7 @@
             </div>
             <p id="nearby-message">A story starts when you enter a landmark’s listening area.</p>
           </div>
+          <button id="end-button" class="back-home-button" aria-label="End walk">End walk</button>
         </div>
         <div class="explorer-layout">
           <div class="map-section">
@@ -164,21 +165,32 @@
               </div>
               <section id="map-player" class="map-player" aria-labelledby="map-player-title" hidden>
                 <h2 id="map-player-title"></h2>
+                <div id="map-player-controls"></div>
+                <button id="read-story" class="text-button" aria-haspopup="dialog" aria-controls="transcript-dialog">Read this story</button>
               </section>
+              <div id="map-intro" class="map-intro">
+                <strong>Your walk starts here.</strong>
+                <p>Walk near a place to hear its story, or tap a map marker.</p>
+              </div>
+              <div id="resume-panel" class="resume-panel" hidden>
+                <strong>Your walk is paused.</strong>
+                <p>Ready to listen again?</p>
+                <button id="resume-button" class="primary-button">
+                  Resume exploring <span aria-hidden="true">→</span>
+                </button>
+              </div>
               <div id="map-error" class="map-error" hidden>
                 <span id="map-error-message" role="status">Map tiles aren’t available. Landmark distances and audio still work.</span>
                 <button id="map-retry" class="text-button">Retry map</button>
               </div>
             </div>
           </div>
-          <aside class="explorer-panel" aria-label="Landmark stories and audio">
-            <div id="resume-panel" class="resume-panel" hidden>
-              <strong>Your walk is paused.</strong>
-              <p>Ready to listen again?</p>
-              <button id="resume-button" class="primary-button">
-                Resume exploring <span aria-hidden="true">→</span>
-              </button>
+          <dialog id="extras-dialog" class="walk-dialog" aria-labelledby="extras-title">
+            <div class="walk-dialog-header">
+              <h2 id="extras-title">Explore more</h2>
+              <button id="close-extras" class="back-home-button">Back to map</button>
             </div>
+            <aside class="explorer-panel" aria-label="Places, collections and walk options">
             <div id="simulation-panel" class="simulation-panel" hidden>
               <div>
                 <span class="eyebrow">SIMULATED WALK</span>
@@ -234,13 +246,7 @@
                   <button id="follow-walk" class="text-button">Follow nearby stories</button>
                 </div>
                 <p id="story-description"></p>
-                <details id="transcript">
-                  <summary>Read the story <span aria-hidden="true">+</span></summary>
-                  <p id="story-transcript"></p>
-                  <a id="story-source" target="_blank" rel="noopener noreferrer"
-                    >Explore the source ↗</a
-                  >
-                </details>
+                <button id="read-story-details" class="text-button">Read this story</button>
                 <p class="sample-note">AI narration · Original sound design</p>
               </div>
               <img id="story-image" src="assets/styx.jpg" alt="" width="400" height="275" />
@@ -309,11 +315,19 @@
               <button id="switch-mode" class="text-button">Try simulated walking</button
               ><span>Progress stays in this walk. End it to start fresh.</span>
             </div>
-          </aside>
-        </div>
-        <div class="explorer-footer">
-          <span>WHITMAN COLLEGE · WALLA WALLA</span
-          ><button id="about-button" class="text-button">About this project</button>
+            </aside>
+            <button id="about-button" class="text-button">About this project</button>
+          </dialog>
+          <dialog id="transcript-dialog" class="walk-dialog" aria-labelledby="transcript-title">
+            <div class="walk-dialog-header">
+              <h2 id="transcript-title">Read this story</h2>
+              <button id="close-transcript" class="back-home-button">Back to map</button>
+            </div>
+            <div id="transcript" class="transcript-content">
+              <p id="story-transcript"></p>
+              <a id="story-source" target="_blank" rel="noopener noreferrer">Explore the source ↗</a>
+            </div>
+          </dialog>
         </div>
       </section>
     </main>
