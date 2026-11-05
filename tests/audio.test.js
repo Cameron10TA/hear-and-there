@@ -107,6 +107,44 @@ test('pausing saves the playback offset and resuming uses it', async () => {
   assert.deepEqual(player.source.started, [0, 8]);
   player.stop();
 });
+
+test('seeking while playing restarts at the selected offset and keeps playback running', async () => {
+  const player = await ready();
+  await player.play(stop);
+  const previousSource = player.source;
+  player.context.currentTime = 8;
+  player.seek(20);
+  assert.equal(previousSource.stopped, true);
+  assert.deepEqual(player.source.started, [0, 20]);
+  assert.equal(player.offset, 20);
+  assert.equal(player.playing, true);
+  player.context.currentTime = 11;
+  assert.equal(player.elapsed, 23);
+  player.stop();
+});
+
+test('seeking while paused updates the resume point and clamps to the recording duration', async () => {
+  const player = await ready();
+  await player.play(stop);
+  player.pause();
+  player.seek(12);
+  assert.equal(player.playing, false);
+  assert.equal(player.offset, 12);
+  player.seek(35);
+  assert.equal(player.playing, false);
+  assert.equal(player.offset, 30);
+});
+
+test('invalid seek positions do not move the playhead', async () => {
+  const player = await ready();
+  await player.play(stop);
+  player.pause();
+  player.seek(Number.NaN);
+  assert.equal(player.offset, 0);
+  player.seek(-5);
+  assert.equal(player.offset, 0);
+});
+
 test('suspending during the arrival sound cancels the queued narration', async () => {
   const player = await ready();
   player.arrival = () => {};

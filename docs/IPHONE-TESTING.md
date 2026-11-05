@@ -24,6 +24,11 @@ Record the iPhone model, iOS version, date, and result in a GitHub issue. Do not
   marker and confirm the player shows its name and stays in view. Check a long
   place name, loading/cancel/retry, and narrow screens. The map legend, zoom,
   recenter, and attribution must remain visible. The transcript stays below.
+- While narration plays, drag the audio progress slider backward and forward.
+  Confirm playback continues from the selected point and the elapsed time follows
+  the thumb. Pause, seek, and resume; the story should continue from that point.
+  Also check slider keyboard controls on desktop and confirm it is disabled before
+  audio loads and while the walk is paused.
 - In simulation, confirm the yellow slider, movement button, and **Jump to a place**
   appear before the story. The player appears before search and the place list.
   Check portrait/landscape, larger text, and VoiceOver without horizontal overflow.

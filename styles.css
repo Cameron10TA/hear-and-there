@@ -1164,17 +1164,40 @@ figure {
   line-height: 1.5;
 }
 .progress-track {
+  appearance: none;
+  display: block;
+  width: 100%;
   height: 3px;
   background: #dce1e7;
   margin: 10px 0 5px;
   border-radius: 4px;
-  overflow: hidden;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
 }
-.progress-track span {
-  height: 100%;
-  display: block;
+.progress-track::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid white;
+  border-radius: 50%;
   background: var(--blue);
-  width: 0;
+  box-shadow: 0 0 0 1px var(--blue);
+}
+.progress-track::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+.progress-track:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 5px;
+}
+.progress-track:disabled {
+  cursor: default;
 }
 .player-time {
   display: flex;
