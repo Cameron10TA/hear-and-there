@@ -2019,6 +2019,181 @@ dialog li p {
     height: 32px;
   }
 }
+/* A walk has one home: the map. Optional content opens in native modal panels. */
+body:has(#explorer:not([hidden])) {
+  overflow: hidden;
+}
+body:has(#explorer:not([hidden])) .site-header {
+  display: none;
+}
+#explorer {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+#explorer .explorer-toolbar {
+  position: relative;
+  top: 0;
+  flex: none;
+  padding: calc(8px + env(safe-area-inset-top, 0px)) 12px 8px;
+}
+#explorer .back-home-button {
+  min-height: 44px;
+  font-size: 13px;
+}
+#explorer .walk-status {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 12px;
+  right: 72px;
+  max-width: 390px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fffffff5;
+  box-shadow: 0 2px 10px #21334820;
+  pointer-events: none;
+}
+#explorer .walk-status-line {
+  gap: 6px;
+  font-size: 12px;
+}
+#explorer #gps-status {
+  flex-basis: 100%;
+  margin: 0;
+  border: 0;
+  padding-left: 13px;
+  font-size: 11px;
+}
+#explorer #nearby-message {
+  margin: 6px 0 0;
+  font-size: 12px;
+}
+#explorer .explorer-layout {
+  display: block;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  height: auto;
+  max-width: none;
+}
+#explorer .map-section,
+#explorer .map-canvas {
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+}
+#explorer .map-filters,
+#explorer .map-legend {
+  display: none;
+}
+#explorer .map-player,
+#explorer .map-intro,
+#explorer #resume-panel {
+  display: block;
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 14px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 3px 18px #21334826;
+  z-index: 450;
+}
+#explorer .map-player h2 {
+  margin: 0 0 6px;
+  font: 600 15px/1.3 var(--sans);
+  overflow-wrap: anywhere;
+}
+#explorer .map-player .player {
+  border: 0;
+  padding: 0;
+  gap: 10px;
+}
+#explorer .map-player .play-button {
+  width: 46px;
+  height: 46px;
+}
+#explorer .map-player .icon-button {
+  min-width: 44px;
+}
+#explorer .map-player .player-center strong {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+#explorer .map-player .player-time {
+  font-size: 11px;
+}
+#explorer #read-story {
+  min-height: 44px;
+  width: 100%;
+  margin-top: 4px;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+#explorer .map-intro p {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+#explorer .map-canvas:has(.map-player:not([hidden])) .map-error {
+  bottom: calc(220px + env(safe-area-inset-bottom, 0px));
+}
+#explorer .leaflet-bottom {
+  bottom: env(safe-area-inset-bottom, 0px);
+}
+.walk-dialog {
+  padding: 0;
+  width: calc(100% - 24px);
+  max-width: 640px;
+  max-height: calc(100dvh - 32px);
+  overscroll-behavior: contain;
+}
+.walk-dialog-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  z-index: 2;
+}
+.walk-dialog-header h2 {
+  font: 400 24px/1.2 var(--serif);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.walk-dialog .explorer-panel {
+  padding: 16px;
+  border: 0;
+  overflow: visible;
+}
+.walk-dialog .stop-list {
+  max-height: none;
+  overflow: visible;
+}
+.walk-dialog > #about-button {
+  margin: 0 16px 16px;
+  min-height: 44px;
+}
+.transcript-content {
+  padding: 4px 20px 24px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+#story-transcript {
+  white-space: pre-line;
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *:before,

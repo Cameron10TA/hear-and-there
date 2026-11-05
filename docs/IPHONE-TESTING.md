@@ -19,11 +19,15 @@ Record the iPhone model, iOS version, date, and result in a GitHub issue. Do not
 
 ## Feedback update: controls and listening collection
 
-- In portrait, check the taller map and its compact player. Play/pause, progress,
-  times, and mute should be usable without scrolling to the story card. Tap a
-  marker and confirm the player shows its name and stays in view. Check a long
-  place name, loading/cancel/retry, and narrow screens. The map legend, zoom,
-  recenter, and attribution must remain visible. The transcript stays below.
+- Starting a walk opens the dedicated map with its player, Explore more, and End
+  walk visible without page scrolling. Read this story opens a transcript panel;
+  Back to map, Escape, and tapping outside dismiss it without restarting audio.
+  Explore more holds places, filters, collections, simulation, and bonus progress.
+  Check opening/closing preserves audio and slider position; selecting a place
+  returns to its map player. Check a long name, loading/cancel/retry, narrow screens,
+  text enlargement, keyboard focus, VoiceOver, and map attribution. Hiding the page
+  closes panels and pauses; returning exposes Resume exploring on the map. Ending
+  or revoking permission closes panels and clears the session.
 - While narration plays, drag the audio progress slider backward and forward.
   Confirm playback continues from the selected point and the elapsed time follows
   the thumb. Pause, seek, and resume; the story should continue from that point.

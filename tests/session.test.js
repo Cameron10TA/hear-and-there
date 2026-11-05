@@ -165,7 +165,7 @@ async function setup(t, { failedStop, prepareGate, unlockGate, withMap = false, 
 for (const ending of ['end', 'revoke']) {
   test(`${ending} clears mode, mute and consent before the next walk`, async (t) => {
     const { get, permission } = await setup(t);
-    assert.equal(get('end-button').getAttribute('aria-label'), 'Back to home and end walk');
+    assert.equal(get('end-button').getAttribute('aria-label'), 'End walk');
     await get('consent-button').fire('click');
     await get('start-button').fire('click');
     await get('switch-mode').fire('click');
@@ -527,6 +527,54 @@ test('finishing all stories displays collection completion, while paused choices
   assert.equal(playback.mock.callCount(), count);
   assert.equal(get('play-button').disabled, true);
   await get('end-button').fire('click');
+});
+
+test('optional panels preserve playback and choosing a story returns to the map', async (t) => {
+  const { get, playback } = await setup(t);
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  await get('explore-more').fire('click');
+  assert.equal(get('extras-dialog').open, true);
+  await get('stop-list').children.find((node) => node.id === 'stop-penrose').fire('click');
+  await flush();
+  assert.equal(get('extras-dialog').open, false);
+  assert.equal(get('map-player').hidden, false);
+  const plays = playback.mock.callCount();
+  const status = get('audio-status').textContent;
+  await get('explore-more').fire('click');
+  await get('close-extras').fire('click');
+  await get('read-story').fire('click');
+  assert.equal(get('transcript-dialog').open, true);
+  assert.equal(get('transcript-title').textContent, 'Penrose Library');
+  assert.equal(get('story-transcript').textContent, landmarks.find((stop) => stop.id === 'penrose').transcript);
+  await get('close-transcript').fire('click');
+  assert.equal(get('transcript-dialog').open, false);
+  assert.equal(playback.mock.callCount(), plays, 'opening/closing panels does not restart narration');
+  assert.equal(get('audio-status').textContent, status);
+  await get('end-button').fire('click');
+});
+
+test('hiding or ending a walk closes optional panels and exposes explicit map resume', async (t) => {
+  const { get } = await setup(t);
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  await get('stop-list').children.find((node) => node.id === 'stop-penrose').fire('click');
+  await flush();
+  await get('read-story').fire('click');
+  document.hidden = true;
+  await document.fire('visibilitychange');
+  document.hidden = false;
+  assert.equal(get('transcript-dialog').open, false);
+  assert.equal(get('map-player').hidden, true);
+  assert.equal(get('resume-panel').hidden, false);
+  await get('resume-button').fire('click');
+  assert.equal(get('map-player').hidden, false);
+  await get('explore-more').fire('click');
+  await get('end-button').fire('click');
+  assert.equal(get('extras-dialog').open, false);
+  assert.equal(get('map-player').hidden, true);
+  await get('explore-more').fire('click');
+  assert.equal(get('extras-dialog').open, false, 'panels cannot bypass ended consent');
 });
 
 test('search and category update the existing list, show no matches, and reset together', async (t) => {
