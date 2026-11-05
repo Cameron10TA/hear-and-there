@@ -32,6 +32,8 @@ The build recreates `dist/` and copies only the website into it, removing stale 
 7. Finish narrations to collect **Listened** badges on the map and place list. The completion count gives you an optional goal of hearing all 56 stories. Opening a card, arriving, canceling a download, or pausing does not complete a story. Progress survives simulation jumps and mode switches within the same walk.
 8. **End walk** clears the session location, completed stories, and bonus progress. Reloading or revoking location access also starts fresh.
 
+On phones, a compact player sits over the bottom of the taller portrait map, with the selected story name, play/pause, playback progress, times, and mute. Selecting a marker brings this player into view; the full story and transcript remain below the map. On wider screens the same controls sit in the story panel.
+
 Starting opens the map and stories immediately while audio unlocks. Only a story being played or reached is downloaded; other recordings do not delay startup. Slow audio shows waiting feedback and a cancel button, then offers retry after a 15-second download timeout. Transcripts remain available. Switching stories, moving out of an automatic arrival zone, pausing, or ending the walk prevents a late download from starting unexpectedly. Recordings stay in memory for replay. Map failures offer **Retry map** while stories remain usable.
 
 The 51:38 simulation uses outdoor listening points at all 56 stops. It follows fixed test positions and includes a time slider and jump buttons. It is a presentation tool, not a recommended walking route. Location consent is still required, but real coordinates are not used to move its marker.

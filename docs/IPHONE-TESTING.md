@@ -19,6 +19,11 @@ Record the iPhone model, iOS version, date, and result in a GitHub issue. Do not
 
 ## Feedback update: controls and listening collection
 
+- In portrait, check the taller map and its compact player. Play/pause, progress,
+  times, and mute should be usable without scrolling to the story card. Tap a
+  marker and confirm the player shows its name and stays in view. Check a long
+  place name, loading/cancel/retry, and narrow screens. The map legend, zoom,
+  recenter, and attribution must remain visible. The transcript stays below.
 - In simulation, confirm the yellow slider, movement button, and **Jump to a place**
   appear before the story. The player appears before search and the place list.
   Check portrait/landscape, larger text, and VoiceOver without horizontal overflow.

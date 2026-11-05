@@ -162,6 +162,9 @@
                 ><span><i class="legend-stop"></i>Audio landmark</span>
                 <span><i class="legend-zone"></i>Listening area</span>
               </div>
+              <section id="map-player" class="map-player" aria-labelledby="map-player-title" hidden>
+                <h2 id="map-player-title"></h2>
+              </section>
               <div id="map-error" class="map-error" hidden>
                 <span id="map-error-message" role="status">Map tiles aren’t available. Landmark distances and audio still work.</span>
                 <button id="map-retry" class="text-button">Retry map</button>
@@ -195,32 +198,34 @@
                 <p class="eyebrow" id="story-category"></p>
                 <h2 id="story-title"></h2>
                 <p id="story-listened" class="listened-badge" hidden>✓ Listened</p>
-                <div class="player">
-                  <button id="play-button" class="play-button" aria-label="Play story"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.8v12.4L18 12 8 5.8Z" fill="currentColor" /></svg></button>
-                  <div class="player-center">
-                    <strong id="audio-status" role="status">Story narration</strong>
-                    <div
-                      class="progress-track"
-                      role="progressbar"
-                      aria-label="Story playback"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      aria-valuenow="0"
+                <div id="story-player-slot">
+                  <div class="player" id="story-player">
+                    <button id="play-button" class="play-button" aria-label="Play story"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.8v12.4L18 12 8 5.8Z" fill="currentColor" /></svg></button>
+                    <div class="player-center">
+                      <strong id="audio-status" role="status">Story narration</strong>
+                      <div
+                        class="progress-track"
+                        role="progressbar"
+                        aria-label="Story playback"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="0"
+                      >
+                        <span id="audio-progress"></span>
+                      </div>
+                      <div class="player-time">
+                        <span id="elapsed-time">0:00</span><span id="total-time">0:00</span>
+                      </div>
+                    </div>
+                    <button
+                      id="mute-button"
+                      class="icon-button"
+                      aria-label="Mute audio"
+                      aria-pressed="false"
                     >
-                      <span id="audio-progress"></span>
-                    </div>
-                    <div class="player-time">
-                      <span id="elapsed-time">0:00</span><span id="total-time">0:00</span>
-                    </div>
+                      ♫
+                    </button>
                   </div>
-                  <button
-                    id="mute-button"
-                    class="icon-button"
-                    aria-label="Mute audio"
-                    aria-pressed="false"
-                  >
-                    ♫
-                  </button>
                 </div>
                 <div id="manual-playback" class="manual-playback" hidden>
                   <p>You chose this story. Nearby stories will wait.</p>
