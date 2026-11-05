@@ -14,6 +14,13 @@ import { tours, findTour, tourSummary } from './tours.js';
 import { groupMapStops } from './map-pins.js';
 
 const $ = (id) => document.getElementById(id);
+// Move the same controls between layouts, preserving playback and event handlers.
+const phoneLayout = window.matchMedia('(max-width: 760px)');
+function positionPlayer() {
+  $(phoneLayout.matches ? 'map-player' : 'story-player-slot').append($('story-player'));
+}
+phoneLayout.addEventListener?.('change', positionPlayer);
+positionPlayer();
 $('stop-count').textContent = String(landmarks.length);
 const state = {
   consent: false,
@@ -641,7 +648,7 @@ function listenToStop(stop) {
   audio.pause();
   showMode();
   void loadAndPlayStory(stop, false, state.unlocking);
-  $('story-card').scrollIntoView({
+  $(phoneLayout.matches ? 'map-player' : 'story-card').scrollIntoView({
     behavior: reducedMotion() ? 'instant' : 'smooth',
     block: 'nearest',
   });
@@ -661,6 +668,7 @@ function selectStop(stop) {
   $('story-image').alt = stop.imageAlt;
   $('story-category').textContent = stop.category;
   $('story-title').textContent = stop.name;
+  $('map-player-title').textContent = stop.name;
   $('story-description').textContent = stop.description;
   $('story-transcript').textContent = stop.transcript;
   $('story-source').href = stop.source;
@@ -674,6 +682,7 @@ function selectStop(stop) {
 }
 
 function renderAudio() {
+  $('map-player').hidden = !state.selectedId;
   const tour = findTour(state.tourId);
   $('tour-next').disabled = state.paused || !tour || !tourSummary(tour, landmarks, progress.completed).next;
   $('manual-playback').hidden = !state.manualStory;
