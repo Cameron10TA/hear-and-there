@@ -59,6 +59,43 @@ async function ready() {
   return player;
 }
 
+test('playback audio session is requested before context creation and again on resume', async (t) => {
+  const events = [];
+  const originalWindow = window;
+  t.after(() => { globalThis.window = originalWindow; });
+  globalThis.window = { navigator: { audioSession: {
+    set type(value) { events.push(value); },
+  } }, AudioContext: class extends FakeContext {
+    constructor() {
+      super();
+      events.push('create');
+    }
+    async resume() {
+      events.push('resume');
+      await super.resume();
+    }
+  } };
+  const player = await ready();
+  await player.suspend();
+  await player.unlock();
+  assert.deepEqual(events, ['playback', 'create', 'resume', 'playback', 'resume']);
+  assert.equal(player.playing, false, 'unlock does not restart narration');
+});
+
+test('missing or rejected audio session preferences do not prevent playback', async (t) => {
+  const originalWindow = window;
+  t.after(() => { globalThis.window = originalWindow; });
+  for (const navigator of [{}, { audioSession: {
+    set type(_) { throw new Error('Unsupported preference'); },
+  } }]) {
+    globalThis.window = { AudioContext: FakeContext, navigator };
+    const player = await ready();
+    await player.play(stop);
+    assert.equal(player.playing, true);
+    player.stop();
+  }
+});
+
 test('pausing saves the playback offset and resuming uses it', async () => {
   const player = await ready();
   await player.play(stop);

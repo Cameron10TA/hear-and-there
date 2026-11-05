@@ -4,7 +4,7 @@ Use the published HTTPS site in Safari. The first version is designed for iPhone
 
 1. Open a fresh private tab. Before permission, confirm that neither the map nor simulation is accessible.
 2. Tap Enable location and deny. Confirm the location explanation and retry button remain, with no demo bypass. Then allow permission through Safari's website settings and retry.
-3. Grant permission. Try both in-person and simulation modes. Tap Start exploring; verify that sound can play through the phone speaker and headphones. Check the hardware volume.
+3. Grant permission. Try both in-person and simulation modes. Turn Silent Mode on before tapping Start exploring; verify arrival sounds and narration through the phone speaker with media volume above zero. Toggle Silent Mode during narration; sound should continue. Repeat with headphones, pause/play, and Resume exploring after switching apps or locking. Also check with Silent Mode off. Record the iOS version; browsers without the Audio Session API retain their default ringer behavior.
 4. In the simulation, jump to each stop. Confirm its name, photo, arrival sound, narration, transcript, pause/resume, and mute/unmute. Use the slider, pause movement, and restart at the end.
 5. While narration plays, lock the phone. Sound should stop. Wait, unlock, and return. The page should require Resume exploring; audio should not restart unexpectedly. Repeat by switching apps and switching Safari tabs. Test Control Center, calls, and headphone interruptions as well.
 6. Revoke location while exploring. Confirm the app returns to the permission gate. Repeat while simulation is running. Older Safari versions may only report revocation on the next native geolocation request.
