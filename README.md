@@ -25,7 +25,7 @@ The build recreates `dist/` and copies only the website into it, removing stale 
 
 1. Allow the browser's location prompt. Denial blocks both live and simulated exploration.
 2. Choose **Explore in person** or **Simulate a walk**.
-3. Tap **Start exploring** to unlock audio. This extra gesture matters on iPhones.
+3. Tap **Start exploring** to unlock audio. This extra gesture matters on iPhones. Where supported, the player requests the browser's playback audio session so narration and arrival sounds can play with Silent Mode on; media volume still controls loudness. Older browsers retain their default ringer behavior.
 4. Walk near a landmark. A short original synthesized arrival sound introduces its story narration. Each story starts automatically once per session; the play button can replay it. Tap a map marker or place card to play a story directly. Your chosen story takes priority until you choose **Follow nearby stories** (or **Follow simulated walk**). Selecting a story pauses simulated movement.
 5. The map and distance indicators remain active between stops. No routes or turn-by-turn directions are provided.
 6. Locking the screen or leaving the page pauses audio, GPS watching, and simulation. Return and tap **Resume exploring**; a fresh location request checks access again. Tap the story's play button to resume an interrupted narration.

@@ -25,6 +25,12 @@ export class StoryAudio {
       return Promise.reject(
         new Error('Audio is unavailable in this browser. You can still read each story.')
       );
+    // Treat narration as media playback so iPhone Silent Mode does not mute it.
+    // Set this before creating/resuming the context, inside the user's tap.
+    // Older browsers may lack the API or reject the optional preference.
+    try {
+      if (window.navigator?.audioSession) window.navigator.audioSession.type = 'playback';
+    } catch {}
     if (!this.context) {
       this.context = new Audio();
       this.gain = this.context.createGain();
