@@ -242,7 +242,7 @@ function createMap() {
     attributionControl: true,
   });
   L.control.zoom({ position: 'topright' }).addTo(map);
-  map.fitBounds(campus.bounds, { padding: [18, 18], maxZoom: 17 });
+  recenter();
   const tiles = L.tileLayer(campus.tileUrl, {
     maxZoom: 19,
     attribution:
@@ -605,7 +605,7 @@ function renderTour() {
   for (const stop of summary.stops) {
     const button = tourButtons.get(stop.id);
     if (!button) continue;
-    const label = `${stop.name}${progress.completed.has(stop.id) ? ' · Listened' : ''}`;
+    const label = `${stop.name} — ${tour.stopNotes[stop.id]}${progress.completed.has(stop.id) ? ' · Listened' : ''}`;
     button.textContent = label;
     button.setAttribute('aria-label', `Listen to ${label}`);
   }
@@ -1140,12 +1140,15 @@ $('simulation-toggle').addEventListener('click', () => {
   showMode();
 });
 function recenter() {
-  if (map)
-    map.fitBounds(campus.bounds, {
-      padding: [18, 18],
-      maxZoom: 17,
-      animate: !reducedMotion(),
-    });
+  if (!map) return;
+  let center = campus.center;
+  if (state.mode === 'demo') center = simulationPosition(simulation, state.elapsed).coordinates;
+  else if (validFix(state.fix, Date.now(), campus)) {
+    const position = [state.fix.latitude, state.fix.longitude];
+    // Never center map tiles on an off-campus visitor's location.
+    if (distanceMeters(position, campus.center) <= 650) center = position;
+  }
+  map.setView(center, 18, { animate: !reducedMotion() });
 }
 $('recenter-button').addEventListener('click', recenter);
 $('map-retry').addEventListener('click', () => {

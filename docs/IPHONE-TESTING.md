@@ -51,6 +51,7 @@ Record the iPhone model, iOS version, date, and result in a GitHub issue. Do not
 
 ## Themed collections and map groups
 
+- Start in portrait and confirm the map shows nearby individual stops at the closer default zoom. Zoom out twice, then use Show nearby places: it should return to a closer campus view, centered near a fresh on-campus fix or the simulation marker. Off-campus and inaccurate fixes must keep the map on campus. A few adjacent places may still group; zoom in once to separate all pins.
 - Check all three themed collections. Their narration estimates exclude walking.
   Use Listen next and the suggested-order buttons, finish a story, switch themes,
   and complete a collection. Shared completions must remain counted. Merely
@@ -131,3 +132,9 @@ which approaches have actually been checked; laptop geometry is not GPS evidence
 For every building, compare the shaded area at two zoom levels, approach along
 each accessible side, pause near the entry/exit boundary, depart, and return.
 Record exact public-path corrections without publishing personal GPS histories.
+
+## Themed walks: order and membership
+
+- Walk First time from Penrose House to Reid, and Arts & performance from Olin to Fouts, in their numbered order. Check that available outdoor paths and crossings support the sequence without unnecessary reversals; do not enter buildings to trigger narration.
+- Student life is deliberately longer: check Jewett, Lyman, Douglas, Prentiss, Anderson, Stanton, Cleveland, Robart, Stegner, Reid, Harvey, and College House. It covers all ten residence-hall/apartment buildings in the collection. Verify the Village connections and College House's estimated street-side approach; mapped paths alone do not establish current permission or accessibility.
+- Choose each walk in Explore more. Confirm the start/finish description, explanation beside each stop, updated map numbers, and Listen next progression. Shared completions should count when switching walks; choosing a walk must not start audio. Narration estimates must not imply total walking time.

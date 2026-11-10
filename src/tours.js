@@ -1,22 +1,53 @@
-// Collections reuse existing stories. Their order is for listening, not navigation.
+// Existing stories grouped by theme and ordered for a compact walk from a named start.
+// Ordering uses mapped outdoor approaches; this is not turn-by-turn navigation.
 export const tours = [
   {
     id: 'first-visit',
     name: 'First time at Whitman',
-    description: 'A first listen to campus art, learning, gathering places, and everyday life.',
-    stopIds: ['styx', 'penrose', 'memorial', 'reid', 'cleveland', 'tennis'],
+    description: 'Begin at Penrose House, then cross central campus through academics, art, the library, and college history. Finish at Reid Campus Center.',
+    stopIds: ['penrose-house', 'maxey', 'styx', 'penrose', 'memorial', 'reid'],
+    stopNotes: {
+      'penrose-house': 'Admission and a place to begin',
+      maxey: 'Academics and the campus museum',
+      styx: 'A landmark beside Ankeny Field',
+      penrose: 'Library and study life',
+      memorial: 'Campus history and the clock tower',
+      reid: 'The student hub',
+    },
   },
   {
     id: 'arts',
-    name: 'Art around campus',
-    description: 'Meet the places where sculpture, visual art, music, and performance come together.',
-    stopIds: ['styx', 'fouts', 'hall-of-music', 'harper-joy', 'hunter', 'cordiner', 'dance-studio'],
+    name: 'Arts & performance',
+    description: 'Start at Olin Hall and its Sheehan Gallery, then follow sculpture, theater, film, music, and visual art south to Fouts Center for Visual Arts.',
+    stopIds: ['olin', 'styx', 'harper-joy', 'hunter', 'hall-of-music', 'fouts'],
+    stopNotes: {
+      olin: 'Sheehan Gallery',
+      styx: 'Outdoor sculpture',
+      'harper-joy': 'Theater and dance',
+      hunter: 'Film and Kimball Theatre',
+      'hall-of-music': 'Music and Chism Recital Hall',
+      fouts: 'Visual art and studio spaces',
+    },
   },
   {
     id: 'student-life',
     name: 'Student life',
-    description: 'Discover spaces for meals, community, living, movement, and getting involved.',
-    stopIds: ['reid', 'cleveland', 'jewett', 'anderson', 'glover-alston', 'baker-ferguson', 'community-service-house'],
+    description: 'The longer walk: start at Jewett Hall, visit all ten residence-hall and apartment buildings in this collection, plus dining and student activities, and finish at College House.',
+    stopIds: ['jewett', 'lyman', 'douglas', 'prentiss', 'anderson', 'stanton', 'cleveland', 'robart', 'stegner', 'reid', 'harvey', 'college-house'],
+    stopNotes: {
+      jewett: 'Residence life beside Ankeny Field',
+      lyman: 'The neighboring residential community',
+      douglas: 'Suites and courtyard living',
+      prentiss: 'Residence life and sorority wings',
+      anderson: 'Residence life near Stanton Field',
+      stanton: 'Residence life beside Cleveland Commons',
+      cleveland: 'Dining and gathering',
+      robart: 'Nancy Serrurier Village apartments',
+      stegner: 'Nancy Serrurier Village apartments',
+      reid: 'Student activities and everyday services',
+      harvey: 'Nancy Serrurier Village apartments',
+      'college-house': 'Apartment-style residence',
+    },
   },
 ];
 
