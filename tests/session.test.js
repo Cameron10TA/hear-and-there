@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { StoryAudio } from '../src/audio.js';
-import { landmarks, simulation } from '../src/landmarks.js';
+import { landmarks, simulation, campus } from '../src/landmarks.js';
 import { tours } from '../src/tours.js';
 
 // Exercise the real app event handlers with a minimal DOM and fictional GPS.
@@ -96,7 +96,7 @@ async function setup(t, { failedStop, prepareGate, unlockGate, withMap = false, 
       fitBounds() {}, getZoom() { return this.zoom; }, invalidateSize() {}, remove() { this.layers.clear(); },
       hasLayer(item) { return this.layers.has(item); },
       removeLayer(item) { this.layers.delete(item); },
-      setView(coordinates, zoom) { this.zoom = zoom; this.listeners.get('zoomend')?.(); },
+      setView(coordinates, zoom) { this.center = coordinates; this.zoom = zoom; this.listeners.get('zoomend')?.(); },
       project([lat, lng]) {
         const scale = 256 * 2 ** this.zoom;
         const sine = Math.sin(lat * Math.PI / 180);
@@ -265,18 +265,22 @@ test('collections scope and order the list, reuse completion, and keep progress 
   assert.equal(playback.mock.callCount(), 0, 'choosing a collection alone never starts audio');
   await get('tour-next').fire('click');
   await flush();
-  assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'styx');
+  assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'penrose-house');
   assert.equal(get('tour-progress').textContent, '0 of 6 stories completed');
   finish();
   assert.equal(get('tour-progress').textContent, '1 of 6 stories completed');
-  assert.equal(get('tour-next').textContent, 'Listen next: Penrose Library');
+  assert.equal(get('tour-next').textContent, 'Listen next: Maxey Hall');
   get('tour-select').value = 'arts';
   await get('tour-select').fire('change');
-  assert.equal(get('tour-progress').textContent, '1 of 7 stories completed');
-  assert.equal(get('tour-next').textContent, 'Listen next: Fouts Center for Visual Arts');
+  assert.equal(get('tour-progress').textContent, '0 of 6 stories completed');
+  assert.equal(get('tour-next').textContent, 'Listen next: Olin Hall');
+  await get('stop-list').children.find((node) => node.id === 'stop-styx').fire('click');
+  await flush();
+  finish();
+  assert.equal(get('tour-progress').textContent, '1 of 6 stories completed');
   await get('switch-mode').fire('click');
   assert.equal(get('tour-select').value, 'arts');
-  assert.equal(get('tour-progress').textContent, '1 of 7 stories completed');
+  assert.equal(get('tour-progress').textContent, '1 of 6 stories completed');
   await get('end-button').fire('click');
 });
 
@@ -302,7 +306,7 @@ test('finishing a themed collection shows its own completion goal without comple
   assert.match(get('no-place-results').textContent, /Turn off Not listened/);
   get('tour-select').value = 'student-life';
   await get('tour-select').fire('change');
-  assert.equal(get('tour-progress').textContent, '2 of 7 stories completed');
+  assert.equal(get('tour-progress').textContent, '1 of 12 stories completed');
   assert.equal(get('tour-next').disabled, false);
   assert.equal(get('place-unlistened').checked, false);
   await get('end-button').fire('click');
@@ -312,6 +316,7 @@ test('map and list share category/search/unlistened filters while keeping a curr
   const { get, markers, map, finish } = await setup(t, { withMap: true });
   await get('consent-button').fire('click');
   await get('start-button').fire('click');
+  map().setView(campus.center, 19); // Inspect individual pins at maximum zoom.
   const shown = () => markers.filter((marker) => map().hasLayer(marker));
   get('map-category').value = 'arts';
   await get('map-category').fire('change');
@@ -345,7 +350,7 @@ test('map and list share category/search/unlistened filters while keeping a curr
   assert.equal(get('story-title').textContent, 'Penrose Library');
   get('tour-select').value = 'first-visit';
   await get('tour-select').fire('change');
-  assert.match(markers.find((marker) => marker.options.title === 'Listen to Memorial Building').icon.html, />03</);
+  assert.match(markers.find((marker) => marker.options.title === 'Listen to Memorial Building').icon.html, />05</);
   get('tour-select').value = 'arts';
   await get('tour-select').fire('change');
   assert.match(markers.find((marker) => marker.options.title === 'Listen to Penrose Library').icon.html, />•</, 'a current place outside the tour does not duplicate a tour pin number');
@@ -363,9 +368,30 @@ test('a nearby arrival outside the selected collection and visibility filters st
   move(landmarks.find((stop) => stop.id === 'cleveland').listeningPosition);
   await flush();
   assert.equal(playback.mock.calls.at(-1).arguments[0].id, 'cleveland');
-  assert.equal(get('place-results').textContent, '0 of 7 places');
+  assert.equal(get('place-results').textContent, '0 of 6 places');
   assert.equal(get('story-title').textContent, 'Cleveland Commons');
   assert.equal(markers.filter((marker) => map().hasLayer(marker)).length, 2, 'the current story pin and visitor position remain');
+  await get('end-button').fire('click');
+});
+
+test('walk start and recenter use a closer campus view without centering off-campus visitors', async (t) => {
+  const { get, map, move } = await setup(t, { withMap: true });
+  await get('consent-button').fire('click');
+  await get('start-button').fire('click');
+  assert.equal(map().getZoom(), 18);
+  assert.deepEqual(map().center, campus.center, 'off-campus initial fix keeps the view on campus');
+  const nearby = landmarks.find((stop) => stop.id === 'reid').listeningPosition;
+  move(nearby);
+  map().setView(campus.center, 15);
+  await get('recenter-button').fire('click');
+  assert.equal(map().getZoom(), 18);
+  assert.deepEqual(map().center, nearby);
+  move(nearby, 500);
+  await get('recenter-button').fire('click');
+  assert.deepEqual(map().center, campus.center, 'an inaccurate fix cannot move the default view');
+  await get('switch-mode').fire('click');
+  assert.equal(map().getZoom(), 18);
+  assert.deepEqual(map().center, simulation[0].coordinates, 'simulation centers on its fictional position');
   await get('end-button').fire('click');
 });
 
@@ -373,6 +399,7 @@ test('a numbered map group zooms in by keyboard and never starts narration', asy
   const { get, markers, map, playback } = await setup(t, { withMap: true, mapZoom: 17 });
   await get('consent-button').fire('click');
   await get('start-button').fire('click');
+  map().setView(campus.center, 17); // Visitors can still zoom out to grouped overviews.
   const cluster = markers.find((marker) => marker.options.icon.className === 'landmark-cluster' && map().hasLayer(marker));
   assert.ok(cluster);
   assert.match(cluster.getAttribute('aria-label'), /Zoom into \d+ places/);
